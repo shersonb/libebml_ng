@@ -26,6 +26,31 @@ namespace ebml {
         return bytes_written;
     }
 
+    off_t ioBase::tell() {
+        if (this->seekable()) {
+            return this->_tell();
+        }
+
+        return this->_pos;
+    }
+
+    bool ioBase::closed() const {
+        return this->_closed;
+    }
+
+    void ioBase::close() {
+        if (this->_closed) {
+            throw std::runtime_error("close() called on closed file.");
+        }
+        this->_close();
+        this->_closed = true;
+    }
+
+    ioBase::~ioBase() {
+        if (this->_close_on_dealloc and !this->_closed) {
+            this->close();
+        }
+    }
 }
 
 #endif

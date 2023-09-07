@@ -5,13 +5,19 @@
 
 namespace ebml {
     template<>
+    int io<int>::_open(const std::string& filename, const std::ios_base::openmode& mode);
+
+    template<>
+    void io<int>::_close();
+
+    template<>
     bool io<int>::seekable();
 
     template<>
     off_t io<int>::_seek(off_t, int);
 
     template<>
-    off_t io<int>::tell();
+    off_t io<int>::_tell();
 
     template<>
     size_t io<int>::_read(char*, size_t);

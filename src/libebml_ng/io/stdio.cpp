@@ -8,14 +8,53 @@
 
 namespace ebml {
     template<>
+    FILE* io<FILE*>::_open(const std::string& filename, const std::ios_base::openmode& __mode) {
+        std::string modechars;
+        FILE* ret;
+
+        if (__mode & std::ios_base::app) {
+            modechars = "a";
+
+            if (__mode & std::ios_base::in) {
+                modechars += "+";
+            }
+        } else if (__mode & std::ios_base::out) {
+            if (__mode & std::ios_base::trunc) {
+                modechars = "w+";
+            } else if (__mode & std::ios_base::in) {
+                modechars = "r+";
+            } else {
+                modechars = "w";
+            }
+        } else if (__mode & std::ios_base::in) {
+            modechars = "r";
+        } else {
+            throw std::invalid_argument("Must specify read, write, or append flags.");
+        }
+        if (__mode & std::ios_base::binary) {
+            modechars += "b";
+        }
+        ret = fopen(filename.c_str(), modechars.c_str());
+        if (ret == nullptr) {
+            throw std::ios_base::failure("Unable to open file: " + filename);
+        }
+        return ret;
+    }
+
+    template<>
+    void io<FILE*>::_close() {
+        fclose(this->_file);
+    }
+
+    template<>
     long io<FILE*>::_seek(long offset, int whence) {
         int result = fseek(this->_file, offset, whence);
 
         if (result != 0) {
-            throw ebmlException("Seek Error", __LINE__, __FILE__);
+            throw std::ios_base::failure("Seek Error");
         }
 
-        return this->tell();
+        return this->_tell();
     }
 
     template<>
@@ -34,18 +73,18 @@ namespace ebml {
 
         result = fseek(this->_file, current_offset, SEEK_SET);
         if (result != 0) {
-            throw std::runtime_error("Failed to seek to original position.");
+            throw std::ios_base::failure("Failed to seek to original position.");
         }
 
         return true;
     }
 
     template<>
-    long io<FILE*>::tell() {
+    long io<FILE*>::_tell() {
         long result = ftell(this->_file);
 
         if (result == -1L) {
-            throw ebmlException("Tell Error", __LINE__, __FILE__);
+            throw std::ios_base::failure("Tell Error");
         }
 
         return result;
@@ -60,7 +99,7 @@ namespace ebml {
                 return 0;
             }
 
-            throw ebmlException("Read Error", __LINE__, __FILE__);
+            throw std::ios_base::failure("Read Error");
         }
 
         return result;
@@ -71,7 +110,7 @@ namespace ebml {
         size_t result = fwrite(data, 1, count, this->_file);
 
         if (result == 0) {
-            throw ebmlException("Write Error", __LINE__, __FILE__);
+            throw std::ios_base::failure("Write Error");
         }
 
         return result;

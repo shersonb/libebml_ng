@@ -1,8 +1,10 @@
 // #include "libebml_ng/libebml_ng-exceptions.cpp"
+#define buffersize 65536
 #include "config.h"
 #include "libebml_ng/ebmlID_t.h"
 #include "libebml_ng/io/fd.cpp"
 #include "libebml_ng/io/stdio.cpp"
+#include "libebml_ng/io.tpp"
 // #include "libebml_ng/struct/double.h"
 #include "libebml_ng/base.h"
 #include "libebml_ng/struct.h"
@@ -10,39 +12,62 @@
 #include "libebml_ng/struct/ll.cpp"
 #include "libebml_ng/struct/double.cpp"
 #include "libebml_ng/struct/binary.cpp"
-#include "libebml_ng/template.h"
 #include "libebml_ng/struct/unicode.cpp"
+#include "libebml_ng/struct.tpp"
+#include "libebml_ng/template.h"
+
+#include "libebml_ng/masterelement/base.cpp"
+#include "libebml_ng/masterelement/list.cpp"
+#include "libebml_ng/masterelement/multislot.cpp"
+
 #include "libebml_ng/template.tpp"
 #include "libebml_ng/struct.cpp"
 #include "libebml_ng/vint.cpp"
 #include "libebml_ng/parsing/string.cpp"
 #include "libebml_ng/parsing/io.cpp"
 #include "libebml_ng/base.cpp"
+#include "libebml_ng/repr.cpp"
 
 namespace ebml {
-    template class ebmlElementClass<unsigned long long>;
-    template class ebmlElementClass<long long>;
-    template class ebmlElementClass<double>;
-    template class ebmlElementClass<std::string>;
-    template class ebmlElementClass<unicode>;
+    template<>
+    unsigned long long ebmlDataElementClass<unsigned long long>::defaultdefault = 0;
 
-    template class ebmlElement<unsigned long long>;
-    template class ebmlElement<long long>;
-    template class ebmlElement<double>;
-    template class ebmlElement<std::string>;
-    template class ebmlElement<unicode>;
+    template<>
+    long long ebmlDataElementClass<long long>::defaultdefault = 0;
 
-    typedef ebmlElementClass<unsigned long long> ebmlUnsignedIntegerClass;
-    typedef ebmlElementClass<long long> ebmlSignedIntegerClass;
-    typedef ebmlElementClass<double> ebmlFloatClass;
-    typedef ebmlElementClass<std::string> ebmlBinaryClass;
-    typedef ebmlElementClass<unicode> ebmlUnicodeClass;
+    template<>
+    double ebmlDataElementClass<double>::defaultdefault = 0.0;
 
-    typedef ebmlElement<unsigned long long> ebmlUnsignedInteger;
-    typedef ebmlElement<long long> ebmlSignedInteger;
-    typedef ebmlElement<double> ebmlFloat;
-    typedef ebmlElement<std::string> ebmlBinary;
-    typedef ebmlElement<unicode> ebmlUnicode;
+    template<>
+    std::string ebmlDataElementClass<std::string>::defaultdefault = "";
+
+    template<>
+    std::wstring ebmlDataElementClass<std::wstring>::defaultdefault = L"";
+
+    template class ebmlDataElementClass<unsigned long long>;
+    template class ebmlDataElementClass<long long>;
+    template class ebmlDataElementClass<double>;
+    template class ebmlDataElementClass<std::string>;
+    template class ebmlDataElementClass<std::wstring>;
+
+    template class ebmlDataElement<unsigned long long>;
+    template class ebmlDataElement<long long>;
+    template class ebmlDataElement<double>;
+    template class ebmlDataElement<std::string>;
+    template class ebmlDataElement<std::wstring>;
+
+    typedef ebmlDataElementClass<unsigned long long> ebmlUnsignedIntegerClass;
+    typedef ebmlDataElementClass<long long> ebmlSignedIntegerClass;
+    typedef ebmlDataElementClass<double> ebmlFloatClass;
+    typedef ebmlDataElementClass<std::string> ebmlBinaryClass;
+    typedef ebmlDataElementClass<std::wstring> ebmlUnicodeClass;
+
+    typedef ebmlDataElement<unsigned long long> ebmlUnsignedInteger;
+    typedef ebmlDataElement<long long> ebmlSignedInteger;
+    typedef ebmlDataElement<double> ebmlFloat;
+    typedef ebmlDataElement<std::string> ebmlBinary;
+    typedef ebmlDataElement<std::wstring> ebmlUnicode;
+
 }
 
 #ifdef ENABLE_GZIP_SUPPORT

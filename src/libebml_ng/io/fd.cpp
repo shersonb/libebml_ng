@@ -6,8 +6,58 @@
 #include "libebml_ng/exceptions.cpp"
 // #include "libebml_ng/io/fd.h"
 #include "libebml_ng/io/_fd.h"
+#include <fcntl.h>
+#include <bitset>
+#include <cerrno>
+#include <cstring>
 
 namespace ebml {
+    template<>
+    int io<int>::_open(const std::string& filename, const std::ios_base::openmode& __mode) {
+        int flags = O_CLOEXEC;
+        int fileMode = S_IRUSR | S_IWUSR | S_IRGRP | S_IWGRP | S_IROTH | S_IWOTH;
+        int ret = -1;
+
+        if (__mode & std::ios_base::app) {
+            flags |= O_APPEND | O_CREAT;
+            fileMode |= S_IRUSR | S_IWUSR | S_IRGRP | S_IWGRP | S_IROTH | S_IWOTH;
+
+            if (__mode & std::ios_base::in) {
+                flags |= O_RDWR;
+            } else {
+                flags |= O_WRONLY;
+            }
+        } else if (__mode & std::ios_base::out) {
+            if (__mode & std::ios_base::trunc) {
+                flags |= O_TRUNC;
+                fileMode |= S_IRUSR | S_IWUSR | S_IRGRP | S_IWGRP | S_IROTH | S_IWOTH;
+            }
+
+            if (__mode & std::ios_base::in) {
+                flags |= O_RDWR;
+            } else {
+                flags |= O_WRONLY | O_CREAT;
+            }
+        } else if (__mode & std::ios_base::in) {
+            flags |= O_RDONLY;
+        } else {
+            throw std::invalid_argument("Must specify read, write, or append flags.");
+        }
+
+        ret = ::open(filename.c_str(), flags, fileMode);
+
+        if (ret == -1) {
+            throw std::ios_base::failure("Unable to open file: " + filename);
+        }
+
+        return ret;
+    }
+
+    template<>
+    void io<int>::_close() {
+        ::close(this->_file);
+    }
+
     template<>
     bool io<int>::seekable() {
         off_t offset = ::lseek(this->_file, 0, SEEK_CUR);
@@ -20,18 +70,18 @@ namespace ebml {
         off_t new_offset = ::lseek(this->_file, offset, whence);
 
         if (new_offset < 0) {
-            throw ebmlException("Seek Error", __LINE__, __FILE__);
+            throw std::ios_base::failure("Seek Error");
         }
 
         return new_offset;
     }
 
     template<>
-    off_t io<int>::tell() {
+    off_t io<int>::_tell() {
         off_t offset = ::lseek(this->_file, 0, SEEK_CUR);
 
         if (offset < 0) {
-            throw ebmlException("Seek Error", __LINE__, __FILE__);
+            throw std::ios_base::failure("Seek Error");
         }
 
         return offset;
@@ -42,7 +92,8 @@ namespace ebml {
         ssize_t bytes_read = ::read(this->_file, dest, size);
 
         if (bytes_read == -1) {
-            throw ebmlException("Read Error", __LINE__, __FILE__);
+            std::cout << "Read Error: " << std::strerror(errno) << std::endl;
+            throw std::ios_base::failure("Read Error");
         }
 
         return bytes_read;
@@ -53,7 +104,7 @@ namespace ebml {
         ssize_t bytes_written = ::write(this->_file, dest, size);
 
         if (bytes_written == -1) {
-            throw ebmlException("Write Error", __LINE__, __FILE__);
+            throw std::ios_base::failure("Write Error");
         }
 
         return bytes_written;
@@ -61,10 +112,22 @@ namespace ebml {
 
     template<>
     size_t io<int>::read(char* dest, off_t offset, size_t size) {
-        ssize_t bytes_read = ::pread(this->_file, dest, size, offset);
+        ssize_t bytes_read;
+
+        if (!this->seekable()) {
+            if (offset != this->_pos) {
+                throw std::ios_base::failure("Read Error");
+            }
+
+            bytes_read = this->_read(dest, size);
+            this->_pos += bytes_read;
+            return bytes_read;
+        }
+
+        bytes_read = ::pread(this->_file, dest, size, offset);
 
         if (bytes_read == -1) {
-            throw ebmlException("Read Error", __LINE__, __FILE__);
+            throw std::ios_base::failure("Read Error");
         }
 
         return bytes_read;
@@ -75,7 +138,7 @@ namespace ebml {
         ssize_t bytes_written = ::pwrite(this->_file, src, size, offset);
 
         if (bytes_written == -1) {
-            throw ebmlException("Write Error", __LINE__, __FILE__);
+            throw std::ios_base::failure("Write Error");
         }
 
         return bytes_written;

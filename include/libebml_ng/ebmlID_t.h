@@ -3,6 +3,7 @@
 
 namespace ebml {
     typedef unsigned long long ebmlID_t;
+    typedef unsigned char vintWidth_t;
 }
 
 #endif

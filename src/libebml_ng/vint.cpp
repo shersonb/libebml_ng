@@ -45,7 +45,7 @@ namespace ebml {
     }
 
     void packVint(unsigned long long n, unsigned char size, char* dest) {
-        if (size == 0 or size > 8) {
+        if ((size == 0) or (size > 8)) {
             throw std::invalid_argument(
                 std::string("packVint: invalid value for size (") + std::to_string(__LINE__)
                 + std::string(":") + std::string(__FILE__) + std::string(")")
@@ -93,120 +93,91 @@ namespace ebml {
         return unpackVint(data, size);
     }
 
-    unsigned long long unpackVint(const char* data, size_t dataSize, unsigned char* vintW) {
+    unsigned long long unpackVint(const char* data, size_t dataSize, unsigned char& vintw) {
         unsigned char size;
 
         if (dataSize == 0) {
-            throw ebmlException("No data", __LINE__, __FILE__);
+            throw ebmlUnexpectedEndOfData("unpackVint(const char*, size_t, unsigned char&): No data.");
         }
 
         size = vintWidth(data[0]);
 
         if (dataSize < size) {
-            throw ebmlException("Unexpected end of data.", __LINE__, __FILE__);
+            throw ebmlUnexpectedEndOfData("unpackVint(const char*, size_t, unsigned char&): Unexpected end of data.");
         }
 
-        vintW[0] = size;
+        vintw = size;
         return unpackVint(data, size);
     }
 
-//     unsigned long long unpackVint(FILE* file, char* buffer, unsigned char* vintw) {
-//         unsigned char width;
-//         unsigned char readsize;
-// 
-//         if (fread(buffer, 1, 1, file) == 0) {
-//             /*Use vint[0] = 0 to indicate end of stream.*/
-//             vintw[0] = 0;
-//             return 0;
-//         }
-// 
-//         width = vintWidth(buffer[0]);
-// 
-//         if (width == 0) {
-//             throw ebmlException("Invalid start byte for vint.", __LINE__, __FILE__);
-//         }
-// 
-//         if (width > 1) {
-//             readsize = fread(buffer + 1, width - 1, 1, file);
-// 
-//             if (readsize + 1 < width) {
-//                 throw ebmlException("Unexpected end of data while attempting to read vint.", __LINE__, __FILE__);
-//             }
-//         }
-//         vintw[0] = width;
-//         return unpackVint(buffer, width);
-//     }
-// 
-//     unsigned long long unpackVint(
-//             FILE* file, unsigned char* vintw) {
-//         char buffer[16];
-//         return unpackVint(file, &buffer[0], vintw);
-//     }
-    unsigned long long unpackVint(ioBase* file, char* buffer, unsigned char* vintw) {
+    unsigned long long unpackVint(ioBase* file, unsigned char& vintw) {
+        char buffer[8];
         unsigned char width;
         unsigned char readsize;
+        off_t offset = file->tell();
 
         if (file->read(buffer, 1) == 0) {
             /*Use vint[0] = 0 to indicate end of stream.*/
-            vintw[0] = 0;
+            vintw = 0;
             return 0;
         }
 
         width = vintWidth(buffer[0]);
 
         if (width == 0) {
-            throw ebmlException("Invalid start byte for vint.", __LINE__, __FILE__);
+            throw ebmlInvalidVint("unpackVint(ioBase*, unsigned char&): Invalid start byte for vint.", offset);
         }
 
         if (width > 1) {
             readsize = file->read(buffer + 1, width - 1);
 
             if (readsize + 1 < width) {
-                throw ebmlException("Unexpected end of data while attempting to read vint.", __LINE__, __FILE__);
+                throw ebmlUnexpectedEndOfData("unpackVint(ioBase*, unsigned char&): Unexpected end of data while attempting to read vint.", offset);
             }
         }
-        vintw[0] = width;
-        return unpackVint(buffer, width);
+        vintw = width;
+
+        try {
+            return unpackVint(buffer, width);
+        } catch (ebmlDecodeError& e) {
+            e.add_to_offset(offset);
+            throw e;
+        }
     }
 
-    unsigned long long unpackVint(
-            ioBase* file, unsigned char* vintw) {
+    unsigned long long unpackVint(ioBase* file, off_t offset, unsigned char& vintw) {
         char buffer[8];
-        return unpackVint(file, &buffer[0], vintw);
-    }
-
-    unsigned long long unpackVint(ioBase* file, char* buffer, off_t offset, unsigned char* vintw) {
         unsigned char width;
         unsigned char readsize;
 
-        if (file->read(buffer, 1, offset) == 0) {
-            /*Use vint[0] = 0 to indicate end of stream.*/
-            vintw[0] = 0;
+        if (file->read(buffer, offset, 1) == 0) {
+            // Use vintw = 0 to indicate end of stream.
+            vintw = 0;
             return 0;
         }
 
         width = vintWidth(buffer[0]);
 
         if (width == 0) {
-            throw ebmlException("Invalid start byte for vint.", __LINE__, __FILE__);
+            throw ebmlInvalidVint("unpackVint(ioBase*, off_t, unsigned char&): Invalid start byte for vint.", offset);
         }
 
         if (width > 1) {
-            readsize = file->read(buffer + 1, width - 1, offset + 1);
+            readsize = file->read(buffer + 1, offset + 1, width - 1);
 
             if (readsize + 1 < width) {
-                throw ebmlException("Unexpected end of data while attempting to read vint.", __LINE__, __FILE__);
+                throw ebmlInvalidVint("Unexpected end of data while attempting to read vint.", offset);
             }
         }
-        vintw[0] = width;
-        return unpackVint(buffer, width);
-    }
 
-    unsigned long long unpackVint(
-            ioBase* file, off_t offset, unsigned char* vintw) {
-        char buffer[8];
-        return unpackVint(file, &buffer[0], offset, vintw);
-    }
+        vintw = width;
 
+        try {
+            return unpackVint(buffer, width);
+        } catch (ebmlDecodeError& e) {
+            e.add_to_offset(offset);
+            throw e;
+        }
+    }
 }
 #endif

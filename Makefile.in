@@ -1,0 +1,45 @@
+# Compiler and linker flags
+CCFLAGS = -I./ -Iinclude -Isrc -Wall -Wextra -pedantic -std=c++17 -O3 -fPIC -Wno-sign-compare -DRAW
+LDFLAGS = -shared
+CXX = g++
+
+PREFIX = @prefix@
+
+# Target library
+LIBNAME = libebml_ng
+
+# Source files
+SRCDIR = src
+INCDIR = include
+SRCFILE = $(SRCDIR)/$(LIBNAME).cpp
+
+# Build files
+BUILDDIR = build
+OBJFILE = $(BUILDDIR)/$(LIBNAME).o
+LIBFILE = $(BUILDDIR)/$(LIBNAME).so
+
+HEADERFILE = $(INCDIR)/$(LIBNAME).h
+HEADERDIR = $(INCDIR)/$(LIBNAME)
+
+# Top-level target to build the library
+all: $(LIBFILE)
+
+# Rule to build an object file
+$(OBJFILE): $(SRCFILE)
+	$(CXX) $(CCFLAGS) -c $< -o $@
+
+# Rule to build the library
+$(LIBFILE): $(OBJFILE)
+	$(CXX) $(LDFLAGS) -o $@ $^
+
+# Install rule
+install: $(LIBFILE)
+	install -d $(DESTDIR)$(PREFIX)/lib
+	install -m 755 $(LIBFILE) $(DESTDIR)$(PREFIX)/lib
+	install -m 644 $(HEADERFILE) $(DESTDIR)$(PREFIX)/include
+	install -d $(DESTDIR)$(PREFIX)/include/$(LIBNAME)
+	cp -ru --no-target-directory $(HEADERDIR) $(DESTDIR)$(PREFIX)/include/$(LIBNAME)
+
+# Clean rule
+clean:
+	rm -f $(BUILDDIR)/$(LIBNAME).o $(BUILDDIR)/$(LIBNAME).so

@@ -2,30 +2,36 @@
 #define EBML_NG_TEMPLATE_H
 
 #include "libebml_ng/base.h"
-#pragma message("template.h included")
 
 namespace ebml {
     template<typename T>
-    class ebmlElementTemplate;
+    class ebmlDataElement;
 
     template<typename T>
-    class ebmlElementClassTemplate : public ebmlElementClassBase {
-        friend class ebmlElementTemplate<T>;
+    class ebmlDataElementClass : public ebmlElementClass {
+        friend class ebmlDataElement<T>;
     public:
         T defaultval;
-        ebmlElementClassTemplate(ebmlID_t, const std::u32string&);
-        ebmlElementClassTemplate(ebmlID_t, const std::u32string&, const T&);
+        ebmlDataElementClass();
+        ebmlDataElementClass(ebmlID_t, const std::wstring&);
+        ebmlDataElementClass(ebmlID_t, const std::wstring&, const T&);
+        ebmlDataElementClass(ebmlID_t, const std::wstring&, T&&);
+
         virtual ebmlElement_sp operator()() const;
         virtual ebmlElement_sp operator()(const T&) const;
+        virtual ebmlElement_sp operator()(T&&) const;
+
+        static T defaultdefault;
     };
 
     template<typename T>
-    class ebmlElementTemplate : public ebmlElementBase {
-        friend class ebmlElementClassTemplate<T>;
+    class ebmlDataElement : public ebmlElement {
+        friend class ebmlDataElementClass<T>;
 
         // Constructor/Destructor
     protected:
-        ebmlElementTemplate(const ebmlElementClassTemplate<T>*, const T&);
+        ebmlDataElement(const ebmlDataElementClass<T>*, const T&);
+        ebmlDataElement(const ebmlDataElementClass<T>*, T&&);
 
     public:
         T data;
@@ -37,33 +43,31 @@ namespace ebml {
         // Encode functions.
     protected:
         virtual size_t _encode(char*) const;
-//         virtual size_t _encode(char*, unsigned long long) const;
+        // virtual size_t _encode(char*, size_t) const;
 
         // Decode functions:
     protected:
         virtual void _decode(const parseString&);
-        virtual void _decode(const parseFile_sp&);
+        virtual void _decode(const parseFile&);
 
         // Cloning functions:
     protected:
-        virtual void _clonedata(const ebmlElementBase*);
+        virtual void _clonedata(const ebmlElement*);
 
+    public:
+        // Repr function
+        std::wstring minirepr() const;
     };
 
     template<typename T>
-    class ebmlElement;
+    using ebmlDataElement_sp = std::shared_ptr<ebmlDataElement<T>>;
+
+    // Provides easy read-write access to data member of elements.
+    template<typename T>
+    T& data(const ebmlElement_sp& elem);
 
     template<typename T>
-    class ebmlElementClass : public ebmlElementClassTemplate<T> {
-        friend class ebmlElement<T>;
-//     public:
-//         ebmlElementClass(ebmlID_t _ebmlID, const std::u32string& _name) : ebmlElementClassTemplate(_ebmlID, _name) {};
-//         ebmlElementClass(ebmlID_t _ebmlID, const std::u32string& _name, const T& _defaultval) : ebmlElementClassTemplate(_ebmlID, _name, _defaultval) {};
-    };
+    T data(const c_ebmlElement_sp& elem);
 
-    template<typename T>
-    class ebmlElement : public ebmlElementTemplate<T> {
-        friend class ebmlElementClass<T>;
-    };
 }
 #endif

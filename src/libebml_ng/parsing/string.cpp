@@ -48,38 +48,37 @@ namespace ebml {
 //         throw ebmlException("Unsupported dataSize.", __LINE__, __FILE__);
 //     }
 
-    parseString::parseString(const char* data, size_t size) {
-        unsigned long long outerSize;
+    void _parseString(
+            const char* data, size_t size,
+            ebmlID_t& ebmlID, unsigned char& ebmlIDWidth, size_t& dataSize, unsigned char& sizeWidth) {
+        ebmlID = unpackVint(data, size, ebmlIDWidth);
+        dataSize = unpackVint(data + ebmlIDWidth, size - ebmlIDWidth, sizeWidth);
 
-        this->ebmlID = unpackVint(data, size, &this->ebmlIDWidth);
-        this->dataSize = unpackVint(
-            data + this->ebmlIDWidth, size - this->ebmlIDWidth, &this->sizeWidth);
-
-        outerSize = this->ebmlIDWidth + this->sizeWidth + this->dataSize;
-
-        if (size < outerSize) {
-            throw ebmlException("Unexpected end of data.", __LINE__, __FILE__);
+        if (size < ebmlIDWidth + sizeWidth + dataSize) {
+            throw ebmlUnexpectedEndOfData("_parseString(): Unexpected end of data.", 0);
         }
+    }
 
+    parseString::parseString(const char* data, size_t size) {
+        _parseString(data, size, this->ebmlID, this->ebmlIDWidth, this->dataSize, this->sizeWidth);
         this->offset = 0;
         this->data = data + this->ebmlIDWidth + this->sizeWidth;
     }
 
     parseString::parseString(const char* data, size_t size, off_t offset) {
-        this->ebmlID = unpackVint(data, size, &this->ebmlIDWidth);
-        this->dataSize = unpackVint(
-            data + this->ebmlIDWidth, size - this->ebmlIDWidth, &this->sizeWidth);
-
-        if (size < this->ebmlIDWidth + this->sizeWidth + this->dataSize) {
-            throw ebmlException("Unexpected end of data.", __LINE__, __FILE__);
+        try {
+            _parseString(data, size, this->ebmlID, this->ebmlIDWidth, this->dataSize, this->sizeWidth);
+        } catch (ebmlDecodeError& e) {
+            e.add_to_offset(offset);
+            throw e;
         }
 
         this->offset = offset;
         this->data = data + this->ebmlIDWidth + this->sizeWidth;
     }
 
-    iterParseString parseString::begin() const {
-        return iterParseString(this->data, this->dataSize);
+    parseString::iterator parseString::begin() const {
+        return parseString::iterator(this->data, this->dataSize);
     }
 
 //     iterParseString parseString::end() const {
@@ -92,7 +91,7 @@ namespace ebml {
 
 //     iterParseString::iterParseString() {}
 
-    iterParseString::iterParseString(const char* data, size_t size) {
+    parseString::iterator::iterator(const char* data, size_t size) {
         this->_data = data;
         this->_offset = 0;
         this->_dataSize = size;
@@ -110,13 +109,13 @@ namespace ebml {
 //         }
 //     }
 // 
-    parseString iterParseString::operator*(void) {
+    parseString parseString::iterator::operator*() {
         return this->_next;
     }
 
-    iterParseString& iterParseString::operator++(void) {
+    parseString::iterator& parseString::iterator::operator++() {
         if (this->_offset >= this->_dataSize) {
-            throw ebmlException("Stop Iteration.", __LINE__, __FILE__);
+            throw stopIteration();
         }
 
         this->_offset += (
@@ -124,30 +123,35 @@ namespace ebml {
 
         if (this->_offset < this->_dataSize) {
             this->_next = parseString(
-                this->_data + this->_offset, this->_offset, this->_dataSize - this->_offset);
+                this->_data + this->_offset, this->_dataSize - this->_offset, this->_offset);
         }
         return *this;
     }
 
-    iterParseString iterParseString::operator++(int) {
-        iterParseString i = *this;
+    parseString::iterator parseString::iterator::operator++(int) {
+        parseString::iterator i = *this;
 
             if (this->_offset >= this->_dataSize) {
-            throw ebmlException("Stop Iteration.", __LINE__, __FILE__);
+            throw stopIteration();
         }
 
         this->_offset += (
             this->_next.ebmlIDWidth + this->_next.sizeWidth + this->_next.dataSize);
 
         if (this->_offset < this->_dataSize) {
-            this->_next = parseString(
-                this->_data + this->_offset, this->_offset, this->_dataSize - this->_offset);
+            try {
+                this->_next = parseString(
+                    this->_data + this->_offset, this->_dataSize - this->_offset, this->_offset);
+            } catch (ebmlDecodeError& e) {
+                e.add_to_offset(this->_offset);
+                throw e;
+            }
         }
         return i;
 
     }
 
-    bool iterParseString::operator==(const iterParseString& other) const {
+    bool parseString::iterator::operator==(const parseString::iterator& other) const {
         if (this->_data != other._data) {
             return false;
         }
@@ -161,7 +165,7 @@ namespace ebml {
         return (this->_offset == other._offset);
     }
 
-    bool iterParseString::operator!=(const iterParseString& other) const {
+    bool parseString::iterator::operator!=(const parseString::iterator& other) const {
         if (this->_data != other._data) {
             return true;
         }
@@ -175,13 +179,17 @@ namespace ebml {
         return (this->_offset != other._offset);
     }
 
-    parseString::parseString(const parseFile_sp& parsed, char* buffer) {
-        parsed->read(buffer);
-        this->ebmlID = parsed->ebmlID;
-        this->ebmlIDWidth = parsed->ebmlIDWidth;
-        this->dataSize = parsed->dataSize;
-        this->sizeWidth = parsed->sizeWidth;
-        this->offset = parsed->offset;
+    bool parseString::iterator::atEnd() const {
+        return this->_offset >= this->_dataSize;
+    }
+
+    parseString::parseString(const parseFile& parsed, char* buffer) {
+        parsed.read(buffer);
+        this->ebmlID = parsed.ebmlID;
+        this->ebmlIDWidth = parsed.ebmlIDWidth;
+        this->dataSize = parsed.dataSize;
+        this->sizeWidth = parsed.sizeWidth;
+        this->offset = parsed.offset;
         this->data = buffer;
     }
 }

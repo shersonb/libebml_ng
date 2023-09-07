@@ -8,80 +8,46 @@
 #include "libebml_ng/parsing/io.h"
 
 namespace ebml {
-    class iterParseString;
-
-    // class parseData {
-    // public:
-    //     unsigned long long ebmlID;
-    //     unsigned char ebmlIDWidth;
-    //     unsigned long long dataSize;
-    //     unsigned char sizeWidth;
-    //     parseData* parent;
-    //     unsigned long long outerSize() const;
-    //     parseData() = 0;
-    //     unsigned long long as_uint() const = 0;
-    //     long long as_int() const = 0;
-    //     double as_double() const = 0;
-    //     virtual const char* read_chars(char*, &size_t) = 0;
-    //     virtual const char* read_chars(char*, size_t, &size_t) = 0;
-    //     size_t bytes_read() const;
-    //     virtual iterParse begin() const = 0;
-    // };
-
-    // class parseString : public parseData {
-    // public:
-    //     const char* data
-    //     off_t offset
-    //     parseData(const char*, size_t size)
-    //     parseData(const char*, off_t offset, size_t size)
-    //     unsigned long long as_uint() const;
-    //     long long as_int() const;
-    //     double as_double() const;
-    //     iterParse begin() const;
-    // }
-
-
     class parseString {
     public:
         ebmlID_t ebmlID;
-        unsigned char ebmlIDWidth;
+        vintWidth_t ebmlIDWidth;
         size_t dataSize;
-        unsigned char sizeWidth;
-        off_t offset;
+        vintWidth_t sizeWidth;
+        off_t offset; // Offset relative to start of parent data.
         const char* data;
         parseString* parent;
-        parseString();
 
-        parseString(const char*);
-        parseString(const char*, off_t);
+        parseString();
+        // parseString(const char*);
+        // parseString(const char*, off_t);
         parseString(const char*, size_t);
         parseString(const char*, size_t, off_t);
 
         parseString(
-            unsigned long long, unsigned char,
-            size_t, unsigned char,
+            ebmlID_t, vintWidth_t,
+            size_t, vintWidth_t,
             off_t, const char*);
-        parseString(const parseFile_sp&, char*);
+        parseString(const parseFile&, char*);
 
-        iterParseString begin() const;
+        class iterator;
+        parseString::iterator begin() const;
         unsigned long long outerSize() const;
     };
 
-    class iterParseString {
+    class parseString::iterator {
         const char* _data;
         off_t _offset;
         size_t _dataSize;
         parseString _next;
     public:
-    //     iterParseString();
-        iterParseString(const char*, size_t);
-    //     iterParseString(const char*, unsigned long long, unsigned long long);
+        iterator(const char*, size_t);
         parseString operator*();
-        iterParseString& operator++();
-        iterParseString operator++(int);
-        bool operator==(const iterParseString&) const;
-        bool operator!=(const iterParseString&) const;
-        bool atEnd();
+        parseString::iterator& operator++();
+        parseString::iterator operator++(int);
+        bool operator==(const parseString::iterator&) const;
+        bool operator!=(const parseString::iterator&) const;
+        bool atEnd() const;
     };
 }
 #endif

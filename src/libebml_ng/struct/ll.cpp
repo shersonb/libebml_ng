@@ -23,15 +23,15 @@ namespace ebml {
         char* as_chars;
 
         if (size == 0 or size > 8) {
-            throw std::invalid_argument(make_exc_msg("pack: invalid value for size", __LINE__, __FILE__));
+            throw std::invalid_argument("pack: invalid value for size");
         };
 
         if (size != 8) {
             if (n > 0 && (n >> (8*size)) != 0) {
-                throw std::overflow_error(make_exc_msg("pack: int too big to convert", __LINE__, __FILE__));
+                throw std::overflow_error("pack: int too big to convert");
             };
             if (n < 0 && (n >> (8*size)) != -1) {
-                throw std::overflow_error(make_exc_msg("pack: int too big to convert", __LINE__, __FILE__));
+                throw std::overflow_error("pack: int too big to convert");
             };
         };
 
@@ -57,8 +57,7 @@ namespace ebml {
         };
 
         if (size > 8) {
-            throw std::invalid_argument(make_exc_msg(
-                "unpack[long long]: invalid value for size", __LINE__, __FILE__));
+            throw std::invalid_argument("unpack<long long>: invalid value for size");
         };
 
         as_chars = (char*)&ret;

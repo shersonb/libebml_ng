@@ -4,11 +4,11 @@
 #include "libebml_ng/struct/double.h"
 
 namespace ebml {
-    size_t size(const float& x) {
+    size_t size(const float&) {
         return 4;
     }
 
-    size_t size(const double& x) {
+    size_t size(const double&) {
         return 8;
     }
 
@@ -46,8 +46,7 @@ namespace ebml {
         if (size == 0) {return 0;}
 
         if (size != 4) {
-            throw std::invalid_argument(make_exc_msg(
-                "unpack[float]: invalid value for size", __LINE__, __FILE__));
+            throw std::invalid_argument("unpack<float>: invalid value for size");
         }
 
         as_chars = (char*)&ret;
@@ -71,9 +70,7 @@ namespace ebml {
         if (size == 4) {return unpack<float>(s, size);}
 
         if (size != 8) {
-            throw std::invalid_argument(make_exc_msg(
-                "unpack[float]: invalid value for size", __LINE__, __FILE__));
-
+            throw std::invalid_argument("unpack<double>: invalid value for size");
         }
 
         as_chars = (char*)&ret;

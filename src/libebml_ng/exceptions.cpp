@@ -11,16 +11,64 @@ namespace ebml {
         );
     }
 
-    ebmlException::ebmlException(
-            const char* message, unsigned long long lineno, const char* file) {
-        this->message = message;
-        this->lineno = lineno;
-        this->file = file;
-        this->_what = make_exc_msg(message, lineno, file);
+    ebmlException::ebmlException(const std::string& message) {
+        this->_message = message;
     }
 
-    const char* ebmlException::what() {
-        return this->_what.c_str();
+    const char* ebmlException::what() const noexcept {
+        return this->_message.c_str();
     }
+
+    ebmlNotImplementedError::ebmlNotImplementedError(const std::string& message, const ebmlElementClass* cls) : ebmlException(message) {
+        this->cls = cls;
+    }
+
+    ebmlEncodeError::ebmlEncodeError(const std::string& message, const c_ebmlElement_sp& elem) : ebmlException(message), _elem(elem) {}
+
+    ebmlDecodeError::ebmlDecodeError(const std::string& message, off_t offset, const ebmlElementClass* cls) : ebmlException(message) {
+        this->offset = offset;
+        this->cls = cls;
+    }
+
+    void ebmlDecodeError::add_to_offset(off_t delta) {
+        this->offset += delta;
+    }
+
+    ebmlInvalidVint::ebmlInvalidVint(const std::string& message, off_t offset, const ebmlElementClass* cls) : ebmlDecodeError(message, offset, cls) {}
+    ebmlNoMatch::ebmlNoMatch(const std::string& message, off_t offset, const ebmlElementClass* cls) : ebmlDecodeError(message, offset, cls) {}
+    ebmlNoChildMatch::ebmlNoChildMatch(const std::string& message, off_t offset, const ebmlElementClass* cls) : ebmlDecodeError(message, offset, cls) {}
+    ebmlUnexpectedEndOfData::ebmlUnexpectedEndOfData(const std::string& message, off_t offset, const ebmlElementClass* cls) : ebmlDecodeError(message, offset, cls) {}
+    ebmlDataContinues::ebmlDataContinues(const std::string& message, off_t offset, const ebmlElementClass* cls) : ebmlDecodeError(message, offset, cls) {}
+    ebmlFormatError::ebmlFormatError(const std::string& message, off_t offset, const ebmlElementClass* cls) : ebmlDecodeError(message, offset, cls) {}
+
+    ebmlBoundError::ebmlBoundError(
+            const std::string& message, off_t offset,
+            off_t parentstart, off_t parentend, off_t childstart, off_t childend,
+            const ebmlElementClass* cls) : ebmlDecodeError(message, offset, cls) {
+        this->parentstart = parentstart;
+        this->parentend = parentend;
+        this->childstart = childstart;
+        this->childend = childend;
+    }
+
+    void ebmlBoundError::add_to_offset(off_t delta) {
+        ebmlDecodeError::add_to_offset(delta);
+        this->parentend += delta;
+        this->childstart += delta;
+        this->childend += delta;
+    }
+
+    unicodeDecodeError::unicodeDecodeError(const std::string& message, off_t offset, const std::string& object, off_t start, off_t end, const ebmlElementClass* cls) : ebmlFormatError(message, offset, cls) {
+        this->object = object;
+        this->start = start;
+        this->end = end;
+    }
+
+    unicodeEncodeError::unicodeEncodeError(const std::string& message, const std::wstring& object, off_t start, off_t end, const c_ebmlElement_sp& elem) : ebmlEncodeError(message, elem) {
+        this->object = object;
+        this->start = start;
+        this->end = end;
+    }
+
 }
 #endif
