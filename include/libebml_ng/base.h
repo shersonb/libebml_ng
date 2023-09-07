@@ -19,6 +19,7 @@
 
 namespace ebml {
     class ebmlElement;
+    class ebmlMasterElement;
     class ebmlDocument;
     class ebmlSchema;
 
@@ -36,6 +37,7 @@ namespace ebml {
 
     class ebmlElementClass {
         friend class ebmlElement;
+        friend class ebmlMasterElement;
     public:
         ebmlElementClass();
         ebmlElementClass(ebmlID_t, const std::wstring&);
@@ -44,9 +46,13 @@ namespace ebml {
 
         // This must always be overriden in subclasses to return a shared_ptr to an instance of its companion
         // EBMLElement class.
-        virtual ebmlElement_sp operator()() const = 0;
+        ebmlElement_sp operator()() const;
+
+    protected:
+        virtual ebmlElement* _new() const = 0;
 
         // Decode methods taking parse data classes.
+    public:
         ebmlElement_sp decode(const parseString&) const;
         ebmlElement_sp decode(const parseFile&) const;
 
@@ -56,7 +62,22 @@ namespace ebml {
         ebmlElement_sp decode(ioBase_sp&) const;
         ebmlElement_sp decode(ioBase*) const;
 
+        // Decode functions that return an immutable ebmlElement instance.
+        // These are virtual because it may be necessary to reimplement in some cases.
+        c_ebmlElement_sp cdecode(const parseString&) const;
+        c_ebmlElement_sp cdecode(const parseFile&) const;
+        c_ebmlElement_sp cdecode(const char*, size_t) const;
+        c_ebmlElement_sp cdecode(const std::string&) const;
+        c_ebmlElement_sp cdecode(ioBase_sp&) const;
+        c_ebmlElement_sp cdecode(ioBase*) const;
+
+        // Needed for ebmlMasterElement to decode children that cannot be stored as const.
+    protected:
+        ebmlElement_sp _cdecode(const parseString&) const;
+        ebmlElement_sp _cdecode(const parseFile&) const;
+
         // Repr function
+    public:
         virtual std::wstring minirepr() const;
         std::wstring repr() const;
     };
@@ -157,6 +178,8 @@ namespace ebml {
     protected:
         virtual void _decode(const parseString&) = 0;
         virtual void _decode(const parseFile&);
+        virtual void _cdecode(const parseString&);
+        virtual void _cdecode(const parseFile&);
 
         // Cloning functions:
     protected:
@@ -175,8 +198,10 @@ namespace ebml {
     class ebmlVoidClass : public ebmlElementClass {
     public:
         ebmlVoidClass();
-        ebmlElement_sp operator()() const;
         ebmlElement_sp operator()(size_t) const;
+
+    protected:
+        ebmlElement* _new() const;
         friend class ebmlVoid;
     };
 

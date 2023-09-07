@@ -13,9 +13,12 @@ namespace ebml {
         ebmlListClass(ebmlID_t, std::wstring, const childClassSpecArg_l&, const occurSpec_t& recursive={0, 0});
         ebmlListClass(ebmlID_t, std::wstring, const childClassSpecArg_init_l&, const occurSpec_t& recursive={0, 0});
 
-        ebmlElement_sp operator()() const;
+        // ebmlElement_sp operator()() const;
         ebmlElement_sp operator()(const ebmlElement_l&) const;
         ebmlElement_sp operator()(ebmlElement_l&&) const;
+
+    protected:
+        ebmlElement* _new() const;
 
     private:
         friend class ebmlList;

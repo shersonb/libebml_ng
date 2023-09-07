@@ -146,7 +146,7 @@ namespace ebml {
         ebmlMasterElementClass(ebmlID_t, const std::wstring&);
 
         // Abstract method inherited from ebml::ebmlElementClass
-        virtual ebmlElement_sp operator()() const = 0;
+        // virtual ebmlElement_sp operator()() const = 0;
 
         // Offers const accsss to _childClasses member.
         const childClassSpec_t& childClasses() const;
@@ -200,6 +200,10 @@ namespace ebml {
         virtual void _decodeChildren(parseString::iterator&);
         virtual ebmlElement_sp _decodeChild(const parseString&);
 
+        virtual void _cdecode(const parseString&);
+        virtual void _cdecodeChildren(parseString::iterator&);
+        virtual ebmlElement_sp _cdecodeChild(const parseString&);
+
             // From file
         virtual void _decode(const parseFile&); // Decode from a file
         virtual void _scanChildren(parseFile::iterator&); // Decode children from an iterParseFile instance created by _decode.
@@ -207,7 +211,13 @@ namespace ebml {
         // virtual void _scanChild(const parseFile&); // Implement in ebmlLazyLoadMasterElement
         virtual ebmlElement_sp _decodeChild(const parseFile&);
 
-            // Add child element (whether decoded from string or from file)
+        virtual void _cdecode(const parseFile&); // Decode from a file
+        virtual void _cscanChildren(parseFile::iterator&); // Decode children from an iterParseFile instance created by _decode.
+        virtual void _chandleSeekData(const parseFile&); // Controls the handling of seek data pointing to a child element.
+        // virtual void _scanChild(const parseFile&); // Implement in ebmlLazyLoadMasterElement
+        virtual ebmlElement_sp _cdecodeChild(const parseFile&);
+
+        // Add child element (whether decoded from string or from file)
         virtual void _addChild(const ebmlElement_sp&) = 0;
         virtual void _addChild(ebmlElement_sp&&) = 0;
 

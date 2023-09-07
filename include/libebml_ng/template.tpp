@@ -24,10 +24,15 @@ namespace ebml {
     template<typename T>
     ebmlDataElementClass<T>::ebmlDataElementClass(ebmlID_t ebmlID, const std::wstring& name, T&& defaultval) : ebmlElementClass(ebmlID, name), defaultval(std::move(defaultval)) {}
 
+    // template<typename T>
+    // ebmlElement_sp ebmlDataElementClass<T>::operator()() const {
+    //     auto elem = new ebmlDataElement<T>(this, this->defaultval);
+    //     return ebmlElement_sp(elem);
+    // }
+
     template<typename T>
-    ebmlElement_sp ebmlDataElementClass<T>::operator()() const {
-        auto elem = new ebmlDataElement<T>(this, this->defaultval);
-        return ebmlElement_sp(elem);
+    ebmlElement* ebmlDataElementClass<T>::_new() const {
+        return new ebmlDataElement<T>(this, this->defaultval);
     }
 
     template<typename T>

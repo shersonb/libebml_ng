@@ -21,7 +21,7 @@ namespace ebml {
             }
         }
 
-        throw std::invalid_argument("Variable-length integer cannot start with null byte.");
+        throw ebmlInvalidVint("Variable-length integer cannot start with null byte.");
     }
 
     unsigned char widthAsVint(unsigned long long n) {
@@ -125,14 +125,15 @@ namespace ebml {
         width = vintWidth(buffer[0]);
 
         if (width == 0) {
-            throw ebmlInvalidVint("unpackVint(ioBase*, unsigned char&): Invalid start byte for vint.", offset);
+            throw ebmlInvalidVint("unpackVint(ioBase*, unsigned char&): Invalid start byte for vint.", DECODE_ERR_DEFAULT, offset);
         }
 
         if (width > 1) {
             readsize = file->read(buffer + 1, width - 1);
 
             if (readsize + 1 < width) {
-                throw ebmlUnexpectedEndOfData("unpackVint(ioBase*, unsigned char&): Unexpected end of data while attempting to read vint.", offset);
+                throw ebmlUnexpectedEndOfData("unpackVint(ioBase*, unsigned char&): Unexpected end of data while attempting to read vint.",
+                                              DECODE_ERR_DEFAULT, offset);
             }
         }
         vintw = width;
@@ -159,14 +160,14 @@ namespace ebml {
         width = vintWidth(buffer[0]);
 
         if (width == 0) {
-            throw ebmlInvalidVint("unpackVint(ioBase*, off_t, unsigned char&): Invalid start byte for vint.", offset);
+            throw ebmlInvalidVint("unpackVint(ioBase*, off_t, unsigned char&): Invalid start byte for vint.", DECODE_ERR_DEFAULT, offset);
         }
 
         if (width > 1) {
             readsize = file->read(buffer + 1, offset + 1, width - 1);
 
             if (readsize + 1 < width) {
-                throw ebmlInvalidVint("Unexpected end of data while attempting to read vint.", offset);
+                throw ebmlInvalidVint("Unexpected end of data while attempting to read vint.", DECODE_ERR_DEFAULT, offset);
             }
         }
 

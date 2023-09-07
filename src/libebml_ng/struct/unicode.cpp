@@ -170,19 +170,19 @@ namespace ebml {
             charWidth = utf8_char_width(d);
 
             if (charWidth == 0) {
-                throw unicodeDecodeError("invalid start byte", -1, std::string(src, size), dk, dk+1);
+                throw unicodeDecodeError("invalid start byte", DECODE_ERR_DEFAULT, dk, dk+1, std::string(src, size));
             }
 
             if ((dk + charWidth) > size) {
-                throw unicodeDecodeError("unexpected end of data", -1, std::string(src, size), dk, size);
+                throw unicodeDecodeError("unexpected end of data", DECODE_ERR_DEFAULT, dk, size, std::string(src, size));
             }
 
             if (detect_overlong_encode(src + dk, overlong[charWidth-1])) {
-                throw unicodeDecodeError("overlong encoding detected", -1, std::string(src, size), dk, dk + charWidth);
+                throw unicodeDecodeError("overlong encoding detected",DECODE_ERR_DEFAULT, dk, dk + charWidth, std::string(src, size));
             }
 
             if ((static_cast<unsigned char>(src[dk]) == 0xed) and (static_cast<unsigned char>(src[dk + 1]) & 0x20)) {
-                throw unicodeDecodeError("surrogates not allowed", -1, std::string(src, size), dk, dk + charWidth);
+                throw unicodeDecodeError("surrogates not allowed", DECODE_ERR_DEFAULT, dk, dk + charWidth, std::string(src, size));
             }
 
             o = 6*(charWidth - 1);
@@ -196,7 +196,7 @@ namespace ebml {
                 d = src[dk + j];
 
                 if ((d & 0b11000000) != 0b10000000) {
-                    throw unicodeDecodeError("invalid continuation byte", -1, std::string(src, size), dk, dk+j);
+                    throw unicodeDecodeError("invalid continuation byte", DECODE_ERR_DEFAULT, dk, dk+j, std::string(src, size));
                 }
 
                 m = 0b00111111;

@@ -12,16 +12,19 @@ namespace ebml {
         friend class ebmlDataElement<T>;
     public:
         T defaultval;
+        static T defaultdefault;
         ebmlDataElementClass();
         ebmlDataElementClass(ebmlID_t, const std::wstring&);
         ebmlDataElementClass(ebmlID_t, const std::wstring&, const T&);
         ebmlDataElementClass(ebmlID_t, const std::wstring&, T&&);
 
-        virtual ebmlElement_sp operator()() const;
+        // virtual ebmlElement_sp operator()() const;
         virtual ebmlElement_sp operator()(const T&) const;
         virtual ebmlElement_sp operator()(T&&) const;
 
-        static T defaultdefault;
+    protected:
+        ebmlElement* _new() const;
+
     };
 
     template<typename T>

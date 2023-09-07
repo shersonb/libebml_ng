@@ -18,9 +18,13 @@ namespace ebml {
         }
     }
 
-    ebmlElement_sp ebmlListClass::operator()() const {
-        auto elem = new ebmlList(this);
-        return std::shared_ptr<ebmlElement>(elem);
+    // ebmlElement_sp ebmlListClass::operator()() const {
+    //     auto elem = new ebmlList(this);
+    //     return std::shared_ptr<ebmlElement>(elem);
+    // }
+
+    ebmlElement* ebmlListClass::_new() const {
+        return new ebmlList(this);
     }
 
     ebmlElement_sp ebmlListClass::operator()(const ebmlElement_l& items) const {

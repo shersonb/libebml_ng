@@ -26,7 +26,7 @@ namespace ebml {
         dataSize = unpackVint(file, sizeWidth);
 
         if (sizeWidth == 0) {
-            throw ebmlUnexpectedEndOfData("Unexpected end of data.", file->tell() - ebmlIDWidth);
+            throw ebmlUnexpectedEndOfData("Unexpected end of data.", nullptr, file->tell() - ebmlIDWidth, 0, ebmlIDWidth);
         }
     }
 
@@ -54,7 +54,7 @@ namespace ebml {
         dataSize = unpackVint(file, offset + ebmlIDWidth, sizeWidth);
 
         if (sizeWidth == 0) {
-            throw ebmlUnexpectedEndOfData("Unexpected end of data.", offset);
+            throw ebmlUnexpectedEndOfData("Unexpected end of data.", nullptr, offset, 0, ebmlIDWidth);
         }
     }
 
@@ -206,7 +206,8 @@ namespace ebml {
             parseFile ret = parseFile(this->_file, this->_offset, *this->_parent);
 
             if ((this->_endoffset >= 0) and (ret.endOffset() > this->_endoffset)) {
-                throw ebmlBoundError("Data extends past end of parent.", -1, this->_startoffset, this->_endoffset, ret.offset, ret.endOffset());
+                // throw ebmlBoundError("Data extends past end of parent.", -1, this->_startoffset, this->_endoffset, ret.offset, ret.endOffset());
+                throw ebmlDecodeError("Data extends past end of parent.", nullptr, ret.offset, ret.ebmlIDWidth + ret.sizeWidth, ret.endOffset());
             }
 
             this->_ebmlID = ret.ebmlID;

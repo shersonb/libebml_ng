@@ -18,16 +18,15 @@ namespace ebml {
         this->name = std::wstring(L"");
     }
 
+
+    ebmlElement_sp ebmlElementClass::operator()() const {
+        return ebmlElement_sp(this->_new());
+    }
+
     ebmlElementClass::ebmlElementClass(ebmlID_t _ebmlID, const std::wstring& _name) {
         this->ebmlID = _ebmlID;
         this->name = _name;
     }
-
-//     ebmlElement_sp ebmlElementClassBase::operator()() const {
-//         throw ebmlException("void _clonedata(const ebmlElement_sp&) not implemented.", __LINE__, __FILE__);
-//         auto elem = new ebmlElementBase(this);
-//         return ebmlElement_sp(elem);
-//     }
 
     bool ebmlElement::parent_is_const() const {
         return this->_parent_flags & 0x02;
@@ -235,14 +234,52 @@ namespace ebml {
         this->_parent_flags = 0x00;
     }
 
+    ebmlElement_sp ebmlElementClass::decode(const parseString& parsed) const {
+        ebmlElement_sp elem;
+
+        if (parsed.ebmlID != this->ebmlID) {
+            throw ebmlNoMatch("EBML ID does not match.", this, 0, 0, 0);
+        }
+
+        elem = (*this)();
+
+        try {
+            elem->_decode(parsed);
+        } catch (ebmlDecodeError& e) {
+            if (e.cls == nullptr) {
+                e.cls = this;
+                e.headSize = parsed.ebmlIDWidth + parsed.sizeWidth;
+            }
+            throw;
+        }
+
+        return elem;
+    }
+
+    ebmlElement_sp ebmlElementClass::decode(const parseFile& parsed) const {
+        ebmlElement_sp elem;
+
+        if (parsed.ebmlID != this->ebmlID) {
+            throw ebmlNoMatch("EBML ID does not match.", this, parsed.offset);
+        }
+
+        elem = (*this)();
+        elem->_decode(parsed);
+        return elem;
+    }
+
     ebmlElement_sp ebmlElementClass::decode(const char* data, size_t size) const {
         auto parsed = parseString(data, size);
 
         if (size > parsed.outerSize()) {
-            throw ebmlDataContinues("Data continues past expected end.", 0, this);
+            throw ebmlDataContinues("Data continues past expected end.", this, 0, parsed.ebmlIDWidth + parsed.sizeWidth, parsed.dataSize);
         }
 
         return this->decode(parsed);
+    }
+
+    ebmlElement_sp ebmlElementClass::decode(const std::string& data) const {
+        return this->decode(data.data(), data.size());
     }
 
     ebmlElement_sp ebmlElementClass::decode(ioBase_sp& file) const {
@@ -254,30 +291,65 @@ namespace ebml {
         return this->decode(parsed);
     }
 
-    ebmlElement_sp ebmlElementClass::decode(const parseString& parsed) const {
-        ebmlElement_sp elem;
-
+    ebmlElement_sp ebmlElementClass::_cdecode(const parseString& parsed) const {
         if (parsed.ebmlID != this->ebmlID) {
-            throw ebmlNoMatch("EBML ID does not match.", parsed.offset, this);
+            throw ebmlNoMatch("EBML ID does not match.", this, 0, 0, 0);
         }
 
-        elem = (*this)();
+        auto elem = ebmlElement_sp(this->_new());
 
-        elem->_decode(parsed);
+        try {
+            elem->_cdecode(parsed);
+        } catch (ebmlDecodeError& e) {
+            if (e.cls == nullptr) {
+                e.cls = this;
+                e.headSize = parsed.ebmlIDWidth + parsed.sizeWidth;
+            }
+            throw;
+        }
 
         return elem;
     }
 
-    ebmlElement_sp ebmlElementClass::decode(const parseFile& parsed) const {
-        ebmlElement_sp elem;
+    c_ebmlElement_sp ebmlElementClass::cdecode(const parseString& parsed) const {
+        return std::const_pointer_cast<const ebmlElement>(this->_cdecode(parsed));
+    }
 
+    ebmlElement_sp ebmlElementClass::_cdecode(const parseFile& parsed) const {
         if (parsed.ebmlID != this->ebmlID) {
-            throw ebmlNoMatch("EBML ID does not match.", parsed.offset, this);
+            throw ebmlNoMatch("EBML ID does not match.", this, parsed.offset);
         }
 
-        elem = (*this)();
-        elem->_decode(parsed);
+        auto elem = ebmlElement_sp(this->_new());
+        elem->_cdecode(parsed);
         return elem;
+    }
+
+    c_ebmlElement_sp ebmlElementClass::cdecode(const parseFile& parsed) const {
+        return std::const_pointer_cast<const ebmlElement>(this->_cdecode(parsed));
+    }
+
+    c_ebmlElement_sp ebmlElementClass::cdecode(const char* data, size_t size) const {
+        auto parsed = parseString(data, size);
+
+        if (size > parsed.outerSize()) {
+            throw ebmlDataContinues("Data continues past expected end.", this, 0, parsed.ebmlIDWidth + parsed.sizeWidth, parsed.dataSize);
+        }
+
+        return this->cdecode(parsed);
+    }
+
+    c_ebmlElement_sp ebmlElementClass::cdecode(const std::string& data) const {
+        return this->cdecode(data.data(), data.size());
+    }
+
+    c_ebmlElement_sp ebmlElementClass::cdecode(ioBase_sp& file) const {
+        return this->cdecode(file.get());
+    }
+
+    c_ebmlElement_sp ebmlElementClass::cdecode(ioBase* file) const {
+        auto parsed = parseFile(file);
+        return this->cdecode(parsed);
     }
 
     ebmlElement::ebmlElement(const ebmlElementClass* cls) { // : _parent(nullptr) {
@@ -294,6 +366,16 @@ namespace ebml {
         std::unique_ptr<char[]> data(new char[parsed.dataSize]);
         auto s_parsed = parseString(parsed, data.get());
         this->_decode(s_parsed);
+    }
+
+    void ebmlElement::_cdecode(const parseString& parsed) {
+        this->_decode(parsed);
+    }
+
+    void ebmlElement::_cdecode(const parseFile& parsed) {
+        std::unique_ptr<char[]> data(new char[parsed.dataSize]);
+        auto s_parsed = parseString(parsed, data.get());
+        this->_cdecode(s_parsed);
     }
 
     size_t ebmlElement::encode(char* dest) const {
@@ -445,9 +527,8 @@ namespace ebml {
         this->ebmlID = 108;
     }
 
-    ebmlElement_sp ebmlVoidClass::operator()() const {
-        auto elem = new ebmlVoid(this);
-        return std::shared_ptr<ebmlVoid>(elem);
+    ebmlElement* ebmlVoidClass::_new() const {
+        return new ebmlVoid(this);
     }
 
     ebmlElement_sp ebmlVoidClass::operator()(size_t size) const {

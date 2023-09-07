@@ -18,7 +18,7 @@
 
 #include "libebml_ng/masterelement/base.cpp"
 #include "libebml_ng/masterelement/list.cpp"
-#include "libebml_ng/masterelement/multislot.cpp"
+// #include "libebml_ng/masterelement/multislot.cpp"
 
 #include "libebml_ng/template.tpp"
 #include "libebml_ng/struct.cpp"

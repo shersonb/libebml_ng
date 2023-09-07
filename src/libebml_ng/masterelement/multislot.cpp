@@ -73,9 +73,13 @@ namespace ebml {
         }
     }
 
-    ebmlElement_sp ebmlMultiSlotClass::operator()() const {
-        auto elem = new ebmlMultiSlot(this);
-        return ebmlElement_sp(elem);
+    // ebmlElement_sp ebmlMultiSlotClass::operator()() const {
+    //     auto elem = new ebmlMultiSlot(this);
+    //     return ebmlElement_sp(elem);
+    // }
+
+    ebmlElement* ebmlMultiSlotClass::_new() const {
+        return new ebmlMultiSlot(this);
     }
 
     const std::vector<slotSpec_t>& ebmlMultiSlotClass::slotSpecs() const {
