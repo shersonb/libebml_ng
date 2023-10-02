@@ -96,7 +96,6 @@ namespace ebml {
         ebmlElement_sp _cdecode(const parseString&) const;
         ebmlElement_sp _cdecode(const parseFile&) const;
         ebmlElement* _new() const;
-
     };
 
     template<typename T>
@@ -148,5 +147,30 @@ namespace ebml {
     template<typename T>
     const T& data(const c_ebmlElement_sp& elem);
 }
+
+#define DECL_EBML_CLS(T) \
+    extern template class ebml::ebmlDataElementClass<T>; \
+    extern template class ebml::ebmlDataElement<T>; \
+    extern template T& ebml::data<T>(const ebmlElement_sp&); \
+    extern template const T& ebml::data<T>(const c_ebmlElement_sp&);
+
+#define DECL_EBML_ALIAS(T, alias) \
+    typedef ::ebml::ebmlDataElementClass<T> alias##Class; \
+    typedef ::ebml::ebmlDataElement<T> alias;
+
+#define INST_EBML_CLS(T, defaultval) \
+    template<> \
+    T ebml::ebmlDataElementClass<T>::defaultdefault = defaultval; \
+    template class ebml::ebmlDataElementClass<T>; \
+    template class ebml::ebmlDataElement<T>; \
+    template T& ebml::data<T>(const ebml::ebmlElement_sp&); \
+    template const T& ebml::data<T>(const ebml::c_ebmlElement_sp&);
+
+#define INST_CONST_EBML_CLS(T, defaultval) \
+    template<> \
+    const T ebml::ebmlDataElementClass<const T>::defaultdefault = defaultval; \
+    template class ebml::ebmlDataElementClass<const T>; \
+    template class ebml::ebmlDataElement<const T>; \
+    template const T& ebml::data<const T>(const ebml::c_ebmlElement_sp&);
 
 #endif

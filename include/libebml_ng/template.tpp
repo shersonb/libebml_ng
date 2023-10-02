@@ -129,12 +129,12 @@ namespace ebml {
 
 
     template<typename T>
-    ebmlDataElementClass<const T>::ebmlDataElementClass() : ebmlElementClass() {
+    ebmlDataElementClass<const T>::ebmlDataElementClass() : ebmlElementClass(), defaultval(defaultdefault) {
     }
 
     template<typename T>
     ebmlDataElementClass<const T>::ebmlDataElementClass(const char* ebmlID, const std::wstring& name)
-    : ebmlDataElementClass(unpackVint(ebmlID), name) {}
+    : ebmlDataElementClass(unpackVint(ebmlID), name, defaultdefault) {}
 
     template<typename T>
     ebmlDataElementClass<const T>::ebmlDataElementClass(const char* ebmlID, const std::wstring& name, const T& defaultval)
@@ -145,9 +145,8 @@ namespace ebml {
     : ebmlDataElementClass(unpackVint(ebmlID), name, std::move(defaultval)) {}
 
     template<typename T>
-    ebmlDataElementClass<const T>::ebmlDataElementClass(ebmlID_t ebmlID, const std::wstring& name) : ebmlElementClass(ebmlID, name) {
-        this->defaultval = defaultdefault;
-    }
+    ebmlDataElementClass<const T>::ebmlDataElementClass(ebmlID_t ebmlID, const std::wstring& name)
+    : ebmlDataElementClass(ebmlID, name, defaultdefault) {}
 
     template<typename T>
     ebmlDataElementClass<const T>::ebmlDataElementClass(ebmlID_t ebmlID, const std::wstring& name, const T& defaultval) : ebmlElementClass(ebmlID, name), defaultval(defaultval) {}
