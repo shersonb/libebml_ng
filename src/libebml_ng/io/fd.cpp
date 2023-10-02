@@ -2,14 +2,16 @@
 #define EBML_NG_IO_FD_CPP
 
 #include <unistd.h>
-#include "libebml_ng/io.cpp"
-#include "libebml_ng/exceptions.cpp"
-// #include "libebml_ng/io/fd.h"
-#include "libebml_ng/io/_fd.h"
 #include <fcntl.h>
 #include <bitset>
 #include <cerrno>
 #include <cstring>
+
+#include "libebml_ng/io.h"
+#include "libebml_ng/io.tpp"
+// #include "libebml_ng/exceptions.cpp"
+// #include "libebml_ng/io/fd.h"
+// #include "libebml_ng/io/_fd.h"
 
 namespace ebml {
     template<>
@@ -143,6 +145,8 @@ namespace ebml {
 
         return bytes_written;
     }
+
+    template class io<int>;
 }
 
 #endif

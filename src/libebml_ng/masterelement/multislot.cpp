@@ -1,7 +1,12 @@
 #ifndef EBML_NG_MASTERELEMENT_MULTSLOT_CPP
 #define EBML_NG_MASTERELEMENT_MULTSLOT_CPP
+#include <utility>
+#include <memory>
 
+#include "libebml_ng/struct/unicode.h"
+#include "libebml_ng/struct.tpp"
 #include "libebml_ng/masterelement/multislot.h"
+#include "libebml_ng/exceptions.h"
 
 namespace ebml {
     slotSpec_t::slotSpec_t(const std::string& name, const childClassSpecArg_l& childSpec, bool multielem) {
@@ -30,8 +35,6 @@ namespace ebml {
         return this->_childClasses;
     }
 
-
-
     slotSpec_t& slotSpec_t::operator=(const slotSpec_t& other) {
         this->name = other.name;
         this->_childClasses = other._childClasses;
@@ -50,10 +53,17 @@ namespace ebml {
         return this->_multi;
     }
 
+    ebmlMultiSlotClass::ebmlMultiSlotClass(const char* ebmlID, const std::wstring& name, const slotSpec_l& slotSpecs)
+    : ebmlMultiSlotClass(unpackVint(ebmlID), name, slotSpecs) {}
+
+    ebmlMultiSlotClass::ebmlMultiSlotClass(const char* ebmlID, const std::wstring& name, const slotSpec_l& slotSpecs, const occurSpec_t& recursive, size_t recurseslot)
+    : ebmlMultiSlotClass(unpackVint(ebmlID), name, slotSpecs, recursive, recurseslot) {}
+
     ebmlMultiSlotClass::ebmlMultiSlotClass(ebmlID_t ebmlID, const std::wstring& name, const slotSpec_l& slotSpecs) : ebmlMasterElementClass(ebmlID, name) {
         for (const auto& slotSpec : slotSpecs) {
             auto childClasses = slotSpec.childClasses();
-            const auto& slotSpecRef = this->_slotSpecs.emplace_back(slotSpec);
+            this->_slotSpecs.push_back(slotSpec);
+            const auto& slotSpecRef = this->_slotSpecs.back();
             this->_slots_by_name[slotSpec.name] = &slotSpecRef;
 
             for (const auto& childClassSpec : childClasses) {
@@ -82,6 +92,82 @@ namespace ebml {
         return new ebmlMultiSlot(this);
     }
 
+    ebmlElement_sp ebmlMultiSlotClass::operator()(const slotArg_l& args) const {
+        // ebmlElement_sp elem;
+        // new ebmlMultiSlot(this, args, elem);
+        // return elem;
+        auto elem = new ebmlMultiSlot(this);
+        auto elem_sp = ebmlElement_sp(elem);
+        elem->_validateArgs(args);
+        elem->_validateData(args);
+        elem->_setData(args);
+        return elem_sp;
+    }
+
+    ebmlElement_sp ebmlMultiSlotClass::operator()(slotArg_l&& args) const {
+        // ebmlElement_sp elem;
+        // new ebmlMultiSlot(this, std::move(args), elem);
+        // return elem;
+        auto elem = new ebmlMultiSlot(this);
+        auto elem_sp = ebmlElement_sp(elem);
+        elem->_validateArgs(args);
+        elem->_validateData(args);
+        elem->_setData(std::move(args));
+        return elem_sp;
+    }
+
+    ebmlElement_sp ebmlMultiSlotClass::operator()(const slotArg_d& kwargs) const {
+        // ebmlElement_sp elem;
+        // new ebmlMultiSlot(this, kwargs, elem);
+        // return elem;
+        auto elem = new ebmlMultiSlot(this);
+        auto elem_sp = ebmlElement_sp(elem);
+        elem->_validateArgs(kwargs);
+        elem->_validateData(kwargs);
+        elem->_setData(kwargs);
+        return elem_sp;
+    }
+
+    ebmlElement_sp ebmlMultiSlotClass::operator()(slotArg_d&& kwargs) const {
+        // ebmlElement_sp elem;
+        // new ebmlMultiSlot(this, std::move(kwargs), elem);
+        // return elem;
+        auto elem = new ebmlMultiSlot(this);
+        auto elem_sp = ebmlElement_sp(elem);
+        elem->_validateArgs(kwargs);
+        elem->_validateData(kwargs);
+        elem->_setData(std::move(kwargs));
+        return elem_sp;
+    }
+
+    ebmlElement_sp ebmlMultiSlotClass::operator()(const slotArg_l& args, const slotArg_d& kwargs) const {
+        // ebmlElement_sp elem;
+        // new ebmlMultiSlot(this, args, kwargs, elem);
+        // return elem;
+        auto elem = new ebmlMultiSlot(this);
+        auto elem_sp = ebmlElement_sp(elem);
+        elem->_validateArgs(args, kwargs);
+        elem->_validateData(args);
+        elem->_validateData(kwargs);
+        elem->_setData(args);
+        elem->_setData(kwargs);
+        return elem_sp;
+    }
+
+    ebmlElement_sp ebmlMultiSlotClass::operator()(slotArg_l&& args, slotArg_d&& kwargs) const {
+        // ebmlElement_sp elem;
+        // new ebmlMultiSlot(this, std::move(args), std::move(kwargs), elem);
+        // return elem;
+        auto elem = new ebmlMultiSlot(this);
+        auto elem_sp = ebmlElement_sp(elem);
+        elem->_validateArgs(args, kwargs);
+        elem->_validateData(args);
+        elem->_validateData(kwargs);
+        elem->_setData(std::move(args));
+        elem->_setData(std::move(kwargs));
+        return elem_sp;
+    }
+
     const std::vector<slotSpec_t>& ebmlMultiSlotClass::slotSpecs() const {
         return this->_slotSpecs;
     }
@@ -107,18 +193,29 @@ namespace ebml {
     }
 
     slotArg_t::slotArg_t(const ebmlElement_sp& elem) {
+        this->_multi = false;
         new (&this->elem) ebmlElement_sp(elem);
     }
 
+    slotArg_t::slotArg_t() {
+        this->_multi = false;
+        new (&this->elem) ebmlElement_sp();
+    }
+
+    slotArg_t::slotArg_t(const std::nullptr_t&) : slotArg_t() {}
+
     slotArg_t::slotArg_t(ebmlElement_sp&& elem) {
+        this->_multi = false;
         new (&this->elem) ebmlElement_sp(std::move(elem));
     }
 
     slotArg_t::slotArg_t(const ebmlElement_l& elems) {
+        this->_multi = true;
         new (&this->elems) ebmlElement_l(elems);
     }
 
     slotArg_t::slotArg_t(ebmlElement_l&& elems) {
+        this->_multi = true;
         new (&this->elems) ebmlElement_l(std::move(elems));
     }
 
@@ -177,6 +274,50 @@ namespace ebml {
             }
         }
         this->_multi = other._multi;
+        return *this;
+    }
+
+    slotArg_t& slotArg_t::operator=(const ebmlElement_sp& elem) {
+        if (this->_multi) {
+            this->elems.~ebmlElement_l();
+            new (&this->elem) ebmlElement_sp(elem);
+            this->_multi = false;
+        } else {
+            this->elem = elem;
+        }
+        return *this;
+    }
+
+    slotArg_t& slotArg_t::operator=(ebmlElement_sp&& elem) {
+        if (this->_multi) {
+            this->elems.~ebmlElement_l();
+            new (&this->elem) ebmlElement_sp(std::move(elem));
+            this->_multi = false;
+        } else {
+            this->elem = std::move(elem);
+        }
+        return *this;
+    }
+
+    slotArg_t& slotArg_t::operator=(const ebmlElement_l& elems) {
+        if (this->_multi) {
+            this->elems = elems;
+        } else {
+            this->elem.~ebmlElement_sp();
+            new (&this->elems) ebmlElement_l(elems);
+            this->_multi = true;
+        }
+        return *this;
+    }
+
+    slotArg_t& slotArg_t::operator=(ebmlElement_l&& elems) {
+        if (this->_multi) {
+            this->elems = std::move(elems);
+        } else {
+            this->elem.~ebmlElement_sp();
+            new (&this->elems) ebmlElement_l(std::move(elems));
+            this->_multi = true;
+        }
         return *this;
     }
 
@@ -379,8 +520,7 @@ namespace ebml {
                 }
             }
 
-            this->_spec = other._spec;
-            other._spec = nullptr;
+            this->_spec = std::exchange(other._spec, nullptr);
             return *this;
         };
         ~_slot_t() {
@@ -442,12 +582,14 @@ namespace ebml {
         // Single-element access and modification
         _slot_t& operator=(const ebmlElement_sp& other) {
             this->_check_single();
+            this->_validate(other);
             this->elem = other;
             return *this;
         }
 
         _slot_t& operator=(ebmlElement_sp&& other) {
             this->_check_single();
+            this->_validate(other);
             this->elem = std::move(other);
             return *this;
         }
@@ -478,6 +620,11 @@ namespace ebml {
             return this->elems;
         }
 
+        operator c_ebmlElement_l() const {
+            this->_check_multi();
+            return this->elems;
+        }
+
         ebmlElement_sp& operator[](size_t index) { // Access and modify single element
             this->_check_multi();
             return this->elems[index];
@@ -499,12 +646,14 @@ namespace ebml {
 
         ebmlElement_sp& insert(size_t index, const ebmlElement_sp& elem) {
             this->_check_multi();
+            this->_validate(elem);
             this->elems.insert(this->elems.begin() + index, elem);
             return this->elems.at(index);
         }
 
         ebmlElement_sp& insert(size_t index, ebmlElement_sp&& elem) {
             this->_check_multi();
+            this->_validate(elem);
             this->elems.insert(this->elems.begin() + index, std::move(elem));
             return this->elems.at(index);
         }
@@ -516,24 +665,28 @@ namespace ebml {
 
         ebmlElement_sp& push_back(const ebmlElement_sp& elem) {
             this->_check_multi();
+            this->_validate(elem);
             this->elems.push_back(elem);
             return this->back();
         }
 
         ebmlElement_sp& push_back(ebmlElement_sp&& elem) {
             this->_check_multi();
+            this->_validate(elem);
             this->elems.push_back(std::move(elem));
             return this->back();
         }
 
         ebmlElement_sp& emplace_back(const ebmlElement_sp& elem) {
             this->_check_multi();
+            this->_validate(elem);
             this->elems.emplace_back(elem);
             return this->back();
         }
 
         ebmlElement_sp& emplace_back(ebmlElement_sp&& elem) {
             this->_check_multi();
+            this->_validate(elem);
             this->elems.emplace_back(std::move(elem));
             return this->back();
         }
@@ -548,18 +701,54 @@ namespace ebml {
             this->_check_multi();
             return this->elems.at(index).get();
         }
+
+        const ebmlElement* front() const {
+            this->_check_multi();
+            return this->elems.front().get();
+        }
+
+        const ebmlElement* back() const {
+            this->_check_multi();
+            return this->elems.back().get();
+        }
 #else
-        c_ebmlElement_sp operator[](size_t) const;
-        c_ebmlElement_sp at(size_t) const;
-        c_ebmlElement_sp front() const;
-        c_ebmlElement_sp back() const;
+        c_ebmlElement_sp operator[](size_t index) const {
+            this->_check_multi();
+            return std::const_pointer_cast<const ebmlElement>(this->elems[index]);
+        }
+
+        c_ebmlElement_sp at(size_t index) const {
+            this->_check_multi();
+            return std::const_pointer_cast<const ebmlElement>(this->elems.at(index));
+        }
+
+        c_ebmlElement_sp front() const {
+            this->_check_multi();
+            return std::const_pointer_cast<const ebmlElement>(this->elems.front());
+        }
+
+        c_ebmlElement_sp back() const {
+            this->_check_multi();
+            return std::const_pointer_cast<const ebmlElement>(this->elems.back());
+        }
 #endif
         // operator ebmlElement_l();
         // operator c_ebmlElement_l();
 
         // Assign multi-element at once
-        _slot_t& operator=(const ebmlElement_l&);
-        _slot_t& operator=(ebmlElement_l&&);
+        _slot_t& operator=(const ebmlElement_l& other) {
+            this->_check_multi();
+            this->_validate(other);
+            this->elems = other;
+            return *this;
+        }
+
+        _slot_t& operator=(ebmlElement_l&& other) {
+            this->_check_multi();
+            this->_validate(other);
+            this->elems = std::move(other);
+            return *this;
+        }
 
         std::wstring repr() const {
             std::wstring result = unpack<std::wstring>(this->_spec->name);
@@ -596,8 +785,10 @@ namespace ebml {
             return L"";
         }
 
+        friend class slot_t;
         friend class slot_t::iterator;
-        friend class slot_t::const_iterator;
+        friend class const_slot_t;
+        friend class const_slot_t::iterator;
         friend class ebmlMultiSlot;
     };
 
@@ -626,36 +817,37 @@ namespace ebml {
         }
     }
 
-    ebmlMultiSlot::ebmlMultiSlot(const ebmlMultiSlotClass* cls, const slotArg_l& args) : ebmlMultiSlot(cls) {
-        this->setData(args);
-    }
+    // ebmlMultiSlot::ebmlMultiSlot(const ebmlMultiSlotClass* cls, const slotArg_l& args, ebmlElement_sp& this_sp) : ebmlMultiSlot(cls) {
+    //     this_sp = ebmlElement_sp(this);
+    //     this->setData(args);
+    // }
+    //
+    // ebmlMultiSlot::ebmlMultiSlot(const ebmlMultiSlotClass* cls, slotArg_l&& args, ebmlElement_sp& this_sp) : ebmlMultiSlot(cls) {
+    //     this_sp = ebmlElement_sp(this);
+    //     this->setData(std::move(args));
+    // }
+    //
+    // ebmlMultiSlot::ebmlMultiSlot(const ebmlMultiSlotClass* cls, const slotArg_d& kwargs, ebmlElement_sp& this_sp) : ebmlMultiSlot(cls) {
+    //     this_sp = ebmlElement_sp(this);
+    //     this->setData(kwargs);
+    // }
+    //
+    // ebmlMultiSlot::ebmlMultiSlot(const ebmlMultiSlotClass* cls, slotArg_d&& kwargs, ebmlElement_sp& this_sp) : ebmlMultiSlot(cls) {
+    //     this_sp = ebmlElement_sp(this);
+    //     this->setData(std::move(kwargs));
+    // }
+    //
+    // ebmlMultiSlot::ebmlMultiSlot(const ebmlMultiSlotClass* cls, const slotArg_l& args, const slotArg_d& kwargs, ebmlElement_sp& this_sp) : ebmlMultiSlot(cls) {
+    //     this_sp = ebmlElement_sp(this);
+    //     this->setData(args, kwargs);
+    // }
+    //
+    // ebmlMultiSlot::ebmlMultiSlot(const ebmlMultiSlotClass* cls, slotArg_l&& args, slotArg_d&& kwargs, ebmlElement_sp& this_sp) : ebmlMultiSlot(cls) {
+    //     this_sp = ebmlElement_sp(this);
+    //     this->setData(std::move(args), std::move(kwargs));
+    // }
 
-    void ebmlMultiSlot::_attachChildren(const ebmlElement_l& elems, bool weak) {
-        auto start = elems.cbegin();
-        auto end = elems.cend();
-        auto iter = start;
-
-        while (iter != end) {
-            try {
-                const auto& elem = *iter;
-
-                if (elem.get() == this) {
-                    throw ebmlException("cannot attach element to itself");
-                }
-
-                ebmlElement::_attachChild(elem, weak);
-                ++iter;
-            } catch (...) {
-                while (iter != start) {
-                    --iter;
-                    this->_detachChild(*iter);
-                }
-                throw;
-            }
-        }
-    }
-
-    void ebmlMultiSlot::_checkArgs(const slotArg_l& args) {
+    void ebmlMultiSlot::_validateArgs(const slotArg_l& args) {
         auto N = this->_slots.size();
         auto n = args.size();
 
@@ -696,13 +888,24 @@ namespace ebml {
         }
     }
 
-    void ebmlMultiSlot::_checkArgs(const slotArg_d& kwargs) {
+    void ebmlMultiSlot::_validateArgs(const slotArg_d& kwargs) {
         std::list<const std::string*> missing;
         std::list<const std::string*> extra;
 
         for (const auto& slot : this->_slots) {
-            if (kwargs.count(slot.slotSpec().name) == 0) {
-                missing.push_back(&slot.slotSpec().name);
+            const auto& spec = slot.slotSpec();
+            const auto& childclss = spec.childClasses();
+
+            if (childclss.size() == 1) {
+                auto minOccur = (*childclss.occurSpec().begin()).second.min;
+
+                if (minOccur == 0) {
+                    continue;
+                }
+            }
+
+            if ((kwargs.count(spec.name) == 0)) {
+                missing.push_back(&spec.name);
             }
         }
 
@@ -808,13 +1011,22 @@ namespace ebml {
         }
     }
 
-    void ebmlMultiSlot::_checkArgs(const slotArg_l& args, const slotArg_d& kwargs) {
+    void ebmlMultiSlot::_validateArgs(const slotArg_l& args, const slotArg_d& kwargs) {
         std::list<const std::string*> missing;
         std::list<const std::string*> extra;
         std::list<const std::string*> multiple;
         auto n = args.size();
         auto N = this->_slots.size();
         unsigned int k = 0;
+
+        if (args.size() > N) {
+            std::string errmsg = "setData() takes ";
+            errmsg += std::to_string(N);
+            errmsg += " positional arguments but ";
+            errmsg += std::to_string(args.size());
+            errmsg += "were given";
+            throw std::invalid_argument(errmsg);
+        }
 
         for (const auto& slot : this->_slots) {
             if (k < n) {
@@ -976,14 +1188,12 @@ namespace ebml {
         }
     }
 
-    void ebmlMultiSlot::_checkData(const slotArg_l& args) {
+    void ebmlMultiSlot::_validateData(const slotArg_l& args) {
         auto start = args.begin();
         auto end = args.end();
         auto iter = start;
 
         auto slot_iter = this->_slots.begin();
-
-        unsigned int k = 0;
 
         while (iter != end) {
             try {
@@ -996,8 +1206,11 @@ namespace ebml {
                     this->_attachChildren(elems);
                 } else {
                     const ebmlElement_sp& elem = arg;
-                    slot.validate(elem);
-                    this->_attachChild(elem);
+
+                    if (elem != nullptr) {
+                        slot.validate(elem);
+                        this->_attachChild(elem);
+                    }
                 }
 
                 ++slot_iter;
@@ -1005,6 +1218,22 @@ namespace ebml {
             } catch (...) {
                 while (iter != start) {
                     --iter;
+                    const auto& arg = *iter;
+
+                    if (arg.multi()) {
+                        const ebmlElement_l& elems = arg;
+
+                        for (const auto& elem : elems) {
+                            this->_detachChild(elem);
+                        }
+                    } else {
+                        const ebmlElement_sp& elem = arg;
+
+                        if (elem != nullptr) {
+                            this->_detachChild(elem);
+                        }
+                    }
+
                 }
                 throw;
             }
@@ -1012,21 +1241,185 @@ namespace ebml {
     }
 
     void ebmlMultiSlot::_setData(const slotArg_l& args) {
+        auto args_iter = args.begin();
+        auto args_end = args.end();
+        auto slot_iter = this->_slots.begin();
+
+        while (args_iter != args_end) {
+            auto& arg = *args_iter;
+            auto& slot = *slot_iter;
+
+            if (arg.multi()) {
+                slot.elems = arg;
+            } else {
+                slot.elem = arg;
+            }
+
+            ++slot_iter;
+            ++args_iter;
+        }
     }
 
     void ebmlMultiSlot::_setData(slotArg_l&& args) {
+        auto args_iter = args.begin();
+        auto args_end = args.end();
+        auto slot_iter = this->_slots.begin();
+
+        while (args_iter != args_end) {
+            auto& arg = *args_iter;
+            auto& slot = *slot_iter;
+
+            if (arg.multi()) {
+                ebmlElement_l& elems = arg;
+                slot.elems = std::move(elems);
+            } else {
+                ebmlElement_sp& elem = arg;
+                slot.elem = std::move(elem);
+            }
+
+            ++slot_iter;
+            ++args_iter;
+        }
+
+        args.clear();
+    }
+
+    void ebmlMultiSlot::_validateData(const slotArg_d& kwargs) {
+        auto start = kwargs.begin();
+        auto end = kwargs.end();
+        auto iter = start;
+
+        while (iter != end) {
+            try {
+                const auto& pr = *iter;
+                const auto& slot = *this->_slots_by_name.at(pr.first);
+                const auto& arg = pr.second;
+
+                if (arg.multi()) {
+                    const ebmlElement_l& elems = arg;
+                    slot.validate(elems);
+                    this->_attachChildren(elems);
+                } else {
+                    const ebmlElement_sp& elem = arg;
+
+                    if (elem != nullptr) {
+                        slot.validate(elem);
+                        this->_attachChild(elem);
+                    }
+                }
+
+                ++iter;
+            } catch (...) {
+                while (iter != start) {
+                    const auto& pr = *start;
+                    const auto& arg = pr.second;
+
+                    if (arg.multi()) {
+                        const ebmlElement_l& elems = arg;
+
+                        for (const auto& elem : elems) {
+                            this->_detachChild(elem);
+                        }
+                    } else {
+                        const ebmlElement_sp& elem = arg;
+
+                        if (elem != nullptr) {
+                            this->_detachChild(elem);
+                        }
+                    }
+
+                    ++start;
+                }
+                throw;
+            }
+        }
+    }
+
+    void ebmlMultiSlot::_setData(const slotArg_d& kwargs) {
+        auto iter = kwargs.begin();
+        auto end = kwargs.end();
+
+        while (iter != end) {
+            auto& pr = *iter;
+            auto& slot = *this->_slots_by_name.at(pr.first);
+            auto& arg = pr.second;
+
+            if (arg.multi()) {
+                slot.elems = arg;
+            } else {
+                slot.elem = arg;
+            }
+
+            ++iter;
+        }
+    }
+
+    void ebmlMultiSlot::_setData(slotArg_d&& kwargs) {
+        auto iter = kwargs.begin();
+        auto end = kwargs.end();
+
+        while (iter != end) {
+            auto& pr = *iter;
+            auto& slot = *this->_slots_by_name.at(pr.first);
+            auto& arg = pr.second;
+
+            if (arg.multi()) {
+                ebmlElement_l& elems = arg;
+                slot.elems = std::move(elems);
+            } else {
+                ebmlElement_sp& elem = arg;
+                slot.elem = std::move(elem);
+            }
+
+            ++iter;
+        }
+        kwargs.clear();
     }
 
     void ebmlMultiSlot::setData(const slotArg_l& args) {
-        this->_checkArgs(args);
-        this->_checkData(args);
+        this->_validateArgs(args);
+        this->_validateData(args);
+        this->_clear();
         this->_setData(args);
     }
 
     void ebmlMultiSlot::setData(slotArg_l&& args) {
-        this->_checkArgs(args);
-        this->_checkData(args);
+        this->_validateArgs(args);
+        this->_validateData(args);
+        this->_clear();
         this->_setData(std::move(args));
+    }
+
+    void ebmlMultiSlot::setData(const slotArg_d& kwargs) {
+        this->_validateArgs(kwargs);
+        this->_validateData(kwargs);
+        this->_clear();
+        this->_setData(kwargs);
+    }
+
+    void ebmlMultiSlot::setData(slotArg_d&& kwargs) {
+        this->_validateArgs(kwargs);
+        this->_validateData(kwargs);
+        this->_clear();
+        this->_setData(std::move(kwargs));
+    }
+
+    void ebmlMultiSlot::setData(const slotArg_l& args, const slotArg_d& kwargs) {
+        this->_validateArgs(args, kwargs);
+        this->_validateData(args);
+        this->_validateData(kwargs);
+        this->_clear();
+        this->_setData(args);
+        this->_setData(kwargs);
+    }
+
+    void ebmlMultiSlot::setData(slotArg_l&& args, slotArg_d&& kwargs) {
+        this->_validateArgs(args, kwargs);
+        this->_validateData(args);
+        this->_validateData(kwargs);
+        this->_clear();
+        this->_setData(std::move(args));
+        this->_setData(std::move(kwargs));
     }
 
     void ebmlMultiSlot::_clear() {
@@ -1041,7 +1434,11 @@ namespace ebml {
                 elems.clear();
             } else {
                 ebmlElement_sp& elem = slot;
-                this->_detachChild(elem);
+
+                if (elem != nullptr) {
+                    this->_detachChild(elem);
+                }
+
                 elem = nullptr;
             }
         }
@@ -1091,305 +1488,853 @@ namespace ebml {
     }
 
     ebmlMasterElement::_iterator* ebmlMultiSlot::_begin() {
-        return nullptr;
+        auto this_sp = this->shared_from_this();
+        auto slotiter = this->_slots.begin();
+        auto slotiterend = this->_slots.end();
+        slot_t slot = {this_sp, *slotiter};
+        auto iter = slot.begin();
+        auto iterend = slot.end();
+
+        while ((iter == iterend) and (slotiter != slotiterend)) {
+            ++slotiter;
+            slot._slot = &*slotiter;
+            iter = slot.begin();
+            iterend = slot.end();
+        }
+
+        return new ebmlMultiSlot::_iterator(std::move(this_sp), std::move(slotiter), std::move(slotiterend), std::move(iter), std::move(iterend));
     }
 
     ebmlMasterElement::_iterator* ebmlMultiSlot::_end() {
-        return nullptr;
+        auto this_sp = this->shared_from_this();
+        auto slotiter = this->_slots.end();
+        auto slotiterend = slotiter;
+        slot_t::iterator iter;
+        slot_t::iterator iterend;
+        return new ebmlMultiSlot::_iterator(std::move(this_sp), std::move(slotiter), std::move(slotiterend), std::move(iter), std::move(iterend));
     }
 
     ebmlMasterElement::_const_iterator* ebmlMultiSlot::_cbegin() const {
-        return nullptr;
+        auto this_sp = std::const_pointer_cast<const ebmlElement>(this->shared_from_this());
+        auto slotiter = this->_slots.cbegin();
+        auto slotiterend = this->_slots.cend();
+        const_slot_t slot = {this_sp, *slotiter};
+        auto iter = slot.cbegin();
+        auto iterend = slot.cend();
+        unsigned int k = 0;
+
+        while (iter == iterend) {
+            ++slotiter;
+
+            if (slotiter == slotiterend) {
+                break;
+            }
+
+            slot._slot = &*slotiter;
+            iter = slot.cbegin();
+            iterend = slot.cend();
+            ++k;
+        }
+
+        return new ebmlMultiSlot::_const_iterator(std::move(this_sp), std::move(slotiter), std::move(slotiterend), std::move(iter), std::move(iterend));
     }
 
     ebmlMasterElement::_const_iterator* ebmlMultiSlot::_cend() const {
-        return nullptr;
+        auto this_sp = std::const_pointer_cast<const ebmlElement>(this->shared_from_this());
+        auto slotiter = this->_slots.cend();
+        auto slotiterend = slotiter;
+        const_slot_t::iterator iter;
+        const_slot_t::iterator iterend;
+        return new ebmlMultiSlot::_const_iterator(std::move(this_sp), std::move(slotiter), std::move(slotiterend), std::move(iter), std::move(iterend));
     }
 
-    // ebmlMultiSlot::ebmlMultiSlot(const ebmlMultiSlotClass* cls, const slot_init_list& init) : ebmlMasterElement(cls) {
-    //     auto slotspec_iter = cls->_slotspecs.cbegin();
-    //     auto slotspec_end = cls->_slotspecs.cend();
-    //
-    //     auto init_iter = init.begin();
-    //     auto init_end = init.end();
-    //
-    //     while (slotspec_iter != slotspec_end) {
-    //         const auto& slotspec = *slotspec_iter;
-    //
-    //         if (init_iter != init_end) {
-    //             const auto& initslot = *init_iter;
-    //
-    //             switch (initslot.mode()) {
-    //                 case 0: {
-    //                     _slot_t elemslot = {this, slotspec, initslot.item()};
-    //                     this->_slots.push_back(elemslot);
-    //                     // this->_slots.emplace_back(this, &slotspec, slot.item());
-    //                     break;
-    //                 }
-    //                 case 1: {
-    //                     _slot_t elemslot = {this, slotspec, initslot.items()};
-    //                     this->_slots.push_back(elemslot);
-    //                     // this->_slots.emplace_back({this, &slotspec, initslot.items());
-    //                     break;
-    //                 }
-    //                 case 2: {
-    //                     _slot_t elemslot = {this, slotspec, initslot.initlist()};
-    //                     this->_slots.push_back(elemslot);
-    //                     // this->_slots.emplace_back(this, &slotspec, slot.initlist());
-    //                     break;
-    //                 }
-    //             }
-    //         } else {
-    //             _slot_t elemslot = {this, slotspec, nullptr};
-    //             this->_slots.push_back(elemslot);
-    //         }
-    //
-    //         ++slotspec_iter;
-    //         ++init_iter;
-    //     }
-    // }
-    //
-    // slot_t ebmlMultiSlot::operator[](size_t k) {
-    //     return this->_slots.at(k);
-    // }
-    //
-    // const_slot_t ebmlMultiSlot::operator[](size_t k) const {
-    //     return this->_slots.at(k);
-    // }
-    // // typedef std::vector<ebmlElement_sp>::iterator ebmlElement_i;
-    // // typedef std::vector<ebmlElement_sp>::const_iterator ebmlElement_ci;
-    // // typedef std::vector<ebmlElement_sp> ebmlElement_l;
-    //
-    // // class _slotspec_t {
-    // // private:
-    // //     unsigned char _multi; // Flags for Multiple classes, multiple items;
-    // //     union {
-    // //         const ebmlElementClass* cls;
-    // //         std::unordered_set<const ebmlElementClass*> clss;
-    // //     }
-    // //
-    // // public:
-    // //     _slotspec_t(const ebmlElementClass*, bool multielem=false);
-    // //     _slotspec_t(const std::unordered_set<const ebmlElementClass*>&);
-    // //     _slotspec_t(const std::initializer_list<const ebmlElementClass*>&);
-    // //     ~_slotspec_t()
-    // //
-    // //     bool isValid(const ebmlElement_sp&) const;
-    // //     bool isMutliCls() const;
-    // //     bool isMutliElem() const;
-    // //
-    // //     friend class _slot_t;
-    // // };
-    //
-    // // class _slot_t {
-    // // protected:
-    // //     const _slotspec_t* _spec;
-    // //     union {
-    // //         ebmlElement_sp elem;
-    // //         ebmlElement_l elems;
-    // //     }
-    // //
-    // // public:
-    // //     _slot_t(const _slotspec_t*);
-    // //     _slot_t(const _slotspec_t*, const ebmlElement_sp&);
-    // //     _slot_t(const _slotspec_t*, const ebmlElement_l&);
-    // //     _slot_t(const _slotspec_t*, const std::initializer_list<ebmlElement_sp>&);
-    // //     ~_slot_t()
-    // //     bool isMulti() const;
-    // //
-    // //     // Single-element slot access
-    // //     ebmlElement_sp& get();
-    // //     const ebmlElement_sp& get() const;
-    // //
-    // //     // Multiple-element slot access
-    // //     ebmlElement_sp& at(size_t);
-    // //     ebmlElement_l& items();
-    // //     ebmlElement_sp& emplace_back(const ebmlElement_sp&);
-    // //
-    // //     const ebmlElement_sp& at(size_t) const;
-    // //     const ebmlElement_l& items() const;
-    // //
-    // //     class iterator {
-    // //     private:
-    // //         _slot_t* _slot;
-    // //         union {
-    // //             bool done;
-    // //             ebmlElement_l::iterator iter;
-    // //         }
-    // //
-    // //     protected:
-    // //         iterator(_slot_t&, bool);
-    // //         iterator(_slot_t&, const ebmlElement_l::iterator&);
-    // //
-    // //     public:
-    // //         iterator(iterator&);
-    // //         iterator& operator=(iterator&);
-    // //
-    // //         iterator& operator++();
-    // //         iterator operator++(int);
-    // //         const ebmlElement_sp& operator*();
-    // //
-    // //         ~iterator();
-    // //         friend class _slot;
-    // //     }
-    // //
-    // //     iterator begin();
-    // //     iterator end();
-    // //
-    // //     class const_iterator {
-    // //     private:
-    // //         const _slot_t* _slot;
-    // //         union {
-    // //             bool done;
-    // //             ebmlElement_l::const_iterator iter;
-    // //         }
-    // //
-    // //     protected:
-    // //         const_iterator(_slot_t&, bool);
-    // //         const_iterator(_slot_t&, const ebmlElement_l::const_iterator&);
-    // //
-    // //     public:
-    // //         const_iterator(const_iterator&);
-    // //         const_iterator& operator=(const_iterator&);
-    // //
-    // //         const_iterator& operator++();
-    // //         const_iterator operator++(int);
-    // //         c_ebmlElement_sp operator*();
-    // //
-    // //         ~const_iterator();
-    // //         friend class _slot;
-    // //     }
-    // //
-    // //     const_iterator cbegin() const;
-    // //     const_iterator cend() const;
-    // //
-    // //     friend class iterator;
-    // //     friend class const_iterator;
-    // // };
-    //
-    //
-    // // class ebmlMultiSlotClass : public ebmlMasterElementClass {
-    // // public:
-    // //     ebmlMultiSlotClass(ebmlID_t, std::wstring);
-    // //     ebmlElement_sp operator()() const;
-    // //     // std::wstring repr() const;
-    // //
-    // //     std::unordered_map<ebmlID_t, unsigned int> _slots_by_ebmlID;
-    // //     std::unordered_map<unsigned int, std::unordered_set<ebmlID_t>> _ebmlIDs_by_slot;
-    // // private:
-    // //     friend class ebmlMultiSlot;
-    // // };
-    // //
-    // // class ebmlMultiSlot : public ebmlMasterElement {
-    // // private:
-    // //     std::vector<ebmlElement_sp> _data;
-    // //
-    // // protected:
-    // //     ebmlMultiSlot(const ebmlMultiSlotClass*);
-    // //     ebmlMultiSlot(const ebmlMultiSlotClass*, const std::vector<ebmlDocument_sp>&);
-    // //     void _clear() override;
-    // //
-    // // public:
-    // //     std::wstring minirepr() const override;
-    // //
-    // //     // Element access
-    // //     const ebmlElement_sp& operator[](off_t);
-    // //     const ebmlElement_sp& at(off_t);
-    // //     const ebmlElement_sp& front();
-    // //     const ebmlElement_sp& back();
-    // //
-    // //     // Const element access
-    // //     c_ebmlElement_sp operator[](off_t) const;
-    // //     c_ebmlElement_sp at(off_t) const;
-    // //     c_ebmlElement_sp front() const;
-    // //     c_ebmlElement_sp back() const;
-    // //
-    // //     // Element search
-    // //     bool contains(const c_ebmlElement_sp&) const;
-    // //     off_t index(const c_ebmlElement_sp&) const;
-    // //
-    // //     // Element modification
-    // //     void assign(off_t, const ebmlElement_sp&);
-    // //     void push_back(const ebmlElement_sp&);
-    // //     void pop_back();
-    // //     void insert(off_t, const ebmlElement_sp&);
-    // //     void erase(off_t);
-    // //     void clear();
-    // //
-    // //     // Container size
-    // //     size_t size() const;
-    // //
-    // //     // Iteration
-    // // protected:
-    // //     class _iterator : public ebmlMasterElement::_iterator {
-    // //     private:
-    // //         ebmlElement_sp _elem;
-    // //         std::vector<ebmlElement_sp>::iterator _iter;
-    // //
-    // //     protected:
-    // //         _iterator(const ebmlElement_sp& elem, const std::vector<ebmlElement_sp>::iterator& iter);
-    // //
-    // //     public:
-    // //         _iterator();
-    // //         virtual ~_iterator();
-    // //
-    // //         // std::shared_ptr<ebmlMasterElement::_iterator> copy();
-    // //         ebmlMasterElement::_iterator* copy();
-    // //
-    // //         const ebmlElement_sp& operator*() const;
-    // //         ebmlMasterElement::_iterator& operator++();
-    // //         ebmlMasterElement::_iterator& operator=(const ebmlMasterElement::_iterator&);
-    // //         // ebmlMasterElement::_iterator& operator=(const _iterator&);
-    // //         bool operator==(const ebmlMasterElement::_iterator&) const;
-    // //         bool operator!=(const ebmlMasterElement::_iterator&) const;
-    // //         // bool operator==(const _iterator&) const;
-    // //         // bool operator!=(const _iterator&) const;
-    // //         friend class ebmlMultiSlot;
-    // //         friend class ebmlMasterElement::iterator;
-    // //         // friend std::shared_ptr<_iterator> std::make_shared<_iterator>(const ebmlElement_sp&, const std::vector<ebmlElement_sp>::iterator&);
-    // //         friend class std::shared_ptr<_iterator>;
-    // //     };
-    // //
-    // //     // std::shared_ptr<ebmlMasterElement::_iterator> _begin() override;
-    // //     // std::shared_ptr<ebmlMasterElement::_iterator> _end() override;
-    // //
-    // //     ebmlMasterElement::_iterator* _begin() override;
-    // //     ebmlMasterElement::_iterator* _end() override;
-    // //
-    // //
-    // //     class _const_iterator : public ebmlMasterElement::_const_iterator {
-    // //     private:
-    // //         c_ebmlElement_sp _elem;
-    // //         std::vector<ebmlElement_sp>::const_iterator _iter;
-    // //
-    // //     protected:
-    // //         _const_iterator(const c_ebmlElement_sp& elem, const std::vector<ebmlElement_sp>::const_iterator& iter);
-    // //
-    // //     public:
-    // //         _const_iterator();
-    // //         virtual ~_const_iterator();
-    // //
-    // //         // std::shared_ptr<ebmlMasterElement::_const_iterator> copy();
-    // //         ebmlMasterElement::_const_iterator* copy();
-    // //
-    // //         c_ebmlElement_sp operator*() const;
-    // //         ebmlMasterElement::_const_iterator& operator++();
-    // //         ebmlMasterElement::_const_iterator& operator=(const ebmlMasterElement::_const_iterator&);
-    // //         bool operator==(const ebmlMasterElement::_const_iterator&) const;
-    // //         bool operator!=(const ebmlMasterElement::_const_iterator&) const;
-    // //         friend class ebmlMultiSlot;
-    // //         friend class ebmlMasterElement::const_iterator;
-    // //     };
-    // //
-    // //     // std::shared_ptr<ebmlMasterElement::_const_iterator> _cbegin() const override;
-    // //     // std::shared_ptr<ebmlMasterElement::_const_iterator> _cend() const override;
-    // //
-    // //     ebmlMasterElement::_const_iterator* _cbegin() const override;
-    // //     ebmlMasterElement::_const_iterator* _cend() const override;
-    // //
-    // //     void _addChild(const ebmlElement_sp&) override;
-    // //     // virtual void _scanChildren(parseFile::iterator&); // Decode children from an iterParseFile instance created by _decode.
-    // //     friend class ebmlMultiSlotClass;
-    // // };
+    slot_t ebmlMultiSlot::operator[](size_t offset) {
+        return {this->shared_from_this(), this->_slots[offset]};
+    }
+
+    slot_t ebmlMultiSlot::operator[](const std::string& key) {
+        if (this->_slots_by_name.count(key) == 0) {
+            std::string errmsg = "key '";
+            errmsg += key;
+            errmsg += "' not found";
+            throw ebmlException(errmsg);
+        }
+
+        return {this->shared_from_this(), *this->_slots_by_name[key]};
+    }
+
+    const_slot_t ebmlMultiSlot::operator[](size_t offset) const {
+        auto this_sp = std::const_pointer_cast<const ebmlElement>(this->shared_from_this());
+        return {this_sp, this->_slots[offset]};
+    }
+
+    const_slot_t ebmlMultiSlot::operator[](const std::string& key) const {
+        if (this->_slots_by_name.count(key) == 0) {
+            std::string errmsg = "key '";
+            errmsg += key;
+            errmsg += "' not found";
+            throw ebmlException(errmsg);
+        }
+
+        auto this_sp = std::const_pointer_cast<const ebmlElement>(this->shared_from_this());
+        return {this_sp, *this->_slots_by_name.at(key)};
+    }
+
+    slot_t::slot_t(const ebmlElement_sp& parent, _slot_t& slot) :_parent(std::static_pointer_cast<ebmlMultiSlot>(parent)), _slot(&slot) {}
+    slot_t::slot_t(const slot_t& other) :_parent(other._parent), _slot(other._slot) {}
+    slot_t::slot_t(slot_t&& other) :_parent(std::move(other._parent)), _slot(std::exchange(other._slot, nullptr)) {}
+
+    slot_t& slot_t::operator=(const slot_t& other) {
+        if (this != &other) {
+            this->_parent = other._parent;
+            this->_slot = other._slot;
+        }
+        return *this;
+    }
+
+    slot_t& slot_t::operator=(slot_t&& other) {
+        if (this != &other) {
+            this->_parent = std::move(other._parent);
+            this->_slot = std::exchange(other._slot, nullptr);
+        }
+        return *this;
+    }
+
+    // Single-element access
+    slot_t& slot_t::operator=(const ebmlElement_sp& elem) {
+        const ebmlElement_sp& old = *this->_slot;
+        this->_parent->_attachChild(elem);
+
+        if (old != nullptr) {
+            this->_parent->_detachChild(old);
+        }
+
+        *this->_slot = elem;
+        return *this;
+    }
+
+    slot_t& slot_t::operator=(ebmlElement_sp&& elem) {
+        const ebmlElement_sp& old = *this->_slot;
+        this->_parent->_attachChild(elem);
+
+        if (old != nullptr) {
+            this->_parent->_detachChild(old);
+        }
+
+        *this->_slot = std::move(elem);
+        return *this;
+    }
+
+    slot_t::operator const ebmlElement_sp&() {
+        const ebmlElement_sp& ret = *this->_slot;
+        return ret;
+    }
+
+    slot_t::operator c_ebmlElement_sp() const {
+        ebmlElement_sp ret = *this->_slot;
+        return std::const_pointer_cast<const ebmlElement>(ret);
+    }
+
+    // Multi-element access
+    slot_t& slot_t::operator=(const ebmlElement_l& elems) {
+        const ebmlElement_l& old = *this->_slot;
+        this->_parent->_attachChildren(elems);
+        this->_parent->_detachChildren(old);
+        *this->_slot = elems;
+        return *this;
+    }
+
+    slot_t& slot_t::operator=(ebmlElement_l&& elems) {
+        const ebmlElement_l& old = *this->_slot;
+        this->_parent->_attachChildren(elems);
+        this->_parent->_detachChildren(old);
+        *this->_slot = std::move(elems);
+        return *this;
+    }
+
+    slot_t::operator const ebmlElement_l&() {
+        const ebmlElement_l& ret = *this->_slot;
+        return ret;
+    }
+
+    slot_t::operator c_ebmlElement_l() const {
+        const ebmlElement_l& ret = *this->_slot;
+        return ret;
+    }
+
+    childSlot_t slot_t::operator[](size_t offset) {
+        ebmlElement_sp& elem = (*this->_slot)[offset];
+        return {this->_parent.get(), this->_slot->slotSpec().childClasses(), elem, false};
+    }
+
+    childSlot_t slot_t::at(size_t offset) {
+        ebmlElement_sp& elem = this->_slot->at(offset);
+        return {this->_parent.get(), this->_slot->slotSpec().childClasses(), elem, false};
+    }
+
+    childSlot_t slot_t::front() {
+        ebmlElement_sp& elem = this->_slot->front();
+        return {this->_parent.get(), this->_slot->slotSpec().childClasses(), elem, false};
+    }
+
+    childSlot_t slot_t::back() {
+        ebmlElement_sp& elem = this->_slot->back();
+        return {this->_parent.get(), this->_slot->slotSpec().childClasses(), elem, false};
+    }
+
+    childSlot_t slot_t::push_back(const ebmlElement_sp& elem) {
+        if (elem == nullptr) {
+            throw ebmlException("Cannot push_back nullptr");
+        }
+        this->_parent->_addChild(elem);
+        ebmlElement_sp& pos = this->_slot->push_back(elem);
+        return {this->_parent.get(), this->_slot->slotSpec().childClasses(), pos, false};
+    }
+
+    childSlot_t slot_t::push_back(ebmlElement_sp&& elem) {
+        if (elem == nullptr) {
+            throw ebmlException("Cannot push_back nullptr");
+        }
+        this->_parent->_addChild(elem);
+        ebmlElement_sp& pos = this->_slot->push_back(std::move(elem));
+        return {this->_parent.get(), this->_slot->slotSpec().childClasses(), pos, false};
+    }
+
+#if RAW
+    const ebmlElement* slot_t::operator[](size_t offset) const {
+        ebmlElement_sp& elem = (*this->_slot)[offset];
+        return elem.get();
+    }
+
+    const ebmlElement* slot_t::at(size_t offset) const {
+        ebmlElement_sp& elem = this->_slot->at(offset);
+        return elem.get();
+    }
+
+    const ebmlElement* slot_t::front() const {
+        ebmlElement_sp& elem = this->_slot->front();
+        return elem.get();
+    }
+
+    const ebmlElement* slot_t::back() const {
+        ebmlElement_sp& elem = this->_slot->back();
+        return elem.get();
+    }
+
+#else
+    c_ebmlElement_sp slot_t::operator[](size_t offset) const {
+        ebmlElement_sp& elem = (*this->_slot)[offset];
+        return std::const_pointer_cast<const ebmlElement>(elem);
+    }
+
+    c_ebmlElement_sp slot_t::at(size_t offset) const {
+        ebmlElement_sp& elem = this->_slot->at(offset);
+        return std::const_pointer_cast<const ebmlElement>(elem);
+    }
+
+    c_ebmlElement_sp slot_t::front() const {
+        ebmlElement_sp& elem = this->_slot->front();
+        return std::const_pointer_cast<const ebmlElement>(elem);
+    }
+
+    c_ebmlElement_sp slot_t::back() const {
+        ebmlElement_sp& elem = this->_slot->back();
+        return std::const_pointer_cast<const ebmlElement>(elem);
+    }
+#endif
+
+    slot_t::iterator::iterator() {
+        this->_slot = nullptr;
+        this->_done = true;
+    }
+
+    bool slot_t::iterator::multi() const {
+        return (this->_slot != nullptr) and this->_slot->multi();
+    }
+
+    slot_t::iterator::iterator(_slot_t& slot, bool done) {
+        if (slot.multi()) {
+            throw ebmlException("attempting single-element access in multi-element slot");
+        }
+
+        this->_slot = &slot;
+        this->_done = done;
+    }
+
+    slot_t::iterator::iterator(_slot_t& slot, const ebmlElement_l::iterator& iter) {
+        if (!slot.multi()) {
+            throw ebmlException("attempting multi-element access in single-element slot");
+        }
+
+        this->_slot = &slot;
+        this->_iter = iter;
+    }
+
+    slot_t::iterator::iterator(_slot_t& slot, ebmlElement_l::iterator&& iter) {
+        if (!slot.multi()) {
+            throw ebmlException("attempting multi-element access in single-element slot");
+        }
+
+        this->_slot = &slot;
+        this->_iter = std::move(iter);
+    }
+
+    slot_t::iterator::~iterator() {
+        using v_iterator = typename ebmlElement_l::iterator;
+        if ((this->_slot != nullptr) and (this->_slot->multi())) {
+            this->_iter.~v_iterator();
+        }
+    }
+
+    slot_t::iterator::iterator(const slot_t::iterator& other) {
+        this->_slot = other._slot;
+
+        if ((this->_slot != nullptr) and this->_slot->multi()) {
+            this->_iter = other._iter;
+        } else {
+            this->_done = other._done;
+        }
+    }
+
+    slot_t::iterator::iterator(slot_t::iterator&& other) {
+        using v_iterator = typename ebmlElement_l::iterator;
+        this->_slot = std::exchange(other._slot, nullptr);
+
+        if ((this->_slot != nullptr) and this->_slot->multi()) {
+            this->_iter = std::move(other._iter);
+            other._iter.~v_iterator();
+        } else {
+            this->_done = std::exchange(other._done, false);
+        }
+    }
+
+    slot_t::iterator& slot_t::iterator::operator=(const slot_t::iterator& other) {
+        using v_iterator = typename ebmlElement_l::iterator;
+
+        if (this != &other) {
+            if ((other._slot != nullptr) and other._slot->multi()) {
+                if ((this->_slot != nullptr) and this->_slot->multi()) {
+                    this->_iter = other._iter;
+                } else {
+                    new (&this->_iter) v_iterator(other._iter);
+                }
+            } else {
+                if (this->_slot->multi()) {
+                    this->_iter.~v_iterator();
+                }
+                this->_done = other._done;
+            }
+            this->_slot = other._slot;
+        }
+        return *this;
+    }
+
+    slot_t::iterator& slot_t::iterator::operator=(slot_t::iterator&& other) {
+        using v_iterator = typename ebmlElement_l::iterator;
+
+        if (this != &other) {
+            if ((other._slot != nullptr) and other._slot->multi()) {
+                if ((this->_slot != nullptr) and this->_slot->multi()) {
+                    this->_iter = std::move(other._iter);
+                } else {
+                    new (&this->_iter) v_iterator(std::move(other._iter));
+                }
+                other._iter.~v_iterator();
+            } else {
+                if (this->_slot->multi()) {
+                    this->_iter.~v_iterator();
+                }
+                this->_done = std::exchange(other._done, false);
+            }
+            this->_slot = std::exchange(other._slot, nullptr);
+        }
+        return *this;
+    }
+
+    slot_t::iterator& slot_t::iterator::operator++() {
+        if (this->_slot->multi()) {
+            ++this->_iter;
+        } else {
+            this->_done = true;
+        }
+        return *this;
+    }
+
+    slot_t::iterator slot_t::iterator::operator++(int) {
+        slot_t::iterator copy = *this;
+        ++(*this);
+        return copy;
+    }
+
+    const ebmlElement_sp& slot_t::iterator::operator*() const {
+        if (this->_slot->multi()) {
+            return *this->_iter;
+        }
+        return this->_slot->elem;
+    }
+
+    bool slot_t::iterator::operator==(const slot_t::iterator& other) const {
+        if (this->_slot != other._slot) {
+            return false;
+        }
+        if (this->_slot == nullptr) {
+            return true;
+        }
+        if (this->_slot->multi()) {
+            return this->_iter == other._iter;
+        }
+        return this->_done == other._done;
+    }
+
+    slot_t::iterator slot_t::begin() {
+        if (this->_slot->multi()) {
+            auto iter = this->_slot->elems.begin();
+            return slot_t::iterator(*this->_slot, std::move(iter));
+        } else if (this->_slot->elem != nullptr) {
+            return slot_t::iterator(*this->_slot, false);
+        }
+        return slot_t::iterator(*this->_slot, true);
+    }
+
+    slot_t::iterator slot_t::end() {
+        if (this->_slot->multi()) {
+            auto iter = this->_slot->elems.end();
+            return slot_t::iterator(*this->_slot, std::move(iter));
+        }
+        return slot_t::iterator(*this->_slot, true);
+    }
+
+    const_slot_t::const_slot_t(const c_ebmlElement_sp& parent, const _slot_t& slot) :_parent(std::static_pointer_cast<const ebmlMultiSlot>(parent)), _slot(&slot) {}
+    const_slot_t::const_slot_t(const const_slot_t& other) :_parent(other._parent), _slot(other._slot) {}
+    const_slot_t::const_slot_t(const_slot_t&& other) :_parent(std::move(other._parent)), _slot(std::exchange(other._slot, nullptr)) {}
+
+    const_slot_t::const_slot_t(const slot_t& other) :
+        _parent(std::const_pointer_cast<const ebmlMultiSlot>(other._parent)), _slot(other._slot) {}
+    const_slot_t::const_slot_t(slot_t&& other) :
+        _parent(std::const_pointer_cast<const ebmlMultiSlot>(std::move(other._parent))), _slot(std::exchange(other._slot, nullptr)) {}
+
+    const_slot_t& const_slot_t::operator=(const const_slot_t& other) {
+        if (this != &other) {
+            this->_parent = other._parent;
+            this->_slot = other._slot;
+        }
+        return *this;
+    }
+
+    const_slot_t& const_slot_t::operator=(const_slot_t&& other) {
+        if (this != &other) {
+            this->_parent = std::move(other._parent);
+            this->_slot = std::exchange(other._slot, nullptr);
+        }
+        return *this;
+    }
+
+    const_slot_t& const_slot_t::operator=(const slot_t& other) {
+        this->_parent = other._parent;
+        this->_slot = other._slot;
+        return *this;
+    }
+
+    const_slot_t& const_slot_t::operator=(slot_t&& other) {
+        this->_parent = std::move(other._parent);
+        this->_slot = std::exchange(other._slot, nullptr);
+        return *this;
+    }
+
+    const_slot_t::operator c_ebmlElement_sp() const {
+        c_ebmlElement_sp ret = *this->_slot;
+        return ret;
+    }
+
+    const_slot_t::operator c_ebmlElement_l() const {
+        c_ebmlElement_l ret = *this->_slot;
+        return ret;
+    }
+
+#if RAW
+    const ebmlElement* const_slot_t::operator[](size_t offset) const {
+        return (*this->_slot)[offset];
+    }
+#else
+    c_ebmlElement_sp const_slot_t::operator[](size_t offset) const {
+        const auto& elem = (*this->_slot)[offset];
+        return elem;
+    }
+#endif
+
+    const_slot_t::iterator::iterator() {
+        this->_slot = nullptr;
+        this->_done = true;
+    }
+
+    const_slot_t::iterator::iterator(const _slot_t& slot, bool done) {
+        if (slot.multi()) {
+            throw ebmlException("attempting single-element access in multi-element slot");
+        }
+
+        this->_slot = &slot;
+        this->_done = done;
+    }
+
+    const_slot_t::iterator::iterator(const _slot_t& slot, const ebmlElement_l::const_iterator& iter) {
+        if (!slot.multi()) {
+            throw ebmlException("attempting multi-element access in single-element slot");
+        }
+
+        this->_slot = &slot;
+        this->_iter = iter;
+    }
+
+    const_slot_t::iterator::iterator(const _slot_t& slot, ebmlElement_l::const_iterator&& iter) {
+        if (!slot.multi()) {
+            throw ebmlException("attempting multi-element access in single-element slot");
+        }
+
+        this->_slot = &slot;
+        this->_iter = std::move(iter);
+    }
+
+    const_slot_t::iterator::iterator(const const_slot_t::iterator& other) {
+        this->_slot = other._slot;
+
+        if (this->_slot->multi()) {
+            this->_iter = other._iter;
+        } else {
+            this->_done = other._done;
+        }
+    }
+
+    const_slot_t::iterator::iterator(const_slot_t::iterator&& other) {
+        using cv_iterator = typename ebmlElement_l::const_iterator;
+        this->_slot = std::exchange(other._slot, nullptr);
+
+        if (this->multi()) {
+            this->_iter = std::move(other._iter);
+            other._iter.~cv_iterator();
+        } else {
+            this->_done = std::exchange(other._done, false);
+        }
+    }
+
+    bool const_slot_t::iterator::multi() const {
+        return (this->_slot != nullptr) and this->_slot->multi();
+    }
+
+    const_slot_t::iterator::~iterator() {
+        using cv_iterator = typename ebmlElement_l::const_iterator;
+        if (this->multi()) {
+            this->_iter.~cv_iterator();
+        }
+    }
+
+    const_slot_t::iterator& const_slot_t::iterator::operator=(const const_slot_t::iterator& other) {
+        using cv_iterator = typename ebmlElement_l::const_iterator;
+
+        if (this != &other) {
+            if (other.multi()) {
+                if (this->multi()) {
+                    this->_iter = other._iter;
+                } else {
+                    new (&this->_iter) cv_iterator(other._iter);
+                }
+            } else {
+                if (this->multi()) {
+                    this->_iter.~cv_iterator();
+                }
+                this->_done = other._done;
+            }
+            this->_slot = other._slot;
+        }
+        return *this;
+    }
+
+    const_slot_t::iterator& const_slot_t::iterator::operator=(const_slot_t::iterator&& other) {
+        using cv_iterator = typename ebmlElement_l::const_iterator;
+
+        if (this != &other) {
+            if (other.multi()) {
+                if (this->multi()) {
+                    this->_iter = std::move(other._iter);
+                } else {
+                    new (&this->_iter) cv_iterator(std::move(other._iter));
+                }
+                other._iter.~cv_iterator();
+            } else {
+                if (this->_slot->multi()) {
+                    this->_iter.~cv_iterator();
+                }
+                this->_done = std::exchange(other._done, false);
+            }
+            this->_slot = std::exchange(other._slot, nullptr);
+        }
+        return *this;
+    }
+
+    const_slot_t::iterator& const_slot_t::iterator::operator++() {
+        if (this->multi()) {
+            ++this->_iter;
+        } else {
+            this->_done = true;
+        }
+        return *this;
+    }
+
+    const_slot_t::iterator const_slot_t::iterator::operator++(int) {
+        const_slot_t::iterator copy = *this;
+        ++(*this);
+        return copy;
+    }
+
+#if RAW
+    const ebmlElement* const_slot_t::iterator::operator*() const {
+        if (this->multi()) {
+            return (*this->_iter).get();
+        }
+        return this->_slot->elem.get();
+    }
+#else
+    c_ebmlElement_sp const_slot_t::iterator::operator*() const {
+        if (this->multi()) {
+            auto& elem = *this->_iter;
+            return std::const_pointer_cast<const ebmlElement>(elem);
+        }
+        auto& elem = this->_slot->elem;
+        return std::const_pointer_cast<const ebmlElement>(elem);
+    }
+#endif
+
+    bool const_slot_t::iterator::operator==(const const_slot_t::iterator& other) const {
+        if (this->_slot != other._slot) {
+            return false;
+        }
+        if (this->_slot == nullptr) {
+            return true;
+        }
+        if (this->multi()) {
+            return this->_iter == other._iter;
+        }
+        return this->_done == other._done;
+    }
+
+    const_slot_t::iterator const_slot_t::cbegin() const {
+        if (this->_slot->multi()) {
+            auto iter = this->_slot->elems.cbegin();
+            return const_slot_t::iterator(*this->_slot, std::move(iter));
+        } else if (this->_slot->elem != nullptr) {
+            return const_slot_t::iterator(*this->_slot, false);
+        }
+        return const_slot_t::iterator(*this->_slot, true);
+    }
+
+    const_slot_t::iterator const_slot_t::cend() const {
+        if (this->_slot->multi()) {
+            auto iter = this->_slot->elems.cend();
+            return const_slot_t::iterator(*this->_slot, std::move(iter));
+        }
+        return const_slot_t::iterator(*this->_slot, true);
+    }
+
+    const_slot_t::iterator slot_t::cbegin() const {
+        if (this->_slot->multi()) {
+            auto iter = this->_slot->elems.cbegin();
+            return const_slot_t::iterator(*this->_slot, std::move(iter));
+        } else if (this->_slot->elem != nullptr) {
+            return const_slot_t::iterator(*this->_slot, false);
+        }
+        return const_slot_t::iterator(*this->_slot, true);
+    }
+
+    const_slot_t::iterator slot_t::cend() const {
+        if (this->_slot->multi()) {
+            auto iter = this->_slot->elems.cend();
+            return const_slot_t::iterator(*this->_slot, std::move(iter));
+        }
+        return const_slot_t::iterator(*this->_slot, true);
+    }
+
+    ebmlMultiSlot::_iterator::_iterator() : _elem(nullptr) {}
+    ebmlMultiSlot::_iterator::~_iterator() {}
+
+    ebmlMultiSlot::_iterator::_iterator(
+        const ebmlElement_sp& elem,
+        const std::vector<_slot_t>::iterator& slotiter, const std::vector<_slot_t>::iterator& slotiterend,
+        const slot_t::iterator& iter, const slot_t::iterator& iterend) :
+        _elem(elem), _slotiter(slotiter), _slotiterend(slotiterend), _iter(iter), _iterend(iterend) {}
+
+    ebmlMultiSlot::_iterator::_iterator(
+        ebmlElement_sp&& elem,
+        std::vector<_slot_t>::iterator&& slotiter, std::vector<_slot_t>::iterator&& slotiterend,
+        slot_t::iterator&& iter, slot_t::iterator&& iterend) :
+        _elem(std::move(elem)), _slotiter(std::move(slotiter)), _slotiterend(std::move(slotiterend)),
+        _iter(std::move(iter)), _iterend(std::move(iterend)) {}
+
+    ebmlMasterElement::_iterator* ebmlMultiSlot::_iterator::copy() const {
+        return new ebmlMultiSlot::_iterator(this->_elem, this->_slotiter, this->_slotiterend, this->_iter, this->_iterend);
+    }
+
+    const ebmlElement_sp& ebmlMultiSlot::_iterator::operator*() const {
+        return *this->_iter;
+    }
+
+    ebmlMasterElement::_iterator& ebmlMultiSlot::_iterator::operator++() {
+        ++this->_iter;
+
+        while (this->_iter == this->_iterend) {
+            ++this->_slotiter;
+
+            if (this->_slotiter == this->_slotiterend) {
+                break;
+            }
+
+            auto& slot = *this->_slotiter;
+
+            if (slot.multi()) {
+                this->_iter = slot_t::iterator(slot, slot.elems.begin());
+                this->_iterend = slot_t::iterator(slot, slot.elems.end());
+            } else if (slot.elem != nullptr) {
+                this->_iter = slot_t::iterator(slot, false);
+                this->_iterend = slot_t::iterator(slot, true);
+            } else {
+                this->_iter = slot_t::iterator(slot, true);
+                this->_iterend = slot_t::iterator(slot, true);
+            }
+        }
+
+        return *this;
+    }
+
+    ebmlMasterElement::_iterator& ebmlMultiSlot::_iterator::operator=(const ebmlMasterElement::_iterator& other) {
+        if (this != &other) {
+            if (auto recast = dynamic_cast<const ebmlMultiSlot::_iterator*>(&other)) {
+                this->_slotiter = recast->_slotiter;
+                this->_slotiterend = recast->_slotiterend;
+                this->_iter = recast->_iter;
+                this->_iterend = recast->_iterend;
+            }
+        }
+
+        return *this;
+    }
+
+    bool ebmlMultiSlot::_iterator::operator==(const ebmlMasterElement::_iterator& other) const {
+        if (this == &other) {
+            return true;
+        }
+
+        if (auto recast = dynamic_cast<const ebmlMultiSlot::_iterator*>(&other)) {
+            if (this->_slotiter == this->_slotiterend) {
+                return (this->_slotiter == recast->_slotiter);
+            }
+
+            if (recast->_slotiter == recast->_slotiterend) {
+                return (this->_slotiter == recast->_slotiter);
+            }
+
+            return (this->_slotiter == recast->_slotiter) and (this->_iter == recast->_iter);
+        }
+
+        return false;
+    }
+
+    bool ebmlMultiSlot::_iterator::operator!=(const ebmlMasterElement::_iterator& other) const {
+        return not (*this == other);
+    }
+
+    ebmlMultiSlot::_const_iterator::_const_iterator() : _elem(nullptr) {}
+    ebmlMultiSlot::_const_iterator::~_const_iterator() {}
+
+    ebmlMultiSlot::_const_iterator::_const_iterator(
+        const c_ebmlElement_sp& elem,
+        const std::vector<_slot_t>::const_iterator& slotiter, const std::vector<_slot_t>::const_iterator& slotiterend,
+        const const_slot_t::iterator& iter, const const_slot_t::iterator& iterend) :
+        _elem(elem), _slotiter(slotiter), _slotiterend(slotiterend), _iter(iter), _iterend(iterend) {}
+
+    ebmlMultiSlot::_const_iterator::_const_iterator(
+        c_ebmlElement_sp&& elem,
+        std::vector<_slot_t>::const_iterator&& slotiter, std::vector<_slot_t>::const_iterator&& slotiterend,
+        const_slot_t::iterator&& iter, const_slot_t::iterator&& iterend) :
+        _elem(std::move(elem)), _slotiter(std::move(slotiter)), _slotiterend(std::move(slotiterend)),
+        _iter(std::move(iter)), _iterend(std::move(iterend)) {}
+
+    ebmlMasterElement::_const_iterator* ebmlMultiSlot::_const_iterator::copy() const {
+        return new ebmlMultiSlot::_const_iterator(this->_elem, this->_slotiter, this->_slotiterend, this->_iter, this->_iterend);
+    }
+
+#if RAW
+    const ebmlElement* ebmlMultiSlot::_const_iterator::operator*() const {
+        return *this->_iter;
+    }
+#else
+    c_ebmlElement_sp ebmlMultiSlot::_const_iterator::operator*() const {
+        return std::const_pointer_cast<const ebmlElement>(*this->_iter);
+    }
+#endif
+
+    ebmlMasterElement::_const_iterator& ebmlMultiSlot::_const_iterator::operator++() {
+        ++this->_iter;
+
+        while (this->_iter == this->_iterend) {
+            ++this->_slotiter;
+
+            if (this->_slotiter == this->_slotiterend) {
+                break;
+            }
+
+            auto& slot = *this->_slotiter;
+
+            if (slot.multi()) {
+                this->_iter = slot_t::const_iterator(slot, slot.elems.begin());
+                this->_iterend = slot_t::const_iterator(slot, slot.elems.end());
+            } else if (slot.elem != nullptr) {
+                this->_iter = slot_t::const_iterator(slot, false);
+                this->_iterend = slot_t::const_iterator(slot, true);
+            } else {
+                this->_iter = slot_t::const_iterator(slot, true);
+                this->_iterend = slot_t::const_iterator(slot, true);
+            }
+        }
+
+        return *this;
+    }
+
+    ebmlMasterElement::_const_iterator& ebmlMultiSlot::_const_iterator::operator=(const ebmlMasterElement::_const_iterator& other) {
+        if (this != &other) {
+            if (auto recast = dynamic_cast<const ebmlMultiSlot::_const_iterator*>(&other)) {
+                this->_slotiter = recast->_slotiter;
+                this->_slotiterend = recast->_slotiterend;
+                this->_iter = recast->_iter;
+                this->_iterend = recast->_iterend;
+            } else {
+                throw std::runtime_error("Incompatible iterators");
+            }
+        }
+
+        return *this;
+    }
+
+    bool ebmlMultiSlot::_const_iterator::operator==(const ebmlMasterElement::_const_iterator& other) const {
+        if (this == &other) {
+            return true;
+        }
+
+        if (auto recast = dynamic_cast<const ebmlMultiSlot::_const_iterator*>(&other)) {
+            if (this->_slotiter == this->_slotiterend) {
+                return (this->_slotiter == recast->_slotiter);
+            }
+
+            if (recast->_slotiter == recast->_slotiterend) {
+                return (this->_slotiter == recast->_slotiter);
+            }
+
+            return (this->_slotiter == recast->_slotiter) and (this->_iter == recast->_iter);
+        }
+
+        return false;
+    }
+
+    bool ebmlMultiSlot::_const_iterator::operator!=(const ebmlMasterElement::_const_iterator& other) const {
+        return not (*this == other);
+    }
+
 }
 #endif

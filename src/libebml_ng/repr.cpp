@@ -1,10 +1,16 @@
 #ifndef EBML_NG_REPR_CPP
 #define EBML_NG_REPR_CPP
-#include "libebml_ng/repr.h"
+
 #include "cxxabi.h"
 #include <iostream>
 #include <unordered_map>
 #include <map>
+#include <iomanip>
+
+#include "libebml_ng/repr.h"
+#include "libebml_ng/struct/unicode.h"
+#include "libebml_ng/struct/datetime.h"
+#include "libebml_ng/struct.tpp"
 
 namespace ebml {
     static const std::unordered_map<char, std::wstring> special = {{0x27, L"\\'"}, {0x09, L"\\t"}, {0x10, L"\\n"}, {0x13, L"\\r"}, {0x92, L"\\\\"}};
@@ -754,6 +760,23 @@ namespace ebml {
         char digits[32];
         auto size = sprintf(digits, "%.17g", x);
         return unpack<std::wstring>(std::string(digits, size));
+    }
+
+    std::wstring repr(timepoint_t t) {
+        std::time_t time = std::chrono::system_clock::to_time_t(t);
+        std::tm* timeInfo = std::localtime(&time);
+
+        std::wostringstream wss;
+        wss << std::put_time(timeInfo, L"%Y-%m-%d %I:%M:%S") << L"." << std::setfill(L'0') << std::setw(9) << std::chrono::duration_cast<std::chrono::nanoseconds>(t.time_since_epoch()).count() % 1000000000;
+
+        std::wstring result = wss.str();
+        if (timeInfo->tm_hour >= 12) {
+            result += L" pm";
+        } else {
+            result += L" am";
+        }
+
+        return result;
     }
 }
 #endif

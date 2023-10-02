@@ -1,9 +1,19 @@
 #ifndef EBML_NG_MASTERELEMENT_LIST_CPP
 #define EBML_NG_MASTERELEMENT_LIST_CPP
-#include "libebml_ng/masterelement/list.h"
 #include <mutex>
 
+#include "libebml_ng/masterelement/list.h"
+
 namespace ebml {
+    ebmlListClass::ebmlListClass(const char* ebmlID, std::wstring name, const occurSpec_t& recursive)
+    : ebmlListClass(unpackVint(ebmlID), name, recursive) {}
+
+    ebmlListClass::ebmlListClass(const char* ebmlID, std::wstring name, const childClassSpecArg_l& childSpec, const occurSpec_t& recursive)
+    : ebmlListClass(unpackVint(ebmlID), name, childSpec, recursive) {}
+
+    ebmlListClass::ebmlListClass(const char* ebmlID, std::wstring name, childClassSpecArg_init_l childSpec, const occurSpec_t& recursive)
+    : ebmlListClass(unpackVint(ebmlID), name, childSpec, recursive) {}
+
     ebmlListClass::ebmlListClass(ebmlID_t ebmlID, std::wstring name, const occurSpec_t& recursive) : ebmlMasterElementClass(ebmlID, name) {
         if (recursive.max != 0) {
             this->_childClasses.add({this, recursive.min, recursive.max});
@@ -11,6 +21,14 @@ namespace ebml {
     }
 
     ebmlListClass::ebmlListClass(ebmlID_t ebmlID, std::wstring name, const childClassSpecArg_l& childSpec, const occurSpec_t& recursive) : ebmlListClass(ebmlID, name) {
+        this->_childClasses = childSpec;
+
+        if (recursive.max != 0) {
+            this->_childClasses.add({this, recursive.min, recursive.max});
+        }
+    }
+
+    ebmlListClass::ebmlListClass(ebmlID_t ebmlID, std::wstring name, childClassSpecArg_init_l childSpec, const occurSpec_t& recursive) : ebmlListClass(ebmlID, name) {
         this->_childClasses = childSpec;
 
         if (recursive.max != 0) {
@@ -28,28 +46,56 @@ namespace ebml {
     }
 
     ebmlElement_sp ebmlListClass::operator()(const ebmlElement_l& items) const {
-        auto elem = new ebmlList(this, items);
-        return std::shared_ptr<ebmlElement>(elem);
+        // ebmlElement_sp elem_sp;
+        // new ebmlList(this, items, elem_sp);
+        // return elem_sp;
+        // return new_sp<ebmlList, ebmlElement>(this, items);
+        auto elem = new ebmlList(this);
+        auto elem_sp = ebmlElement_sp(elem);
+        elem->_setData(items);
+        return elem_sp;
     }
 
     ebmlElement_sp ebmlListClass::operator()(ebmlElement_l&& items) const {
-        auto elem = new ebmlList(this, std::move(items));
-        return std::shared_ptr<ebmlElement>(elem);
+        // ebmlElement_sp elem_sp;
+        // new ebmlList(this, std::move(items), elem_sp);
+        // return elem_sp;
+        // return new_sp<ebmlList, ebmlElement>(this, std::move(items));
+        auto elem = new ebmlList(this);
+        auto elem_sp = ebmlElement_sp(elem);
+        elem->_setData(std::move(items));
+        return elem_sp;
     }
-
-
 
     ebmlList::ebmlList(const ebmlListClass* cls) : ebmlMasterElement(cls) {}
 
-    ebmlList::ebmlList(const ebmlListClass* cls, const ebmlElement_l& items) : ebmlMasterElement(cls) {
-        this->setData(items);
-    }
+    // ebmlList::ebmlList(const ebmlListClass* cls, const ebmlElement_l& items, ebmlElement_sp& this_sp, std::exception_ptr& exc) : ebmlMasterElement(cls) {
+    //     auto ptr = ebmlElement_sp(this);
+    //
+    //     try {
+    //         this->setData(items);
+    //     } catch (...) {
+    //         ptr = nullptr;
+    //         exc = std::current_exception();
+    //         return;
+    //     }
+    //     this_sp = std::move(ptr);
+    // }
+    //
+    // ebmlList::ebmlList(const ebmlListClass* cls, ebmlElement_l&& items, ebmlElement_sp& this_sp, std::exception_ptr& exc) : ebmlMasterElement(cls) {
+    //     auto ptr = ebmlElement_sp(this);
+    //
+    //     try {
+    //         this->setData(std::move(items));
+    //     } catch (...) {
+    //         ptr = nullptr;
+    //         exc = std::current_exception();
+    //         return;
+    //     }
+    //     this_sp = std::move(ptr);
+    // }
 
-    ebmlList::ebmlList(const ebmlListClass* cls, ebmlElement_l&& items) : ebmlMasterElement(cls) {
-        this->setData(std::move(items));
-    }
-
-    void ebmlList::setData(const ebmlElement_l& items) {
+    void ebmlList::_validateData(const ebmlElement_l& items) {
         auto start = items.cbegin();
         auto iter = start;
         auto end = items.cend();
@@ -66,8 +112,9 @@ namespace ebml {
                 throw;
             }
         }
+    }
 
-        this->_clear();
+    void ebmlList::_setData(const ebmlElement_l& items) {
         this->_data.reserve(items.size());
 
         for (const auto& item : items) {
@@ -75,25 +122,13 @@ namespace ebml {
         }
     }
 
-    void ebmlList::setData(ebmlElement_l&& items) {
-        auto start = items.begin();
-        auto iter = start;
-        auto end = items.end();
-
-        while (iter != end) {
-            try {
-                this->_attachChild(*iter);
-                ++iter;
-            } catch (...) {
-                while (iter != start) {
-                    --iter;
-                    this->_detachChild(*iter);
-                }
-                throw;
-            }
-        }
-
+    void ebmlList::setData(const ebmlElement_l& items) {
+        this->_validateData(items);
         this->_clear();
+        this->_setData(items);
+    }
+
+    void ebmlList::_setData(ebmlElement_l&& items) {
         this->_data.reserve(items.size());
 
         for (auto& item : items) {
@@ -101,6 +136,12 @@ namespace ebml {
         }
 
         items.clear();
+    }
+
+    void ebmlList::setData(ebmlElement_l&& items) {
+        this->_validateData(items);
+        this->_clear();
+        this->_setData(std::move(items));
     }
 
     std::wstring ebmlList::minirepr() const {
@@ -252,7 +293,7 @@ namespace ebml {
     ebmlList::_iterator::_iterator() {}
     ebmlList::_iterator::~_iterator() {}
 
-    ebmlMasterElement::_iterator* ebmlList::_iterator::copy() {
+    ebmlMasterElement::_iterator* ebmlList::_iterator::copy() const {
         return new ebmlList::_iterator(this->_elem, this->_iter);
     }
 
@@ -294,7 +335,7 @@ namespace ebml {
     ebmlList::_const_iterator::~_const_iterator() {}
 
 
-    ebmlMasterElement::_const_iterator* ebmlList::_const_iterator::copy() {
+    ebmlMasterElement::_const_iterator* ebmlList::_const_iterator::copy() const {
         return new ebmlList::_const_iterator(this->_elem, this->_iter);
     }
 
@@ -337,85 +378,4 @@ namespace ebml {
         return true;
     }
 }
-// struct ebmlMasterElementListPayload {
-//     ebmlElement_l* items;
-//     ebmlMasterElementListPayload() {
-//         this->items = new ebmlElement_l();
-//     };
-//     ~ebmlMasterElementListPayload() {
-//         delete this->items;
-//     }
-// };
-//
-// struct ebmlMasterElementListIterator {
-//     ebmlElement_i iterator;
-//     ebmlMasterElementListIterator(ebmlElement_i _iterator) {
-//         this->iterator = _iterator;
-//     };
-// };
-//
-// ebmlMasterElementListClass::ebmlMasterElementListClass(unsigned long long _ebmlID, std::string _name) :
-//         ebmlMasterElementClass(_ebmlID, _name) {};
-//
-// ebmlMasterElementListClass::~ebmlMasterElementListClass() {};
-//
-// void ebmlMasterElementListClass::_create(ebmlElement* elem) const {
-//     elem->data.as_ptr = new ebmlMasterElementListPayload();
-// }
-//
-// void ebmlMasterElementListClass::_destroy(ebmlElement* elem) const {
-//     delete (ebmlMasterElementListPayload*)elem->data.as_ptr;
-// }
-//
-// void ebmlMasterElementListClass::_init(ebmlElement* elem, const void* initdata) const {
-// }
-//
-// void ebmlMasterElementListClass::_append(ebmlElement* elem, ebmlElement* child) const {
-//     auto l = (ebmlMasterElementListPayload*)elem->data.as_ptr;
-//     l->items->push_back(child);
-// }
-//
-// void* ebmlMasterElementListClass::_init_begin_iter(void* data) const {
-//     auto recast = (ebmlMasterElementListPayload*)data;
-//     return new ebmlMasterElementListIterator(recast->items->begin());
-// }
-//
-// void* ebmlMasterElementListClass::_init_end_iter(void* data) const {
-//     auto recast = (ebmlMasterElementListPayload*)data;
-//     return new ebmlMasterElementListIterator(recast->items->end());
-// }
-//
-// void* ebmlMasterElementListClass::_copy_iter(const void* data) const {
-//     auto recast = (ebmlMasterElementListIterator*)data;
-//     return new ebmlMasterElementListIterator(recast->iterator);
-// }
-//
-// void ebmlMasterElementListClass::_copy_iter(const void* src, void* dest) const {
-//     auto recast_src = static_cast<const ebmlMasterElementListIterator*>(src);
-//     auto recast_dest = (ebmlMasterElementListIterator*)dest;
-//     *recast_dest = *recast_src;
-// }
-//
-// void ebmlMasterElementListClass::_destroy_iter(void* data) const {
-// //     printf("begin _destroy_iter(void*) %llu\n", (unsigned long long)data);
-//     delete (ebmlMasterElementListIterator*)data;
-// //     printf("end _destroy_iter(void*) %llu\n", (unsigned long long)data);
-// }
-//
-// bool ebmlMasterElementListClass::_iseq_iter(const void* lhs, const void* rhs) const {
-//     auto recast_lhs = static_cast<const ebmlMasterElementListIterator*>(lhs);
-//     auto recast_rhs = static_cast<const ebmlMasterElementListIterator*>(rhs);
-//     return recast_lhs->iterator == recast_rhs->iterator;
-// };
-//
-// ebmlElement* ebmlMasterElementListClass::_dereference_iter(void* data) const {
-//     auto recast = (ebmlMasterElementListIterator*)data;
-//     return *(recast->iterator);
-// };
-//
-// void ebmlMasterElementListClass::_increment_iter(void* data) const {
-//     auto recast = (ebmlMasterElementListIterator*)data;
-//     ++(recast->iterator);
-// };
-//
 #endif

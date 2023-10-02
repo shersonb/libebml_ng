@@ -1,10 +1,10 @@
 #ifndef EBML_NG_PARSING_IO_H
 #define EBML_NG_PARSING_IO_H
 
+#include <memory>
+
 #include "libebml_ng/ebmlID_t.h"
 #include "libebml_ng/io.h"
-// #include "libebml_ng/parsing/string.h"
-#include <memory>
 
 namespace ebml {
     class parseFile {

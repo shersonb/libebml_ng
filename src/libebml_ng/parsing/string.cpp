@@ -2,8 +2,8 @@
 #define EBML_NG_PARSING_STRING_CPP
 
 #include "libebml_ng/parsing/string.h"
-#include "libebml_ng/vint.cpp"
-#include "libebml_ng/exceptions.cpp"
+#include "libebml_ng/vint.h"
+#include "libebml_ng/exceptions.h"
 
 namespace ebml {
     parseString::parseString() {
@@ -16,7 +16,7 @@ namespace ebml {
     }
 
     parseString::parseString(
-            unsigned long long ebmlID, unsigned char ebmlIDWidth,
+            ebmlID_t ebmlID, unsigned char ebmlIDWidth,
             size_t dataSize, unsigned char sizeWidth,
             off_t offset, const char* data) {
         this->ebmlID = ebmlID;

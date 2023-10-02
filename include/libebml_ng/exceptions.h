@@ -1,6 +1,8 @@
 #ifndef EBML_NG_EXCEPTIONS_H
 #define EBML_NG_EXCEPTIONS_H
+
 #include <string>
+
 #include "base.h"
 
 #define DECODE_ERR_SIG_DECL const std::string& message, const ebmlElementClass* cls=nullptr, off_t offset=-1, unsigned char headSize=0, off_t erroroffset=-1

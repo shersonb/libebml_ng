@@ -4,18 +4,8 @@
 #include "libebml_ng/struct.h"
 
 namespace ebml {
-    size_t size(const float&);
-    size_t size(const double&);
-
-    size_t pack(const float&, char*);
-    size_t pack(const double&, char*);
-
-    template<>
-    float unpack<float>(const char*, size_t);
-
-    template<>
-    double unpack<double>(const char*, size_t);
-
+    DECL_EXTERN_FUNCTIONS_ALT(float)
+    DECL_EXTERN_FUNCTIONS_ALT(double)
 }
 
 #endif

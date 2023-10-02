@@ -9,11 +9,14 @@
 namespace ebml {
     class ebmlListClass : public ebmlMasterElementClass {
     public:
+        ebmlListClass(const char*, std::wstring, const occurSpec_t& recursive={0, 0});
+        ebmlListClass(const char*, std::wstring, const childClassSpecArg_l&, const occurSpec_t& recursive={0, 0});
+        ebmlListClass(const char*, std::wstring, childClassSpecArg_init_l, const occurSpec_t& recursive={0, 0});
+
         ebmlListClass(ebmlID_t, std::wstring, const occurSpec_t& recursive={0, 0});
         ebmlListClass(ebmlID_t, std::wstring, const childClassSpecArg_l&, const occurSpec_t& recursive={0, 0});
-        ebmlListClass(ebmlID_t, std::wstring, const childClassSpecArg_init_l&, const occurSpec_t& recursive={0, 0});
+        ebmlListClass(ebmlID_t, std::wstring, childClassSpecArg_init_l, const occurSpec_t& recursive={0, 0});
 
-        // ebmlElement_sp operator()() const;
         ebmlElement_sp operator()(const ebmlElement_l&) const;
         ebmlElement_sp operator()(ebmlElement_l&&) const;
 
@@ -30,9 +33,11 @@ namespace ebml {
 
     protected:
         ebmlList(const ebmlListClass*);
-        ebmlList(const ebmlListClass*, const ebmlElement_l&);
-        ebmlList(const ebmlListClass*, ebmlElement_l&&);
+
         void _clear() override;
+        void _validateData(const ebmlElement_l&);
+        void _setData(const ebmlElement_l&);
+        void _setData(ebmlElement_l&&);
 
     public:
         void setData(const ebmlElement_l&);
@@ -88,7 +93,7 @@ namespace ebml {
             _iterator();
             virtual ~_iterator();
 
-            ebmlMasterElement::_iterator* copy();
+            ebmlMasterElement::_iterator* copy() const;
 
             const ebmlElement_sp& operator*() const;
             ebmlMasterElement::_iterator& operator++();
@@ -115,7 +120,7 @@ namespace ebml {
             _const_iterator();
             virtual ~_const_iterator();
 
-            ebmlMasterElement::_const_iterator* copy();
+            ebmlMasterElement::_const_iterator* copy() const;
 #if RAW
             const ebmlElement* operator*() const;
 #else
@@ -137,6 +142,8 @@ namespace ebml {
         void _addChild(ebmlElement_sp&&) override;
 
         friend class ebmlListClass;
+        template<typename T, typename U, typename... Args>
+        friend std::shared_ptr<U> new_sp(Args... args);
     };
 }
 #endif

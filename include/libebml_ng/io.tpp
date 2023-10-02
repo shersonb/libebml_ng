@@ -36,7 +36,11 @@ namespace ebml {
     template<typename T>
     size_t io<T>::read(char* dest, off_t offset, size_t size) {
         auto lock = this->acquireLock();
-        this->seek(offset);
+
+        if (this->_pos != offset) {
+            this->seek(offset);
+        }
+
         return ioBase::read(dest, size);
     }
 
@@ -44,7 +48,11 @@ namespace ebml {
     template<typename T>
     size_t io<T>::write(const char* src, off_t offset, size_t size) {
         auto lock = this->acquireLock();
-        this->seek(offset);
+
+        if (this->_pos != offset) {
+            this->seek(offset);
+        }
+
         return ioBase::write(src, size);
     }
 }

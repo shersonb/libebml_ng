@@ -2,6 +2,7 @@
 #define EBML_NG_STRUCT_UNICODE_CPP
 
 #include "libebml_ng/struct/unicode.h"
+#include "libebml_ng/struct.tpp"
 #include "libebml_ng/exceptions.h"
 
 namespace ebml {
@@ -26,9 +27,9 @@ namespace ebml {
         {0x07, 0x30, 0x00},
     };
 
-    size_t size(const std::wstring& str) {
-        const wchar_t* data = str.c_str();
-        size_t usize = str.size();
+    DEF_SIZE(std::wstring) {
+        const wchar_t* data = value.c_str();
+        size_t usize = value.size();
         off_t uk = 0;
         wchar_t u;
         unsigned char j;
@@ -38,12 +39,12 @@ namespace ebml {
             u = data[uk];
 
             if (u > 0x10ffff) {
-                throw unicodeEncodeError("character out of range (not in range(0x110000))", str, uk, uk+1);
+                throw unicodeEncodeError("character out of range (not in range(0x110000))", value, uk, uk+1);
                 // throw std::invalid_argument("chr() arg not in range(0x110000)");
             }
 
             if (0xd800 <= u and u < 0xe000) {
-                throw unicodeEncodeError("surrogates not allowed", str, uk, uk+1);
+                throw unicodeEncodeError("surrogates not allowed", value, uk, uk+1);
             }
 
             j = 0;
@@ -63,9 +64,9 @@ namespace ebml {
         return dsize;
     }
 
-    size_t pack(const std::wstring& str, size_t expectedSize, char* dest) {
-        const wchar_t* data = str.c_str();
-        size_t usize = str.size();
+    DEF_PACK(std::wstring) {
+        const wchar_t* data = value.c_str();
+        size_t usize = value.size();
         size_t uk = 0;
         size_t dk = 0;
         wchar_t u;
@@ -77,30 +78,31 @@ namespace ebml {
             u = data[uk];
 
             if (u > 0x10ffff) {
-                throw unicodeEncodeError("character out of range (not in range(0x110000))", str, uk, uk+1);
+                throw unicodeEncodeError("character out of range (not in range(0x110000))", value, uk, uk+1);
             }
 
             if (0xd800 <= u and u < 0xe000) {
-                throw unicodeEncodeError("surrogates not allowed", str, uk, uk+1);
+                throw unicodeEncodeError("surrogates not allowed", value, uk, uk+1);
             }
 
             j = 0;
 
             while (j < 4) {
                 if (u < sizes[j]) {
-                    charWidth = j + 1;
                     break;
                 }
 
                 j++;
             }
 
-            o = 6*(charWidth - 1);
-            dest[dk] = (
-                ((u >> o) & ~fcm[charWidth - 1])
-                | fcp[charWidth - 1]);
+            charWidth = j + 1;
+            o = 6*j;
 
-            if (expectedSize < dk + charWidth) {
+            dest[dk] = (
+                ((u >> o) & ~fcm[j])
+                | fcp[j]);
+
+            if (size < dk + j + 1) {
                 throw ebmlEncodeError("Encoded UTF-8 string exceeds expected size.");
             }
 
@@ -118,8 +120,6 @@ namespace ebml {
 
         return dk;
     }
-
-    template size_t pack(const std::wstring& str, char*);
 
     unsigned char utf8_char_width(unsigned char d) {
         unsigned char k = 0;
@@ -150,8 +150,7 @@ namespace ebml {
         return true;
     }
 
-    template<>
-    std::wstring unpack<std::wstring>(const char* src, size_t size) {
+    DEF_UNPACK(std::wstring) {
         std::wstring str;
         size_t uk = 0;
         size_t dk = 0;
@@ -163,6 +162,7 @@ namespace ebml {
         unsigned char j;
 
         str.resize(size);
+        wchar_t* data = &str[0];
 
         while (dk < size) {
             d = src[dk];
@@ -205,7 +205,7 @@ namespace ebml {
                 o -= 6;
             }
 
-            str[uk] = u;
+            data[uk] = u;
             dk += charWidth;
             ++uk;
         }
@@ -213,5 +213,7 @@ namespace ebml {
         str.resize(uk);
         return str;
     }
+
+    INST_TEMPLATES(std::wstring)
 }
 #endif

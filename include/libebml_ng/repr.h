@@ -3,6 +3,7 @@
 
 #include <string>
 #include <memory>
+#include "struct/datetime.h"
 
 namespace ebml {
     template <typename T>
@@ -21,5 +22,6 @@ namespace ebml {
     std::wstring repr(long long);
     std::wstring repr(long);
     std::wstring repr(double);
+    std::wstring repr(timepoint_t);
 }
 #endif

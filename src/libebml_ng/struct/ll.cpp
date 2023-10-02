@@ -1,15 +1,16 @@
 #ifndef EBML_NG_STRUCT_LL_CPP
 #define EBML_NG_STRUCT_LL_CPP
-// #include "libebml_ng/struct.cpp"
+
 #include "libebml_ng/struct/ll.h"
+#include "libebml_ng/struct.tpp"
 
 namespace ebml {
-    size_t size(const long long& n) {
+    DEF_SIZE(long long) {
         unsigned long long k = 1;
         long long c = 128;
 
         while (k < 8) {
-            if ((-c <= n) && (n < c)) {
+            if ((-c <= value) && (value < c)) {
                 return k;
             }
             k++;
@@ -19,7 +20,7 @@ namespace ebml {
         return 8;
     }
 
-    size_t pack(const long long& n, size_t size, char* dest) {
+    DEF_PACK(long long) {
         char* as_chars;
 
         if (size == 0 or size > 8) {
@@ -27,15 +28,15 @@ namespace ebml {
         };
 
         if (size != 8) {
-            if (n > 0 && (n >> (8*size)) != 0) {
+            if (value > 0 && (value >> (8*size)) != 0) {
                 throw std::overflow_error("pack: int too big to convert");
             };
-            if (n < 0 && (n >> (8*size)) != -1) {
+            if (value < 0 && (value >> (8*size)) != -1) {
                 throw std::overflow_error("pack: int too big to convert");
             };
         };
 
-        as_chars = (char*)&n;
+        as_chars = (char*)&value;
 
         if (_is_littleendian) {
             memcpy(dest, as_chars, size);
@@ -47,8 +48,7 @@ namespace ebml {
         return size;
     }
 
-    template<>
-    long long unpack<long long>(const char* s, size_t size) {
+    DEF_UNPACK(long long) {
         long long ret = 0;
         char* as_chars;
 
@@ -62,20 +62,22 @@ namespace ebml {
 
         as_chars = (char*)&ret;
 
-        if (s[0] & -128) {
+        if (src[0] & -128) {
             ret = -1ll;
         } else {
             ret = 0;
         }
 
         if (_is_littleendian) {
-            memcpy(as_chars, s, size);
+            memcpy(as_chars, src, size);
             _reverse(as_chars, 0, size - 1);
         } else {
-            memcpy(as_chars + (8 - size), s, size);
+            memcpy(as_chars + (8 - size), src, size);
         }
 
         return ret;
     }
+
+    INST_TEMPLATES(long long)
 }
 #endif

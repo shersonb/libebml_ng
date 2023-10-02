@@ -2,13 +2,9 @@
 #define EBML_NG_STRUCT_UNICODE_H
 
 #include "libebml_ng/struct.h"
+#include <string>
 
 namespace ebml {
-    size_t size(const std::wstring&);
-
-    size_t pack(const std::wstring&, size_t, char*);
-
-    template<>
-    std::wstring unpack<std::wstring>(const char*, size_t);
+    DECL_EXTERN_FUNCTIONS(std::wstring)
 }
 #endif

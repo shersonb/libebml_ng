@@ -1,15 +1,16 @@
 #ifndef EBML_NG_STRUCT_ULL_CPP
 #define EBML_NG_STRUCT_ULL_CPP
-// #include "libebml_ng/struct.cpp"
+
 #include "libebml_ng/struct/ull.h"
+#include "libebml_ng/struct.tpp"
 
 namespace ebml {
-    size_t size(const unsigned long long& n) {
+    DEF_SIZE(unsigned long long) {
         unsigned long long k = 1;
         unsigned long long c = 256;
 
         while (k < 8) {
-            if (n < c) {
+            if (value < c) {
                 return k;
             }
             k++;
@@ -19,18 +20,18 @@ namespace ebml {
         return 8;
     }
 
-    size_t pack(const unsigned long long& n, size_t size, char* dest) {
+    DEF_PACK(unsigned long long) {
         char* as_chars;
 
         if (size == 0 or size > 8) {
             throw std::invalid_argument("pack: invalid value for size");
         };
 
-        if (size != 8 and (n >> (8*size)) != 0) {
+        if (size != 8 and (value >> (8*size)) != 0) {
             throw std::overflow_error("pack: int too big to convert");
         };
 
-        as_chars = (char*)&n;
+        as_chars = (char*)&value;
 
         if (_is_littleendian) {
             memcpy(dest, as_chars, size);
@@ -42,8 +43,7 @@ namespace ebml {
         return size;
     }
 
-    template<>
-    unsigned long long unpack<unsigned long long>(const char* s, size_t size) {
+    DEF_UNPACK(unsigned long long) {
         unsigned long long ret = 0;
         char* as_chars;
 
@@ -58,14 +58,15 @@ namespace ebml {
         as_chars = (char*)&ret;
 
         if (_is_littleendian) {
-            memcpy(as_chars, s, size);
+            memcpy(as_chars, src, size);
             _reverse(as_chars, 0, size - 1);
         } else {
-            memcpy(as_chars + (8 - size), s, size);
+            memcpy(as_chars + (8 - size), src, size);
         }
 
         return ret;
     }
 
+    INST_TEMPLATES(unsigned long long)
 }
 #endif

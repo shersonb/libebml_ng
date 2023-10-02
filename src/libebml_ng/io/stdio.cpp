@@ -1,10 +1,11 @@
 #ifndef EBML_NG_IO_STDIO_CPP
 #define EBML_NG_IO_STDIO_CPP
 
-#include "libebml_ng/io.cpp"
-#include "libebml_ng/exceptions.cpp"
-#include "libebml_ng/io/_stdio.h"
 #include <stdexcept>
+
+#include "libebml_ng/io.h"
+#include "libebml_ng/io/_stdio.h"
+#include "libebml_ng/io.tpp"
 
 namespace ebml {
     template<>
@@ -115,5 +116,7 @@ namespace ebml {
 
         return result;
     }
+
+    // template class io<FILE*>;
 }
 #endif

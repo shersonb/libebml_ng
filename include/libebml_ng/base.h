@@ -12,10 +12,7 @@
 
 #include "parsing/string.h"
 #include "parsing/io.h"
-
-#include "struct.h"
 #include "vint.h"
-#include "ebmlID_t.h"
 
 namespace ebml {
     class ebmlElement;
@@ -40,12 +37,12 @@ namespace ebml {
         friend class ebmlMasterElement;
     public:
         ebmlElementClass();
+        ebmlElementClass(const char*, const std::wstring&);
         ebmlElementClass(ebmlID_t, const std::wstring&);
         ebmlID_t ebmlID;
         std::wstring name;
 
-        // This must always be overriden in subclasses to return a shared_ptr to an instance of its companion
-        // EBMLElement class.
+        // It is recommended to define overloads to operator() in subclasses.
         ebmlElement_sp operator()() const;
 
     protected:
@@ -53,8 +50,11 @@ namespace ebml {
 
         // Decode methods taking parse data classes.
     public:
-        ebmlElement_sp decode(const parseString&) const;
-        ebmlElement_sp decode(const parseFile&) const;
+        // These two methods should almost never be overridden.
+        // However, overriding these methods becomes necessary
+        // in ebmlDataElementClass<const T>
+        virtual ebmlElement_sp decode(const parseString&) const;
+        virtual ebmlElement_sp decode(const parseFile&) const;
 
         // Decode methods applied directly to character and file-like objects.
         ebmlElement_sp decode(const char*, size_t) const;
@@ -71,10 +71,23 @@ namespace ebml {
         c_ebmlElement_sp cdecode(ioBase_sp&) const;
         c_ebmlElement_sp cdecode(ioBase*) const;
 
+        template<typename T=ebmlElementClass>
+        T& ref();
+
+        template<typename T=ebmlElementClass>
+        const T& ref() const;
+
+        template<typename T=ebmlElementClass>
+        T* ptr();
+
+        template<typename T=ebmlElementClass>
+        const T* ptr() const;
+
+
         // Needed for ebmlMasterElement to decode children that cannot be stored as const.
     protected:
-        ebmlElement_sp _cdecode(const parseString&) const;
-        ebmlElement_sp _cdecode(const parseFile&) const;
+        virtual ebmlElement_sp _cdecode(const parseString&) const;
+        virtual ebmlElement_sp _cdecode(const parseFile&) const;
 
         // Repr function
     public:
@@ -104,8 +117,19 @@ namespace ebml {
         // This method *should* be overriden in subclasses to dyanmic cast its _cls member to that of the
         // companion ebmlElementClass subclass.
         virtual const ebmlElementClass* cls() const;
-
         ebmlID_t ebmlID() const;
+
+        template<typename T=ebmlElement>
+        T& ref();
+
+        template<typename T=ebmlElement>
+        const T& ref() const;
+
+        template<typename T=ebmlElement>
+        T* ptr();
+
+        template<typename T=ebmlElement>
+        const T* ptr() const;
 
         // Hierarchy members.
     public:
@@ -169,7 +193,7 @@ namespace ebml {
         virtual size_t _encode(char*) const = 0;
 
     public:
-        std::string encode() const;
+        virtual std::string encode() const;
         virtual size_t encode(char*) const;
         virtual size_t encode(ioBase*) const;
         size_t encode(char*, size_t) const;
@@ -186,7 +210,7 @@ namespace ebml {
         virtual void _clonedata(const ebmlElement*) = 0;
 
     public:
-        ebmlElement_sp clone() const;
+        virtual ebmlElement_sp clone() const;
 
         // Repr function:
         virtual std::wstring minirepr() const = 0;
@@ -237,7 +261,7 @@ namespace ebml {
         friend class ebmlVoidClass;
     };
 
-    static ebmlVoidClass Void;
+    extern ebmlVoidClass Void;
 
     class ebmlDocument : std::enable_shared_from_this<ebmlDocument> {
     private:
@@ -253,6 +277,76 @@ namespace ebml {
         const ebmlSchema* schema() const;
     };
 
+    template<typename T>
+    T& ebmlElementClass::ref() {
+        if (auto recast = dynamic_cast<T*>(this)) {
+            return *recast;
+        }
+
+        throw std::bad_alloc();
+    }
+
+    template<typename T>
+    const T& ebmlElementClass::ref() const {
+        if (auto recast = dynamic_cast<const T*>(this)) {
+            return *recast;
+        }
+
+        throw std::bad_alloc();
+    }
+
+    template<typename T>
+    T* ebmlElementClass::ptr() {
+        if (auto recast = dynamic_cast<T*>(this)) {
+            return recast;
+        }
+
+        throw std::bad_alloc();
+    }
+
+    template<typename T>
+    const T* ebmlElementClass::ptr() const {
+        if (auto recast = dynamic_cast<const T*>(this)) {
+            return recast;
+        }
+
+        throw std::bad_alloc();
+    }
+
+    template<typename T>
+    T& ebmlElement::ref() {
+        if (auto recast = dynamic_cast<T*>(this)) {
+            return *recast;
+        }
+
+        throw std::bad_alloc();
+    }
+
+    template<typename T>
+    const T& ebmlElement::ref() const {
+        if (auto recast = dynamic_cast<const T*>(this)) {
+            return *recast;
+        }
+
+        throw std::bad_alloc();
+    }
+
+    template<typename T>
+    T* ebmlElement::ptr() {
+        if (auto recast = dynamic_cast<T*>(this)) {
+            return recast;
+        }
+
+        throw std::bad_alloc();
+    }
+
+    template<typename T>
+    const T* ebmlElement::ptr() const {
+        if (auto recast = dynamic_cast<const T*>(this)) {
+            return recast;
+        }
+
+        throw std::bad_alloc();
+    }
 }
-// #include "libebml_ng/base.tpp"
 #endif

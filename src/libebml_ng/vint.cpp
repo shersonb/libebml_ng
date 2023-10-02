@@ -4,9 +4,10 @@
 #include <string.h>
 #include <stdio.h>
 #include <array>
-#include "libebml_ng/exceptions.cpp"
+
+#include "libebml_ng/exceptions.h"
 #include "libebml_ng/vint.h"
-#include "libebml_ng/struct/ull.cpp"
+#include "libebml_ng/struct/ull.h"
 
 namespace ebml {
     unsigned char vintWidth(char b) {

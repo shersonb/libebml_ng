@@ -1,34 +1,37 @@
 #ifndef EBML_NG_STRUCT_BINARY_CPP
 #define EBML_NG_STRUCT_BINARY_CPP
 
-#include "libebml_ng/struct/binary.h"
 #include <string.h>
 
+#include "libebml_ng/struct/binary.h"
+#include "libebml_ng/struct.tpp"
+
 namespace ebml {
-    size_t size(const std::string& s) {
-        return s.size();
+    DEF_SIZE(std::string) {
+        return value.size();
     }
 
-    size_t pack(const std::string& s, char* dest) {
-        memcpy(dest, s.data(), s.size());
-        return s.size();
-    }
-
-    size_t pack(const std::string& s, size_t size, char* dest) {
-        if (size < s.size()) {
+    DEF_PACK(std::string) {
+        if (size < value.size()) {
             throw std::runtime_error("Size of string too large to fit.");
-        } else if (size > s.size()) {
-            memcpy(dest, s.data(), s.size());
-            dest[s.size()] = 0;
+        } else if (size > value.size()) {
+            memcpy(dest, value.data(), value.size());
+            dest[value.size()] = 0;
             return size;
         }
-        memcpy(dest, s.data(), s.size());
-        return s.size();
+        memcpy(dest, value.data(), value.size());
+        return value.size();
     }
 
-    template<>
-    std::string unpack<std::string>(const char* s, size_t size) {
-        return std::string(s, size);
+    DEF_PACK_ALT(std::string) {
+        memcpy(dest, value.data(), value.size());
+        return value.size();
     }
+
+    DEF_UNPACK(std::string) {
+        return std::string(src, size);
+    }
+
+    INST_STRING_TEMPLATES(std::string)
 }
 #endif

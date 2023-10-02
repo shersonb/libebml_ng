@@ -1,11 +1,11 @@
 #ifndef EBML_NG_PARSING_IO_CPP
 #define EBML_NG_PARSING_IO_CPP
 
-#include "libebml_ng/parsing/string.h"
-#include "libebml_ng/parsing/io.h"
-#include "libebml_ng/vint.cpp"
-#include "libebml_ng/exceptions.cpp"
 #include <algorithm>
+
+#include "libebml_ng/parsing/io.h"
+#include "libebml_ng/vint.h"
+#include "libebml_ng/exceptions.h"
 
 namespace ebml {
     size_t parseFile::outerSize() const {
@@ -136,9 +136,21 @@ namespace ebml {
         return this->_file->read(dest, size);
     }
 
+    size_t parseFile::read(char* dest, off_t offset, size_t size) const {
+        auto _endOffset = this->endOffset();
+
+        if (offset < 0) {
+            return 0;
+        }
+
+        size_t remaining = static_cast<size_t>(_endOffset - offset);
+        size = std::min(size, remaining);
+
+        return this->_file->read(dest, this->dataOffset() + offset, size);
+    }
+
     parseFile::iterator parseFile::begin() const {
         auto _dataOffset = this->dataOffset();
-        // std::cout << "_dataOffset: " << _dataOffset << std::endl;
 
         if (this->dataSize < 0xffffffffffffffff) {
             return parseFile::iterator(

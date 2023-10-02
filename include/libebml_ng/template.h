@@ -14,6 +14,11 @@ namespace ebml {
         T defaultval;
         static T defaultdefault;
         ebmlDataElementClass();
+
+        ebmlDataElementClass(const char*, const std::wstring&);
+        ebmlDataElementClass(const char*, const std::wstring&, const T&);
+        ebmlDataElementClass(const char*, const std::wstring&, T&&);
+
         ebmlDataElementClass(ebmlID_t, const std::wstring&);
         ebmlDataElementClass(ebmlID_t, const std::wstring&, const T&);
         ebmlDataElementClass(ebmlID_t, const std::wstring&, T&&);
@@ -62,6 +67,77 @@ namespace ebml {
         std::wstring minirepr() const;
     };
 
+    // Specializations for const T are needed to support move construction.
+
+    template<typename T>
+    class ebmlDataElementClass<const T> : public ebmlElementClass {
+        friend class ebmlDataElement<const T>;
+    public:
+        const T defaultval;
+        static const T defaultdefault;
+        ebmlDataElementClass();
+
+        ebmlDataElementClass(const char*, const std::wstring&);
+        ebmlDataElementClass(const char*, const std::wstring&, const T&);
+        ebmlDataElementClass(const char*, const std::wstring&, T&&);
+
+        ebmlDataElementClass(ebmlID_t, const std::wstring&);
+        ebmlDataElementClass(ebmlID_t, const std::wstring&, const T&);
+        ebmlDataElementClass(ebmlID_t, const std::wstring&, T&&);
+
+        // virtual ebmlElement_sp operator()() const;
+        virtual ebmlElement_sp operator()(const T&) const;
+        virtual ebmlElement_sp operator()(T&&) const;
+
+        virtual ebmlElement_sp decode(const parseString&) const;
+        virtual ebmlElement_sp decode(const parseFile&) const;
+
+    protected:
+        ebmlElement_sp _cdecode(const parseString&) const;
+        ebmlElement_sp _cdecode(const parseFile&) const;
+        ebmlElement* _new() const;
+
+    };
+
+    template<typename T>
+    class ebmlDataElement<const T> : public ebmlElement {
+        friend class ebmlDataElementClass<const T>;
+
+        // Constructor/Destructor
+    protected:
+        ebmlDataElement(const ebmlDataElementClass<const T>*, const T&);
+        ebmlDataElement(const ebmlDataElementClass<const T>*, T&&);
+
+    public:
+        T data;
+        const ebmlDataElementClass<const T>* cls() const;
+
+        // Size functions.
+    public:
+        virtual size_t dataSize() const;
+
+        // Encode functions.
+    protected:
+        virtual size_t _encode(char*) const;
+        // virtual size_t _encode(char*, size_t) const;
+
+        // Decode functions:
+    protected:
+        void _decode(const parseString&);
+        void _decode(const parseFile&);
+
+        // Cloning functions:
+    public:
+        ebmlElement_sp clone() const;
+
+    protected:
+        void _clonedata(const ebmlElement*);
+
+    public:
+        // Repr function
+        std::wstring minirepr() const;
+    };
+
     template<typename T>
     using ebmlDataElement_sp = std::shared_ptr<ebmlDataElement<T>>;
 
@@ -70,7 +146,7 @@ namespace ebml {
     T& data(const ebmlElement_sp& elem);
 
     template<typename T>
-    T data(const c_ebmlElement_sp& elem);
-
+    const T& data(const c_ebmlElement_sp& elem);
 }
+
 #endif

@@ -2,15 +2,7 @@
 #define EBML_NG_MASTERELEMENT_CPP
 
 #include "libebml_ng/masterelement/base.h"
-
-#include "base/initialization.cpp"
-#include "base/childmgmt.cpp"
-#include "base/iteration.cpp"
-#include "base/size.cpp"
-#include "base/encoding.cpp"
-#include "base/decoding.cpp"
-
-#include "libebml_ng/exceptions.cpp"
+#include "libebml_ng/exceptions.h"
 
 namespace ebml {
     const ebmlMasterElementClass* ebmlMasterElement::cls() const {
@@ -24,13 +16,13 @@ namespace ebml {
     }
 
     void ebmlMasterElement::_clonedata(const ebmlElement* elem) {
-        this->_clear();
-
         auto melem = dynamic_cast<const ebmlMasterElement*>(elem);
 
         if (melem == nullptr) {
             throw std::invalid_argument("Unable to cast to const ebmlMasterElement*");
         }
+
+        this->_clear();
 
         auto iter = melem->cbegin();
         auto end = melem->cend();

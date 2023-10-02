@@ -16,6 +16,8 @@ namespace ebml {
     // Encode vint with provided vint-width.
     void packVint(unsigned long long, vintWidth_t, char*);
 
+    unsigned long long unpackVint(const char* data);
+
     // Decode vint from char array, providing the size of char array.
     // Raises exception on unexpected end of data.
     // Stores vint-width in provided vintWidth_t reference.

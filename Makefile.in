@@ -11,11 +11,42 @@ LIBNAME = libebml_ng
 # Source files
 SRCDIR = src
 INCDIR = include
-SRCFILE = $(SRCDIR)/$(LIBNAME).cpp
+
+# SRCFILE = $(SRCDIR)/$(LIBNAME).cpp
+SRCFILES = libebml_ng/io/stdio.cpp \
+    libebml_ng/io/fd.cpp \
+    libebml_ng/repr.cpp \
+    libebml_ng/io.cpp \
+    libebml_ng/exceptions.cpp \
+    libebml_ng/base.cpp \
+    libebml_ng/struct.cpp \
+    libebml_ng/masterelement/base.cpp \
+    libebml_ng/masterelement/base/childmgmt.cpp \
+    libebml_ng/masterelement/base/decoding.cpp \
+    libebml_ng/masterelement/base/size.cpp \
+    libebml_ng/masterelement/base/encoding.cpp \
+    libebml_ng/masterelement/base/initialization.cpp \
+    libebml_ng/masterelement/base/iteration.cpp \
+    libebml_ng/masterelement/multislot.cpp \
+    libebml_ng/masterelement/list.cpp \
+    libebml_ng/vint.cpp \
+    libebml_ng/parsing/io.cpp \
+    libebml_ng/parsing/string.cpp \
+    libebml_ng/struct/ll.cpp \
+    libebml_ng/struct/ull.cpp \
+    libebml_ng/struct/double.cpp \
+    libebml_ng/struct/binary.cpp \
+    libebml_ng/struct/unicode.cpp \
+    libebml_ng/struct/datetime.cpp \
+    libebml_ng/basictypes.cpp \
+    libebml_ng/head.cpp \
+    libebml_ng/seekdata.cpp \
+    libebml_ng.cpp
 
 # Build files
 BUILDDIR = build
-OBJFILE = $(BUILDDIR)/$(LIBNAME).o
+OBJFILES = $(patsubst %.cpp,%.o,$(SRCFILES))
+
 LIBFILE = $(BUILDDIR)/$(LIBNAME).so
 
 HEADERFILE = $(INCDIR)/$(LIBNAME).h
@@ -25,11 +56,12 @@ HEADERDIR = $(INCDIR)/$(LIBNAME)
 all: $(LIBFILE)
 
 # Rule to build an object file
-$(OBJFILE): $(SRCFILE)
+$(BUILDDIR)/%.o: $(SRCDIR)/%.cpp
+	mkdir -p $(@D)
 	$(CXX) $(CCFLAGS) -c $< -o $@
 
 # Rule to build the library
-$(LIBFILE): $(OBJFILE)
+$(LIBFILE): $(addprefix $(BUILDDIR)/,$(OBJFILES))
 	$(CXX) $(LDFLAGS) -o $@ $^
 
 # Install rule
@@ -42,4 +74,4 @@ install: $(LIBFILE)
 
 # Clean rule
 clean:
-	rm -f $(BUILDDIR)/$(LIBNAME).o $(BUILDDIR)/$(LIBNAME).so
+	rm -Rf $(BUILDDIR)/$(LIBNAME) $(BUILDDIR)/$(LIBNAME).o $(BUILDDIR)/$(LIBNAME).so
