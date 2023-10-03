@@ -10,10 +10,10 @@
 #include "libebml_ng/vint.h"
 
 namespace ebml {
-    ebmlElementClass::ebmlElementClass() {
-        this->ebmlID = 0;
-        this->name = std::wstring(L"");
-    }
+    // ebmlElementClass::ebmlElementClass() {
+    //     this->ebmlID = 0;
+    //     this->name = std::wstring(L"");
+    // }
 
     ebmlElement_sp ebmlElementClass::operator()() const {
         return ebmlElement_sp(this->_new());
@@ -527,9 +527,7 @@ namespace ebml {
         return std::wstring();
     }
 
-    ebmlVoidClass::ebmlVoidClass() {
-        this->ebmlID = 108;
-    }
+    ebmlVoidClass::ebmlVoidClass() : ebmlElementClass("\xec", L"EBMLVoid") {}
 
     ebmlElement* ebmlVoidClass::_new() const {
         return new ebmlVoid(this);
@@ -618,6 +616,8 @@ namespace ebml {
         ss << L">";
         return ss.str();
     }
+
+    ebmlVoidClass Void = ebmlVoidClass();
 }
 
 #endif

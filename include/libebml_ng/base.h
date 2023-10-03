@@ -26,23 +26,76 @@ namespace ebml {
     typedef std::weak_ptr<ebmlElement> ebmlElement_wp;
     typedef std::weak_ptr<const ebmlElement> c_ebmlElement_wp;
 
+    /**
+     * Shared pointer to an ebmlDocument instance.
+     */
+
     typedef std::shared_ptr<ebmlDocument> ebmlDocument_sp;
+
+    /**
+     * Weak pointer to an ebmlDocument instance.
+     */
+
     typedef std::weak_ptr<ebmlDocument> ebmlDocument_wp;
 
-    // Abstract base class for EBML Element Type objects. Every subclass of ebmlElementClass must have a companion subclass of
-    // ebmlElement declared as a friend class.
+    /**
+     * Abstract base class for EBML Element Type objects. Every
+     * subclass of ebmlElementClass must have a companion subclass
+     * of ebmlElement declared as a friend class.
+     *
+     * Instances of ebmlElementClass are constructed using an
+     * EBML ID, either as an ebmlID_t (unsigned long long) or as
+     * a VINT (const char*), and a class name (unicode string).
+     */
 
     class ebmlElementClass {
         friend class ebmlElement;
         friend class ebmlMasterElement;
     public:
-        ebmlElementClass();
-        ebmlElementClass(const char*, const std::wstring&);
-        ebmlElementClass(ebmlID_t, const std::wstring&);
+
+        /**
+        * Constructor for EBML Element Type objects.
+        *
+        * @param ebmlID EBML ID as a VINT string.
+        * @param name Name for EBML Element Type.
+        *
+        * Example:
+        * @code
+        * ebmlVoidClass::ebmlVoidClass() : ebmlElementClass("\xec", "EBMLVoid") {}
+        * @endcode
+        */
+
+        ebmlElementClass(const char* ebmlID, const std::wstring& name);
+
+        /**
+        * Constructor for EBML Element Type objects.
+        *
+        * @param ebmlID EBML ID as an unsigned integer.
+        * @param name Name for EBML Element Type.
+        *
+        * Example:
+        * @code
+        * ebmlVoidClass::ebmlVoidClass() : ebmlElementClass(108, "EBMLVoid") {}
+        * @endcode
+        */
+
+        ebmlElementClass(ebmlID_t ebmlID, const std::wstring& name);
+
         ebmlID_t ebmlID;
         std::wstring name;
 
-        // It is recommended to define overloads to operator() in subclasses.
+        /**
+        * Create default ebmlElement instance.
+        *
+        * @return Shared pointer to ebmlElement instance.
+        *
+        * Example:
+        * @code
+        * ebmlElementClass ebmlClass = ...;
+        * ebmlElement_sp elem = ebmlClass();
+        * @endcode
+        */
+
         ebmlElement_sp operator()() const;
 
     protected:
@@ -50,15 +103,69 @@ namespace ebml {
 
         // Decode methods taking parse data classes.
     public:
-        // These two methods should almost never be overridden.
-        // However, overriding these methods becomes necessary
-        // in ebmlDataElementClass<const T>
+        /**
+        * Create ebmlElement instance, decoding data in a
+        * parseString instance.
+        *
+        * @return Shared pointer to new ebmlElement instance.
+        *
+        * Example:
+        * @code
+        * ebmlVoidClass Void;
+        * const char* data = "\xec\x82\x00\x00";
+        * auto parsed = parseString(data);
+        * ebmlElement_sp elem = Void.decode(parsed);
+        * @endcode
+        */
+
         virtual ebmlElement_sp decode(const parseString&) const;
+
+        /**
+        * Create ebmlElement instance, decoding data in a
+        * parseFile instance.
+        *
+        * @return Shared pointer to new ebmlElement instance.
+        */
+
         virtual ebmlElement_sp decode(const parseFile&) const;
 
-        // Decode methods applied directly to character and file-like objects.
-        ebmlElement_sp decode(const char*, size_t) const;
-        ebmlElement_sp decode(const std::string&) const;
+        /**
+        * Create ebmlElement instance, decoding from a const char* array.
+        *
+        * This function delegates to ebmlElementClass::decode(const parseString&).
+        *
+        * @param data Data to decode.
+        * @param size Size of 'data'.
+        * @return Shared pointer to new ebmlElement instance.
+        * @throws ebmlDataContinues If 'size' indicates 'data' continues past expected end.
+        *
+        * Example:
+        * @code
+        * ebmlVoidClass Void;
+        * const char* data = "\xec\x82\x00\x00";
+        * ebmlElement_sp elem = Void.decode(data, 4);
+        * @endcode
+        */
+
+        ebmlElement_sp decode(const char* data, size_t size) const;
+
+        /**
+        * Create ebmlElement instance, decoding from a std::string.
+        *
+        * This function delegates to ebmlElementClass::decode(const char*, size_t).
+        *
+        * @param data Data to decode.
+        * @return Shared pointer to new ebmlElement instance.
+        *
+        * Example:
+        * @code
+        * ebmlVoidClass Void;
+        * auto data = std::string("\xec\x82\x00\x00", 4);
+        * ebmlElement_sp elem = Void.decode(data);
+        * @endcode
+        */
+
+        ebmlElement_sp decode(const std::string& data) const;
         ebmlElement_sp decode(ioBase_sp&) const;
         ebmlElement_sp decode(ioBase*) const;
 
@@ -66,19 +173,91 @@ namespace ebml {
         // These are virtual because it may be necessary to reimplement in some cases.
         c_ebmlElement_sp cdecode(const parseString&) const;
         c_ebmlElement_sp cdecode(const parseFile&) const;
+
+        /**
+        * Create const ebmlElement instance, decoding from a const char* array.
+        *
+        * @param data Data to decode.
+        * @param size Size of 'data'.
+        * @return Shared pointer to new ebmlElement instance.
+        *
+        * Example:
+        * @code
+        * ebmlVoidClass Void;
+        * const char* = "\xec\x82\x00\x00";
+        * ebmlElement_sp elem = Void.cdecode(data, 4);
+        * @endcode
+        */
+
         c_ebmlElement_sp cdecode(const char*, size_t) const;
         c_ebmlElement_sp cdecode(const std::string&) const;
         c_ebmlElement_sp cdecode(ioBase_sp&) const;
         c_ebmlElement_sp cdecode(ioBase*) const;
 
+        /**
+        * Convenience member function that dynamically casts
+        * ebmlElementClass to a subclass.
+        *
+        * @return Reference to instance as a T object.
+        *
+        * Example:
+        * @code
+        * ebmlElementClass cls = ebmlVoidClass();
+        * ebmlVoidClass& Void = cls.ref<ebmlVoidClass>();
+        * @endcode
+        * @throws std::bad_alloc If instance is not an instance of T.
+        */
+
         template<typename T=ebmlElementClass>
         T& ref();
+
+        /**
+        * Convenience member function that dynamically casts
+        * const ebmlElementClass to a subclass.
+        *
+        * @return Const reference to instance as a T object.
+        *
+        * Example:
+        * @code
+        * const ebmlElementClass cls = ebmlVoidClass();
+        * const ebmlVoidClass& Void = cls.ref<ebmlVoidClass>();
+        * @endcode
+        * @throws std::bad_alloc If instance is not an instance of T.
+        */
 
         template<typename T=ebmlElementClass>
         const T& ref() const;
 
+        /**
+        * Convenience member function that dynamically casts
+        * ebmlElementClass to a subclass.
+        *
+        * @return Pointer to instance as a T object.
+        *
+        * Example:
+        * @code
+        * ebmlElementClass cls = ebmlVoidClass();
+        * ebmlVoidClass* Void = cls.ptr<ebmlVoidClass>();
+        * @endcode
+        * @throws std::bad_alloc If instance is not an instance of T.
+        */
+
         template<typename T=ebmlElementClass>
         T* ptr();
+
+        /**
+        * Convenience member function that dynamically casts
+        * const ebmlElementClass to a subclass.
+        *
+        * @return Pointer to instance as a const T object.
+        *
+        * Example:
+        * @code
+        * const ebmlElementClass cls = ebmlVoidClass();
+        * const ebmlVoidClass* Void = cls.ptr<ebmlVoidClass>();
+        * @endcode
+        * @throws std::bad_alloc If instance is not an instance of T.
+        */
 
         template<typename T=ebmlElementClass>
         const T* ptr() const;
@@ -95,8 +274,11 @@ namespace ebml {
         std::wstring repr() const;
     };
 
-    // Abstract base class for EBML Element objects. Every subclass of ebmlElement must have a companion subclass of
-    // ebmlElementClass declared as a friend class.
+    /**
+     * Abstract base class for EBML Element objects.
+     * Every subclass of ebmlElement must have a companion subclass of
+     * ebmlElementClass declared as a friend class.
+     */
 
     class ebmlElement : public std::enable_shared_from_this<ebmlElement> {
         friend class ebmlElementClass;
@@ -133,8 +315,23 @@ namespace ebml {
 
         // Hierarchy members.
     public:
+        /**
+         * Specifies whether ebmlElement instance is storing a pointer to a
+         * const instance of its parent.
+         */
+
         bool parent_is_const() const; // Member function that specifies if pointer is to a const parent or non-const parent.
+
+        /**
+         * Returns a shared pointer to parent.
+         */
+
         ebmlElement_sp parent() const; // Returns pointer to non-const parent. Throws ebmlException if parent_is_const() returns true.
+
+        /**
+         * Returns a shared pointer to parent (const access).
+         */
+
         c_ebmlElement_sp c_parent() const; // Returns pointer to const parent.
 
     private:
