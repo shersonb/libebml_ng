@@ -10,9 +10,9 @@
 #include <memory>
 
 namespace ebml {
-    template<typename T>
-    ebmlDataElementClass<T>::ebmlDataElementClass() : ebmlElementClass() {
-    }
+    // template<typename T>
+    // ebmlDataElementClass<T>::ebmlDataElementClass() : ebmlElementClass() {
+    // }
 
     template<typename T>
     ebmlDataElementClass<T>::ebmlDataElementClass(const char* ebmlID, const std::wstring& name)
@@ -128,9 +128,9 @@ namespace ebml {
     }
 
 
-    template<typename T>
-    ebmlDataElementClass<const T>::ebmlDataElementClass() : ebmlElementClass(), defaultval(defaultdefault) {
-    }
+    // template<typename T>
+    // ebmlDataElementClass<const T>::ebmlDataElementClass() : ebmlElementClass(), defaultval(defaultdefault) {
+    // }
 
     template<typename T>
     ebmlDataElementClass<const T>::ebmlDataElementClass(const char* ebmlID, const std::wstring& name)

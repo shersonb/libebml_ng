@@ -13,7 +13,7 @@ namespace ebml {
     public:
         T defaultval;
         static T defaultdefault;
-        ebmlDataElementClass();
+        // ebmlDataElementClass();
 
         ebmlDataElementClass(const char*, const std::wstring&);
         ebmlDataElementClass(const char*, const std::wstring&, const T&);
@@ -75,7 +75,7 @@ namespace ebml {
     public:
         const T defaultval;
         static const T defaultdefault;
-        ebmlDataElementClass();
+        // ebmlDataElementClass();
 
         ebmlDataElementClass(const char*, const std::wstring&);
         ebmlDataElementClass(const char*, const std::wstring&, const T&);
