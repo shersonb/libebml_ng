@@ -1,0 +1,56 @@
+\hypertarget{multislot_8h}{}\section{include/libebml\+\_\+ng/masterelement/multislot.h File Reference}
+\label{multislot_8h}\index{include/libebml\+\_\+ng/masterelement/multislot.\+h@{include/libebml\+\_\+ng/masterelement/multislot.\+h}}
+{\ttfamily \#include \char`\"{}libebml\+\_\+ng/base.\+h\char`\"{}}\newline
+{\ttfamily \#include \char`\"{}libebml\+\_\+ng/masterelement/base.\+h\char`\"{}}\newline
+{\ttfamily \#include $<$unordered\+\_\+map$>$}\newline
+{\ttfamily \#include $<$vector$>$}\newline
+{\ttfamily \#include $<$variant$>$}\newline
+{\ttfamily \#include $<$ext/new\+\_\+allocator.\+h$>$}\newline
+\subsection*{Classes}
+\begin{DoxyCompactItemize}
+\item 
+class \mbox{\hyperlink{classebml_1_1slotSpec__t}{ebml\+::slot\+Spec\+\_\+t}}
+\item 
+class \mbox{\hyperlink{classebml_1_1ebmlMultiSlotClass}{ebml\+::ebml\+Multi\+Slot\+Class}}
+\item 
+class \mbox{\hyperlink{classebml_1_1slotArg__t}{ebml\+::slot\+Arg\+\_\+t}}
+\item 
+class \mbox{\hyperlink{classebml_1_1const__slot__t}{ebml\+::const\+\_\+slot\+\_\+t}}
+\item 
+class \mbox{\hyperlink{classebml_1_1const__slot__t_1_1iterator}{ebml\+::const\+\_\+slot\+\_\+t\+::iterator}}
+\item 
+class \mbox{\hyperlink{classebml_1_1slot__t}{ebml\+::slot\+\_\+t}}
+\item 
+class \mbox{\hyperlink{classebml_1_1slot__t_1_1iterator}{ebml\+::slot\+\_\+t\+::iterator}}
+\item 
+class \mbox{\hyperlink{classebml_1_1ebmlMultiSlot}{ebml\+::ebml\+Multi\+Slot}}
+\item 
+class \mbox{\hyperlink{classebml_1_1ebmlMultiSlot_1_1__iterator}{ebml\+::ebml\+Multi\+Slot\+::\+\_\+iterator}}
+\item 
+class \mbox{\hyperlink{classebml_1_1ebmlMultiSlot_1_1__const__iterator}{ebml\+::ebml\+Multi\+Slot\+::\+\_\+const\+\_\+iterator}}
+\end{DoxyCompactItemize}
+\subsection*{Namespaces}
+\begin{DoxyCompactItemize}
+\item 
+ \mbox{\hyperlink{namespaceebml}{ebml}}
+\end{DoxyCompactItemize}
+\subsection*{Typedefs}
+\begin{DoxyCompactItemize}
+\item 
+typedef std\+::vector$<$ slot\+Spec\+\_\+t $>$ \mbox{\hyperlink{namespaceebml_abdc1248164e4e424423defac9fff7d4d}{ebml\+::slot\+Spec\+\_\+l}}
+\item 
+typedef std\+::list$<$ slot\+Arg\+\_\+t $>$ \mbox{\hyperlink{namespaceebml_ae432575dfbb3e141ce897442794f0ca5}{ebml\+::slot\+Arg\+\_\+l}}
+\item 
+typedef std\+::unordered\+\_\+map$<$ std\+::string, slot\+Arg\+\_\+t $>$ \mbox{\hyperlink{namespaceebml_a4317d4c495715eced3ed448c2d05caeb}{ebml\+::slot\+Arg\+\_\+d}}
+\item 
+typedef std\+::shared\+\_\+ptr$<$ ebml\+Multi\+Slot $>$ \mbox{\hyperlink{namespaceebml_a1e633eb51fcbe25caf953fd159171543}{ebml\+::ebml\+Multi\+Slot\+\_\+sp}}
+\item 
+typedef std\+::shared\+\_\+ptr$<$ const ebml\+Multi\+Slot $>$ \mbox{\hyperlink{namespaceebml_a2b7466e45489d2a5dbfa29b411eb4ed0}{ebml\+::c\+\_\+ebml\+Multi\+Slot\+\_\+sp}}
+\end{DoxyCompactItemize}
+\subsection*{Functions}
+\begin{DoxyCompactItemize}
+\item 
+{\footnotesize template$<$typename T $>$ }\\T \mbox{\hyperlink{namespaceebml_a766ff55857f1018516a926913abc8a83}{ebml\+::data}} (const const\+\_\+slot\+\_\+t \&slot)
+\item 
+{\footnotesize template$<$typename T $>$ }\\T \& \mbox{\hyperlink{namespaceebml_ad2539ebb0462e9038828f80590adf688}{ebml\+::data}} (slot\+\_\+t \&slot)
+\end{DoxyCompactItemize}

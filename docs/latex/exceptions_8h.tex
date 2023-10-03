@@ -1,0 +1,81 @@
+\hypertarget{exceptions_8h}{}\section{include/libebml\+\_\+ng/exceptions.h File Reference}
+\label{exceptions_8h}\index{include/libebml\+\_\+ng/exceptions.\+h@{include/libebml\+\_\+ng/exceptions.\+h}}
+{\ttfamily \#include $<$string$>$}\newline
+{\ttfamily \#include \char`\"{}base.\+h\char`\"{}}\newline
+\subsection*{Classes}
+\begin{DoxyCompactItemize}
+\item 
+class \mbox{\hyperlink{classebml_1_1stopIteration}{ebml\+::stop\+Iteration}}
+\item 
+class \mbox{\hyperlink{classebml_1_1ebmlException}{ebml\+::ebml\+Exception}}
+\item 
+class \mbox{\hyperlink{classebml_1_1ebmlNotImplementedError}{ebml\+::ebml\+Not\+Implemented\+Error}}
+\item 
+class \mbox{\hyperlink{classebml_1_1ebmlEncodeError}{ebml\+::ebml\+Encode\+Error}}
+\item 
+class \mbox{\hyperlink{classebml_1_1ebmlDecodeError}{ebml\+::ebml\+Decode\+Error}}
+\item 
+class \mbox{\hyperlink{classebml_1_1ebmlInvalidVint}{ebml\+::ebml\+Invalid\+Vint}}
+\item 
+class \mbox{\hyperlink{classebml_1_1ebmlNoMatch}{ebml\+::ebml\+No\+Match}}
+\item 
+class \mbox{\hyperlink{classebml_1_1ebmlNoChildMatch}{ebml\+::ebml\+No\+Child\+Match}}
+\item 
+class \mbox{\hyperlink{classebml_1_1ebmlUnexpectedEndOfData}{ebml\+::ebml\+Unexpected\+End\+Of\+Data}}
+\item 
+class \mbox{\hyperlink{classebml_1_1ebmlDataContinues}{ebml\+::ebml\+Data\+Continues}}
+\item 
+class \mbox{\hyperlink{classebml_1_1ebmlFormatError}{ebml\+::ebml\+Format\+Error}}
+\item 
+class \mbox{\hyperlink{classebml_1_1unicodeDecodeError}{ebml\+::unicode\+Decode\+Error}}
+\item 
+class \mbox{\hyperlink{classebml_1_1unicodeEncodeError}{ebml\+::unicode\+Encode\+Error}}
+\end{DoxyCompactItemize}
+\subsection*{Namespaces}
+\begin{DoxyCompactItemize}
+\item 
+ \mbox{\hyperlink{namespaceebml}{ebml}}
+\end{DoxyCompactItemize}
+\subsection*{Macros}
+\begin{DoxyCompactItemize}
+\item 
+\#define \mbox{\hyperlink{exceptions_8h_a01ee6217c68541f80344fef107abc5fe}{D\+E\+C\+O\+D\+E\+\_\+\+E\+R\+R\+\_\+\+S\+I\+G\+\_\+\+D\+E\+CL}}~const std\+::string\& message, const ebml\+Element\+Class$\ast$ cls=nullptr, off\+\_\+t offset=-\/1, unsigned char head\+Size=0, off\+\_\+t erroroffset=-\/1
+\item 
+\#define \mbox{\hyperlink{exceptions_8h_a89caf3bc22758eb2ef85c9699a5cbaaa}{D\+E\+C\+O\+D\+E\+\_\+\+E\+R\+R\+\_\+\+S\+IG}}~const std\+::string\& message, const ebml\+Element\+Class$\ast$ cls, off\+\_\+t offset, unsigned char head\+Size, off\+\_\+t erroroffset
+\item 
+\#define \mbox{\hyperlink{exceptions_8h_a208012d6b09554374a4dc0254a7749af}{D\+E\+C\+O\+D\+E\+\_\+\+E\+R\+R\+\_\+\+A\+R\+GS}}~message, cls, offset, head\+Size, erroroffset
+\item 
+\#define \mbox{\hyperlink{exceptions_8h_a7786f4d58118605f83b1850a18053091}{D\+E\+C\+O\+D\+E\+\_\+\+E\+R\+R\+\_\+\+D\+E\+F\+A\+U\+LT}}~nullptr, 0, 0
+\end{DoxyCompactItemize}
+\subsection*{Functions}
+\begin{DoxyCompactItemize}
+\item 
+std\+::string \mbox{\hyperlink{namespaceebml_a41bf8a299c4418f406beff89817b0690}{ebml\+::make\+\_\+exc\+\_\+msg}} (const char $\ast$msg, unsigned int lineno, const char $\ast$file)
+\end{DoxyCompactItemize}
+
+
+\subsection{Macro Definition Documentation}
+\mbox{\Hypertarget{exceptions_8h_a208012d6b09554374a4dc0254a7749af}\label{exceptions_8h_a208012d6b09554374a4dc0254a7749af}} 
+\index{exceptions.\+h@{exceptions.\+h}!D\+E\+C\+O\+D\+E\+\_\+\+E\+R\+R\+\_\+\+A\+R\+GS@{D\+E\+C\+O\+D\+E\+\_\+\+E\+R\+R\+\_\+\+A\+R\+GS}}
+\index{D\+E\+C\+O\+D\+E\+\_\+\+E\+R\+R\+\_\+\+A\+R\+GS@{D\+E\+C\+O\+D\+E\+\_\+\+E\+R\+R\+\_\+\+A\+R\+GS}!exceptions.\+h@{exceptions.\+h}}
+\subsubsection{\texorpdfstring{D\+E\+C\+O\+D\+E\+\_\+\+E\+R\+R\+\_\+\+A\+R\+GS}{DECODE\_ERR\_ARGS}}
+{\footnotesize\ttfamily \#define D\+E\+C\+O\+D\+E\+\_\+\+E\+R\+R\+\_\+\+A\+R\+GS~message, cls, offset, head\+Size, erroroffset}
+
+\mbox{\Hypertarget{exceptions_8h_a7786f4d58118605f83b1850a18053091}\label{exceptions_8h_a7786f4d58118605f83b1850a18053091}} 
+\index{exceptions.\+h@{exceptions.\+h}!D\+E\+C\+O\+D\+E\+\_\+\+E\+R\+R\+\_\+\+D\+E\+F\+A\+U\+LT@{D\+E\+C\+O\+D\+E\+\_\+\+E\+R\+R\+\_\+\+D\+E\+F\+A\+U\+LT}}
+\index{D\+E\+C\+O\+D\+E\+\_\+\+E\+R\+R\+\_\+\+D\+E\+F\+A\+U\+LT@{D\+E\+C\+O\+D\+E\+\_\+\+E\+R\+R\+\_\+\+D\+E\+F\+A\+U\+LT}!exceptions.\+h@{exceptions.\+h}}
+\subsubsection{\texorpdfstring{D\+E\+C\+O\+D\+E\+\_\+\+E\+R\+R\+\_\+\+D\+E\+F\+A\+U\+LT}{DECODE\_ERR\_DEFAULT}}
+{\footnotesize\ttfamily \#define D\+E\+C\+O\+D\+E\+\_\+\+E\+R\+R\+\_\+\+D\+E\+F\+A\+U\+LT~nullptr, 0, 0}
+
+\mbox{\Hypertarget{exceptions_8h_a89caf3bc22758eb2ef85c9699a5cbaaa}\label{exceptions_8h_a89caf3bc22758eb2ef85c9699a5cbaaa}} 
+\index{exceptions.\+h@{exceptions.\+h}!D\+E\+C\+O\+D\+E\+\_\+\+E\+R\+R\+\_\+\+S\+IG@{D\+E\+C\+O\+D\+E\+\_\+\+E\+R\+R\+\_\+\+S\+IG}}
+\index{D\+E\+C\+O\+D\+E\+\_\+\+E\+R\+R\+\_\+\+S\+IG@{D\+E\+C\+O\+D\+E\+\_\+\+E\+R\+R\+\_\+\+S\+IG}!exceptions.\+h@{exceptions.\+h}}
+\subsubsection{\texorpdfstring{D\+E\+C\+O\+D\+E\+\_\+\+E\+R\+R\+\_\+\+S\+IG}{DECODE\_ERR\_SIG}}
+{\footnotesize\ttfamily \#define D\+E\+C\+O\+D\+E\+\_\+\+E\+R\+R\+\_\+\+S\+IG~const std\+::string\& message, const ebml\+Element\+Class$\ast$ cls, off\+\_\+t offset, unsigned char head\+Size, off\+\_\+t erroroffset}
+
+\mbox{\Hypertarget{exceptions_8h_a01ee6217c68541f80344fef107abc5fe}\label{exceptions_8h_a01ee6217c68541f80344fef107abc5fe}} 
+\index{exceptions.\+h@{exceptions.\+h}!D\+E\+C\+O\+D\+E\+\_\+\+E\+R\+R\+\_\+\+S\+I\+G\+\_\+\+D\+E\+CL@{D\+E\+C\+O\+D\+E\+\_\+\+E\+R\+R\+\_\+\+S\+I\+G\+\_\+\+D\+E\+CL}}
+\index{D\+E\+C\+O\+D\+E\+\_\+\+E\+R\+R\+\_\+\+S\+I\+G\+\_\+\+D\+E\+CL@{D\+E\+C\+O\+D\+E\+\_\+\+E\+R\+R\+\_\+\+S\+I\+G\+\_\+\+D\+E\+CL}!exceptions.\+h@{exceptions.\+h}}
+\subsubsection{\texorpdfstring{D\+E\+C\+O\+D\+E\+\_\+\+E\+R\+R\+\_\+\+S\+I\+G\+\_\+\+D\+E\+CL}{DECODE\_ERR\_SIG\_DECL}}
+{\footnotesize\ttfamily \#define D\+E\+C\+O\+D\+E\+\_\+\+E\+R\+R\+\_\+\+S\+I\+G\+\_\+\+D\+E\+CL~const std\+::string\& message, const ebml\+Element\+Class$\ast$ cls=nullptr, off\+\_\+t offset=-\/1, unsigned char head\+Size=0, off\+\_\+t erroroffset=-\/1}
+
