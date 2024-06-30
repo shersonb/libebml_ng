@@ -34,5 +34,7 @@ namespace ebml {
             ++iter;
         }
     }
+
+    INST_AS_MEMBERS(ebmlMasterElementClass, ebmlMasterElement)
 }
 #endif

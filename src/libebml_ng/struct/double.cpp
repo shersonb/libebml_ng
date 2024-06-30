@@ -11,7 +11,7 @@ namespace ebml {
     DEF_PACK_ALT(float) {
         memcpy(dest, &value, sizeof(float));
 
-        if (_is_littleendian) {
+        if (std::endian::native == std::endian::little) {
             _reverse(dest, 0, sizeof(float) - 1);
         }
 
@@ -21,7 +21,7 @@ namespace ebml {
     DEF_PACK_ALT(double) {
         memcpy(dest, &value, sizeof(double));
 
-        if (_is_littleendian) {
+        if (std::endian::native == std::endian::little) {
             _reverse(dest, 0, sizeof(double) - 1);
         }
 
@@ -39,7 +39,7 @@ namespace ebml {
 
         memcpy(&ret, src, sizeof(float));
 
-        if (_is_littleendian) {
+        if (std::endian::native == std::endian::little) {
             _reverse((char*)&ret, 0, sizeof(float) - 1);
         }
 
@@ -59,7 +59,7 @@ namespace ebml {
 
         memcpy(&ret, src, sizeof(double));
 
-        if (_is_littleendian) {
+        if (std::endian::native == std::endian::little) {
             _reverse((char*)&ret, 0, sizeof(double) - 1);
         }
 

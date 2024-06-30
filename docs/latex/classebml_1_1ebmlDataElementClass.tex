@@ -2,7 +2,7 @@
 \label{classebml_1_1ebmlDataElementClass}\index{ebml\+::ebml\+Data\+Element\+Class$<$ T $>$@{ebml\+::ebml\+Data\+Element\+Class$<$ T $>$}}
 
 
-{\ttfamily \#include $<$template.\+h$>$}
+{\ttfamily \#include $<$dataelement.\+h$>$}
 
 Inheritance diagram for ebml\+:\+:ebml\+Data\+Element\+Class$<$ T $>$\+:\begin{figure}[H]
 \begin{center}
@@ -42,7 +42,11 @@ static T \mbox{\hyperlink{classebml_1_1ebmlDataElementClass_aa58b82cbc57d5ba83c5
 \subsection*{Protected Member Functions}
 \begin{DoxyCompactItemize}
 \item 
-\mbox{\hyperlink{classebml_1_1ebmlElement}{ebml\+Element}} $\ast$ \mbox{\hyperlink{classebml_1_1ebmlDataElementClass_a022ddc37a9bf678de66dab9157d08b9a}{\+\_\+new}} () const
+\mbox{\hyperlink{classebml_1_1ebmlElement}{ebml\+Element}} $\ast$ \mbox{\hyperlink{classebml_1_1ebmlDataElementClass_a79fabffdfd33bee94cd14416646da546}{\+\_\+new}} () const override
+\item 
+\mbox{\hyperlink{namespaceebml_adad533b7705a16bb360fe56380c5e7be}{ebml\+Element\+\_\+sp}} \mbox{\hyperlink{classebml_1_1ebmlDataElementClass_a481cda6ab9f96ab21434daabd9ad1ed9}{\+\_\+decode}} (const \mbox{\hyperlink{classebml_1_1parseString}{parse\+String}} \&) const override
+\item 
+\mbox{\hyperlink{namespaceebml_adad533b7705a16bb360fe56380c5e7be}{ebml\+Element\+\_\+sp}} \mbox{\hyperlink{classebml_1_1ebmlDataElementClass_ac0b070ab767aecb9387f9c0e412e8136}{\+\_\+decode}} (const \mbox{\hyperlink{classebml_1_1parseFile}{parse\+File}} \&) const override
 \end{DoxyCompactItemize}
 \subsection*{Friends}
 \begin{DoxyCompactItemize}
@@ -97,12 +101,34 @@ class \mbox{\hyperlink{classebml_1_1ebmlDataElementClass_a817c43c32db8e0094e44cb
 
 
 \subsection{Member Function Documentation}
-\mbox{\Hypertarget{classebml_1_1ebmlDataElementClass_a022ddc37a9bf678de66dab9157d08b9a}\label{classebml_1_1ebmlDataElementClass_a022ddc37a9bf678de66dab9157d08b9a}} 
+\mbox{\Hypertarget{classebml_1_1ebmlDataElementClass_a481cda6ab9f96ab21434daabd9ad1ed9}\label{classebml_1_1ebmlDataElementClass_a481cda6ab9f96ab21434daabd9ad1ed9}} 
+\index{ebml\+::ebml\+Data\+Element\+Class@{ebml\+::ebml\+Data\+Element\+Class}!\+\_\+decode@{\+\_\+decode}}
+\index{\+\_\+decode@{\+\_\+decode}!ebml\+::ebml\+Data\+Element\+Class@{ebml\+::ebml\+Data\+Element\+Class}}
+\subsubsection{\texorpdfstring{\+\_\+decode()}{\_decode()}\hspace{0.1cm}{\footnotesize\ttfamily [1/2]}}
+{\footnotesize\ttfamily template$<$typename T$>$ \\
+\mbox{\hyperlink{namespaceebml_adad533b7705a16bb360fe56380c5e7be}{ebml\+Element\+\_\+sp}} \mbox{\hyperlink{classebml_1_1ebmlDataElementClass}{ebml\+::ebml\+Data\+Element\+Class}}$<$ T $>$\+::\+\_\+decode (\begin{DoxyParamCaption}\item[{const \mbox{\hyperlink{classebml_1_1parseString}{parse\+String}} \&}]{ }\end{DoxyParamCaption}) const\hspace{0.3cm}{\ttfamily [override]}, {\ttfamily [protected]}, {\ttfamily [virtual]}}
+
+
+
+Implements \mbox{\hyperlink{classebml_1_1ebmlElementClass_aa6bf675de4918fd7b553d141871a2ede}{ebml\+::ebml\+Element\+Class}}.
+
+\mbox{\Hypertarget{classebml_1_1ebmlDataElementClass_ac0b070ab767aecb9387f9c0e412e8136}\label{classebml_1_1ebmlDataElementClass_ac0b070ab767aecb9387f9c0e412e8136}} 
+\index{ebml\+::ebml\+Data\+Element\+Class@{ebml\+::ebml\+Data\+Element\+Class}!\+\_\+decode@{\+\_\+decode}}
+\index{\+\_\+decode@{\+\_\+decode}!ebml\+::ebml\+Data\+Element\+Class@{ebml\+::ebml\+Data\+Element\+Class}}
+\subsubsection{\texorpdfstring{\+\_\+decode()}{\_decode()}\hspace{0.1cm}{\footnotesize\ttfamily [2/2]}}
+{\footnotesize\ttfamily template$<$typename T$>$ \\
+\mbox{\hyperlink{namespaceebml_adad533b7705a16bb360fe56380c5e7be}{ebml\+Element\+\_\+sp}} \mbox{\hyperlink{classebml_1_1ebmlDataElementClass}{ebml\+::ebml\+Data\+Element\+Class}}$<$ T $>$\+::\+\_\+decode (\begin{DoxyParamCaption}\item[{const \mbox{\hyperlink{classebml_1_1parseFile}{parse\+File}} \&}]{ }\end{DoxyParamCaption}) const\hspace{0.3cm}{\ttfamily [override]}, {\ttfamily [protected]}, {\ttfamily [virtual]}}
+
+
+
+Implements \mbox{\hyperlink{classebml_1_1ebmlElementClass_aedbfff5909af215acaa3ca28643f1bc9}{ebml\+::ebml\+Element\+Class}}.
+
+\mbox{\Hypertarget{classebml_1_1ebmlDataElementClass_a79fabffdfd33bee94cd14416646da546}\label{classebml_1_1ebmlDataElementClass_a79fabffdfd33bee94cd14416646da546}} 
 \index{ebml\+::ebml\+Data\+Element\+Class@{ebml\+::ebml\+Data\+Element\+Class}!\+\_\+new@{\+\_\+new}}
 \index{\+\_\+new@{\+\_\+new}!ebml\+::ebml\+Data\+Element\+Class@{ebml\+::ebml\+Data\+Element\+Class}}
 \subsubsection{\texorpdfstring{\+\_\+new()}{\_new()}}
 {\footnotesize\ttfamily template$<$typename T$>$ \\
-\mbox{\hyperlink{classebml_1_1ebmlElement}{ebml\+Element}}$\ast$ \mbox{\hyperlink{classebml_1_1ebmlDataElementClass}{ebml\+::ebml\+Data\+Element\+Class}}$<$ T $>$\+::\+\_\+new (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption}) const\hspace{0.3cm}{\ttfamily [protected]}, {\ttfamily [virtual]}}
+\mbox{\hyperlink{classebml_1_1ebmlElement}{ebml\+Element}}$\ast$ \mbox{\hyperlink{classebml_1_1ebmlDataElementClass}{ebml\+::ebml\+Data\+Element\+Class}}$<$ T $>$\+::\+\_\+new (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption}) const\hspace{0.3cm}{\ttfamily [override]}, {\ttfamily [protected]}, {\ttfamily [virtual]}}
 
 
 
@@ -153,4 +179,4 @@ T \mbox{\hyperlink{classebml_1_1ebmlDataElementClass}{ebml\+::ebml\+Data\+Elemen
 
 The documentation for this class was generated from the following file\+:\begin{DoxyCompactItemize}
 \item 
-include/libebml\+\_\+ng/\mbox{\hyperlink{template_8h}{template.\+h}}\end{DoxyCompactItemize}
+include/libebml\+\_\+ng/\mbox{\hyperlink{dataelement_8h}{dataelement.\+h}}\end{DoxyCompactItemize}

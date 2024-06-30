@@ -5,7 +5,7 @@
 %%For: 
 %Magnification: 1.00
 %%Orientation: Portrait
-%%BoundingBox: 0 0 500 48.780488
+%%BoundingBox: 0 0 500 40.650407
 %%Pages: 0
 %%BeginSetup
 %%EndSetup
@@ -19,13 +19,13 @@
 /marginwidth 10 def
 /distx 20 def
 /disty 40 def
-/boundaspect 10.250000 def  % aspect ratio of the BoundingBox (width/height)
+/boundaspect 12.300000 def  % aspect ratio of the BoundingBox (width/height)
 /boundx 500 def
 /boundy boundx boundaspect div def
 /xspacing 0 def
 /yspacing 0 def
 /rows 3 def
-/cols 5 def
+/cols 6 def
 /scalefactor 0 def
 /boxfont /Times-Roman findfont fontheight scalefont def
 
@@ -179,6 +179,7 @@ boxfont setfont
 (ebml::ebmlMasterElementClass) cw
 (ebml::ebmlVoidClass) cw
 (ebml::ebmlDataElementClass< const K >) cw
+(ebml::ebmlLazyLoadClass) cw
 (ebml::ebmlListClass) cw
 (ebml::ebmlMapClass< K, H, E, A >) cw
 (ebml::ebmlMultiSlotClass) cw
@@ -195,38 +196,39 @@ boundx scalefactor div boundy scalefactor div scale
 
 % ----- classes -----
 
- (ebml::ebmlElementClass) 2.000000 2.000000 box
+ (ebml::ebmlElementClass) 2.500000 2.000000 box
  (ebml::ebmlDataElementClass< T >) 0.000000 1.000000 box
  (ebml::ebmlDataElementClass< const T >) 1.000000 1.000000 box
- (ebml::ebmlMasterElementClass) 2.000000 1.000000 box
- (ebml::ebmlVoidClass) 3.000000 1.000000 box
- (ebml::ebmlDataElementClass< const K >) 4.000000 1.000000 box
- (ebml::ebmlListClass) 0.000000 0.000000 box
- (ebml::ebmlMapClass< K, H, E, A >) 1.000000 0.000000 box
- (ebml::ebmlMultiSlotClass) 2.000000 0.000000 box
- (ebml::ebmlPairClass< T >) 3.000000 0.000000 box
- (ebml::ebmlPairClass< const K >) 4.000000 0.000000 box
+ (ebml::ebmlMasterElementClass) 2.500000 1.000000 box
+ (ebml::ebmlVoidClass) 3.500000 1.000000 box
+ (ebml::ebmlDataElementClass< const K >) 4.500000 1.000000 box
+ (ebml::ebmlLazyLoadClass) 0.000000 0.000000 box
+ (ebml::ebmlListClass) 1.000000 0.000000 box
+ (ebml::ebmlMapClass< K, H, E, A >) 2.000000 0.000000 box
+ (ebml::ebmlMultiSlotClass) 3.000000 0.000000 box
+ (ebml::ebmlPairClass< T >) 4.000000 0.000000 box
+ (ebml::ebmlPairClass< const K >) 5.000000 0.000000 box
 
 % ----- relations -----
 
 solid
-1 2.000000 1.250000 out
+1 2.500000 1.250000 out
 solid
-0.000000 4.000000 2.000000 conn
+0.000000 4.500000 2.000000 conn
 solid
 0 0.000000 1.750000 in
 solid
 0 1.000000 1.750000 in
 solid
-0 2.000000 1.750000 in
+0 2.500000 1.750000 in
 solid
-1 2.000000 0.250000 out
+1 2.500000 0.250000 out
 solid
-0.000000 4.000000 1.000000 conn
+0.000000 5.000000 1.000000 conn
 solid
-0 3.000000 1.750000 in
+0 3.500000 1.750000 in
 solid
-0 4.000000 1.750000 in
+0 4.500000 1.750000 in
 solid
 0 0.000000 0.750000 in
 solid
@@ -237,3 +239,5 @@ solid
 0 3.000000 0.750000 in
 solid
 0 4.000000 0.750000 in
+solid
+0 5.000000 0.750000 in

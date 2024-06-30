@@ -42,16 +42,7 @@ const std\+::unordered\+\_\+map$<$ \mbox{\hyperlink{namespaceebml_a86c5f604ddf12
 \subsection*{Protected Member Functions}
 \begin{DoxyCompactItemize}
 \item 
-\mbox{\hyperlink{classebml_1_1ebmlElement}{ebml\+Element}} $\ast$ \mbox{\hyperlink{classebml_1_1ebmlMultiSlotClass_a51b5c0c3c0aa3c2e54e63f536413b5a5}{\+\_\+new}} () const
-\end{DoxyCompactItemize}
-\subsection*{Protected Attributes}
-\begin{DoxyCompactItemize}
-\item 
-std\+::vector$<$ \mbox{\hyperlink{classebml_1_1slotSpec__t}{slot\+Spec\+\_\+t}} $>$ \mbox{\hyperlink{classebml_1_1ebmlMultiSlotClass_acf45df8a12023df6aca62e56b0048c46}{\+\_\+slot\+Specs}}
-\item 
-std\+::unordered\+\_\+map$<$ \mbox{\hyperlink{namespaceebml_a86c5f604ddf12a74aa9812e997a58691}{ebml\+I\+D\+\_\+t}}, const \mbox{\hyperlink{classebml_1_1slotSpec__t}{slot\+Spec\+\_\+t}} $\ast$ $>$ \mbox{\hyperlink{classebml_1_1ebmlMultiSlotClass_a714ffe27d02c980fbc01035afdda9b4d}{\+\_\+slots\+\_\+by\+\_\+ebml\+ID}}
-\item 
-std\+::unordered\+\_\+map$<$ std\+::string, const \mbox{\hyperlink{classebml_1_1slotSpec__t}{slot\+Spec\+\_\+t}} $\ast$ $>$ \mbox{\hyperlink{classebml_1_1ebmlMultiSlotClass_ad3b985976d72238ed96dba0b49540e4d}{\+\_\+slots\+\_\+by\+\_\+name}}
+\mbox{\hyperlink{classebml_1_1ebmlElement}{ebml\+Element}} $\ast$ \mbox{\hyperlink{classebml_1_1ebmlMultiSlotClass_ab0cb2ed53ef6a3a8e64ffc47c72f5b94}{\+\_\+new}} () const override
 \end{DoxyCompactItemize}
 \subsection*{Friends}
 \begin{DoxyCompactItemize}
@@ -89,11 +80,11 @@ class \mbox{\hyperlink{classebml_1_1ebmlMultiSlotClass_ab14eb6c5a125d7276a7b4b5b
 
 
 \subsection{Member Function Documentation}
-\mbox{\Hypertarget{classebml_1_1ebmlMultiSlotClass_a51b5c0c3c0aa3c2e54e63f536413b5a5}\label{classebml_1_1ebmlMultiSlotClass_a51b5c0c3c0aa3c2e54e63f536413b5a5}} 
+\mbox{\Hypertarget{classebml_1_1ebmlMultiSlotClass_ab0cb2ed53ef6a3a8e64ffc47c72f5b94}\label{classebml_1_1ebmlMultiSlotClass_ab0cb2ed53ef6a3a8e64ffc47c72f5b94}} 
 \index{ebml\+::ebml\+Multi\+Slot\+Class@{ebml\+::ebml\+Multi\+Slot\+Class}!\+\_\+new@{\+\_\+new}}
 \index{\+\_\+new@{\+\_\+new}!ebml\+::ebml\+Multi\+Slot\+Class@{ebml\+::ebml\+Multi\+Slot\+Class}}
 \subsubsection{\texorpdfstring{\+\_\+new()}{\_new()}}
-{\footnotesize\ttfamily \mbox{\hyperlink{classebml_1_1ebmlElement}{ebml\+Element}}$\ast$ ebml\+::ebml\+Multi\+Slot\+Class\+::\+\_\+new (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption}) const\hspace{0.3cm}{\ttfamily [protected]}, {\ttfamily [virtual]}}
+{\footnotesize\ttfamily \mbox{\hyperlink{classebml_1_1ebmlElement}{ebml\+Element}}$\ast$ ebml\+::ebml\+Multi\+Slot\+Class\+::\+\_\+new (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption}) const\hspace{0.3cm}{\ttfamily [override]}, {\ttfamily [protected]}, {\ttfamily [virtual]}}
 
 
 
@@ -161,27 +152,6 @@ Implements \mbox{\hyperlink{classebml_1_1ebmlElementClass_a223ede6b8bc3c85251d2d
 \index{ebml\+Multi\+Slot@{ebml\+Multi\+Slot}!ebml\+::ebml\+Multi\+Slot\+Class@{ebml\+::ebml\+Multi\+Slot\+Class}}
 \subsubsection{\texorpdfstring{ebml\+Multi\+Slot}{ebmlMultiSlot}}
 {\footnotesize\ttfamily friend class \mbox{\hyperlink{classebml_1_1ebmlMultiSlot}{ebml\+Multi\+Slot}}\hspace{0.3cm}{\ttfamily [friend]}}
-
-
-
-\subsection{Member Data Documentation}
-\mbox{\Hypertarget{classebml_1_1ebmlMultiSlotClass_a714ffe27d02c980fbc01035afdda9b4d}\label{classebml_1_1ebmlMultiSlotClass_a714ffe27d02c980fbc01035afdda9b4d}} 
-\index{ebml\+::ebml\+Multi\+Slot\+Class@{ebml\+::ebml\+Multi\+Slot\+Class}!\+\_\+slots\+\_\+by\+\_\+ebml\+ID@{\+\_\+slots\+\_\+by\+\_\+ebml\+ID}}
-\index{\+\_\+slots\+\_\+by\+\_\+ebml\+ID@{\+\_\+slots\+\_\+by\+\_\+ebml\+ID}!ebml\+::ebml\+Multi\+Slot\+Class@{ebml\+::ebml\+Multi\+Slot\+Class}}
-\subsubsection{\texorpdfstring{\+\_\+slots\+\_\+by\+\_\+ebml\+ID}{\_slots\_by\_ebmlID}}
-{\footnotesize\ttfamily std\+::unordered\+\_\+map$<$\mbox{\hyperlink{namespaceebml_a86c5f604ddf12a74aa9812e997a58691}{ebml\+I\+D\+\_\+t}}, const \mbox{\hyperlink{classebml_1_1slotSpec__t}{slot\+Spec\+\_\+t}}$\ast$$>$ ebml\+::ebml\+Multi\+Slot\+Class\+::\+\_\+slots\+\_\+by\+\_\+ebml\+ID\hspace{0.3cm}{\ttfamily [protected]}}
-
-\mbox{\Hypertarget{classebml_1_1ebmlMultiSlotClass_ad3b985976d72238ed96dba0b49540e4d}\label{classebml_1_1ebmlMultiSlotClass_ad3b985976d72238ed96dba0b49540e4d}} 
-\index{ebml\+::ebml\+Multi\+Slot\+Class@{ebml\+::ebml\+Multi\+Slot\+Class}!\+\_\+slots\+\_\+by\+\_\+name@{\+\_\+slots\+\_\+by\+\_\+name}}
-\index{\+\_\+slots\+\_\+by\+\_\+name@{\+\_\+slots\+\_\+by\+\_\+name}!ebml\+::ebml\+Multi\+Slot\+Class@{ebml\+::ebml\+Multi\+Slot\+Class}}
-\subsubsection{\texorpdfstring{\+\_\+slots\+\_\+by\+\_\+name}{\_slots\_by\_name}}
-{\footnotesize\ttfamily std\+::unordered\+\_\+map$<$std\+::string, const \mbox{\hyperlink{classebml_1_1slotSpec__t}{slot\+Spec\+\_\+t}}$\ast$$>$ ebml\+::ebml\+Multi\+Slot\+Class\+::\+\_\+slots\+\_\+by\+\_\+name\hspace{0.3cm}{\ttfamily [protected]}}
-
-\mbox{\Hypertarget{classebml_1_1ebmlMultiSlotClass_acf45df8a12023df6aca62e56b0048c46}\label{classebml_1_1ebmlMultiSlotClass_acf45df8a12023df6aca62e56b0048c46}} 
-\index{ebml\+::ebml\+Multi\+Slot\+Class@{ebml\+::ebml\+Multi\+Slot\+Class}!\+\_\+slot\+Specs@{\+\_\+slot\+Specs}}
-\index{\+\_\+slot\+Specs@{\+\_\+slot\+Specs}!ebml\+::ebml\+Multi\+Slot\+Class@{ebml\+::ebml\+Multi\+Slot\+Class}}
-\subsubsection{\texorpdfstring{\+\_\+slot\+Specs}{\_slotSpecs}}
-{\footnotesize\ttfamily std\+::vector$<$\mbox{\hyperlink{classebml_1_1slotSpec__t}{slot\+Spec\+\_\+t}}$>$ ebml\+::ebml\+Multi\+Slot\+Class\+::\+\_\+slot\+Specs\hspace{0.3cm}{\ttfamily [protected]}}
 
 
 

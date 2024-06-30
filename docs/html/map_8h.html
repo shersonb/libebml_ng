@@ -68,17 +68,18 @@ $(function() {
   <div class="summary">
 <a href="#nested-classes">Classes</a> &#124;
 <a href="#namespaces">Namespaces</a> &#124;
+<a href="#define-members">Macros</a> &#124;
 <a href="#typedef-members">Typedefs</a>  </div>
   <div class="headertitle">
 <div class="title">map.h File Reference</div>  </div>
 </div><!--header-->
 <div class="contents">
-<div class="textblock"><code>#include &quot;<a class="el" href="base_8h_source.html">libebml_ng/base.h</a>&quot;</code><br />
-<code>#include &quot;<a class="el" href="masterelement_2base_8h_source.html">libebml_ng/masterelement/base.h</a>&quot;</code><br />
-<code>#include &quot;<a class="el" href="template_8h_source.html">libebml_ng/template.h</a>&quot;</code><br />
-<code>#include &lt;unordered_map&gt;</code><br />
+<div class="textblock"><code>#include &lt;unordered_map&gt;</code><br />
 <code>#include &lt;vector&gt;</code><br />
 <code>#include &lt;exception&gt;</code><br />
+<code>#include &quot;<a class="el" href="base_8h_source.html">base.h</a>&quot;</code><br />
+<code>#include &quot;<a class="el" href="dataelement_8h_source.html">../dataelement.h</a>&quot;</code><br />
+<code>#include &quot;<a class="el" href="element_8h_source.html">../element.h</a>&quot;</code><br />
 </div>
 <p><a href="map_8h_source.html">Go to the source code of this file.</a></p>
 <table class="memberdecls">
@@ -110,6 +111,17 @@ Namespaces</h2></td></tr>
 <tr class="memitem:namespaceebml"><td class="memItemLeft" align="right" valign="top"> &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespaceebml.html">ebml</a></td></tr>
 <tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="define-members"></a>
+Macros</h2></td></tr>
+<tr class="memitem:a10d1bc3373c0ed867047e97ff67b817b"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="map_8h.html#a10d1bc3373c0ed867047e97ff67b817b">EXTERN_MAP_TYPE</a>(KEYTYPE)</td></tr>
+<tr class="separator:a10d1bc3373c0ed867047e97ff67b817b"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a10270459a5e10e99993436737aefa4df"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="map_8h.html#a10270459a5e10e99993436737aefa4df">INST_MAP_TYPE</a>(KEYTYPE)</td></tr>
+<tr class="separator:a10270459a5e10e99993436737aefa4df"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a3988a61dbdd2e59792a4c6b33b25f257"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="map_8h.html#a3988a61dbdd2e59792a4c6b33b25f257">EXTERN_MAP_TYPE_EXT</a>(KEYTYPE, ...)</td></tr>
+<tr class="separator:a3988a61dbdd2e59792a4c6b33b25f257"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a29b085432761b0895688d72d0a08f381"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="map_8h.html#a29b085432761b0895688d72d0a08f381">INST_MAP_TYPE_EXT</a>(KEYTYPE, ...)</td></tr>
+<tr class="separator:a29b085432761b0895688d72d0a08f381"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="typedef-members"></a>
 Typedefs</h2></td></tr>
 <tr class="memitem:a15439f6031c0f4ced33b9ab5e28af120"><td class="memTemplParams" colspan="2">template&lt;typename T &gt; </td></tr>
@@ -119,6 +131,115 @@ Typedefs</h2></td></tr>
 <tr class="memitem:a9c804317d5b51ef8844bdffe5e8cb4b3"><td class="memTemplItemLeft" align="right" valign="top">using&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="namespaceebml.html#a9c804317d5b51ef8844bdffe5e8cb4b3">ebml::c_ebmlPair_sp</a> = std::shared_ptr&lt; const ebmlPair&lt; T &gt; &gt;</td></tr>
 <tr class="separator:a9c804317d5b51ef8844bdffe5e8cb4b3"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
+<h2 class="groupheader">Macro Definition Documentation</h2>
+<a id="a10d1bc3373c0ed867047e97ff67b817b"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a10d1bc3373c0ed867047e97ff67b817b">&#9670;&nbsp;</a></span>EXTERN_MAP_TYPE</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">#define EXTERN_MAP_TYPE</td>
+          <td>(</td>
+          <td class="paramtype">&#160;</td>
+          <td class="paramname">KEYTYPE</td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<b>Value:</b><div class="fragment"><div class="line"><span class="keyword">extern</span> <span class="keyword">template</span> <span class="keyword">class </span><a class="code" href="classebml_1_1ebmlPairClass.html">ebml::ebmlPairClass&lt;const KEYTYPE&gt;</a>; \</div><div class="line">    extern <span class="keyword">template</span> <span class="keyword">class </span><a class="code" href="classebml_1_1ebmlPair.html">ebml::ebmlPair&lt;const KEYTYPE&gt;</a>; \</div><div class="line">    EXTERN_AS_MEMBERS(<a class="code" href="classebml_1_1ebmlPairClass.html">ebml::ebmlPairClass&lt;const KEYTYPE&gt;</a>, <a class="code" href="classebml_1_1ebmlPair.html">ebml::ebmlPair&lt;const KEYTYPE&gt;</a>) \</div><div class="line">    extern <span class="keyword">template</span> <span class="keyword">class </span><a class="code" href="classebml_1_1ebmlMapClass.html">ebml::ebmlMapClass&lt;KEYTYPE&gt;</a>; \</div><div class="line">    extern <span class="keyword">template</span> <span class="keyword">class </span><a class="code" href="classebml_1_1ebmlMap.html">ebml::ebmlMap&lt;KEYTYPE&gt;</a>; \</div><div class="line">    EXTERN_AS_MEMBERS(<a class="code" href="classebml_1_1ebmlMapClass.html">ebml::ebmlMapClass&lt;KEYTYPE&gt;</a>, <a class="code" href="classebml_1_1ebmlMap.html">ebml::ebmlMap&lt;KEYTYPE&gt;</a>)</div><div class="ttc" id="classebml_1_1ebmlMap_html"><div class="ttname"><a href="classebml_1_1ebmlMap.html">ebml::ebmlMap</a></div><div class="ttdef"><b>Definition:</b> map.h:50</div></div>
+<div class="ttc" id="classebml_1_1ebmlMapClass_html"><div class="ttname"><a href="classebml_1_1ebmlMapClass.html">ebml::ebmlMapClass</a></div><div class="ttdef"><b>Definition:</b> map.h:176</div></div>
+<div class="ttc" id="classebml_1_1ebmlPair_html"><div class="ttname"><a href="classebml_1_1ebmlPair.html">ebml::ebmlPair</a></div><div class="ttdef"><b>Definition:</b> map.h:14</div></div>
+<div class="ttc" id="classebml_1_1ebmlPairClass_html"><div class="ttname"><a href="classebml_1_1ebmlPairClass.html">ebml::ebmlPairClass</a></div><div class="ttdef"><b>Definition:</b> map.h:23</div></div>
+</div><!-- fragment -->
+</div>
+</div>
+<a id="a3988a61dbdd2e59792a4c6b33b25f257"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a3988a61dbdd2e59792a4c6b33b25f257">&#9670;&nbsp;</a></span>EXTERN_MAP_TYPE_EXT</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">#define EXTERN_MAP_TYPE_EXT</td>
+          <td>(</td>
+          <td class="paramtype">&#160;</td>
+          <td class="paramname">KEYTYPE, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">&#160;</td>
+          <td class="paramname"><em>...</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<b>Value:</b><div class="fragment"><div class="line"><span class="keyword">extern</span> <span class="keyword">template</span> <span class="keyword">class </span><a class="code" href="classebml_1_1ebmlPairClass.html">ebml::ebmlPairClass&lt;const KEYTYPE&gt;</a>; \</div><div class="line">    extern <span class="keyword">template</span> <span class="keyword">class </span><a class="code" href="classebml_1_1ebmlPair.html">ebml::ebmlPair&lt;const KEYTYPE&gt;</a>; \</div><div class="line">    EXTERN_AS_MEMBERS(<a class="code" href="classebml_1_1ebmlPairClass.html">ebml::ebmlPairClass&lt;const KEYTYPE&gt;</a>, <a class="code" href="classebml_1_1ebmlPair.html">ebml::ebmlPair&lt;const KEYTYPE&gt;</a>) \</div><div class="line">    extern <span class="keyword">template</span> <span class="keyword">class </span><a class="code" href="classebml_1_1ebmlMapClass.html">ebml::ebmlMapClass&lt;KEYTYPE, ##__VA_ARGS__&gt;</a>; \</div><div class="line">    extern <span class="keyword">template</span> <span class="keyword">class </span><a class="code" href="classebml_1_1ebmlMap.html">ebml::ebmlMap&lt;KEYTYPE, ##__VA_ARGS__&gt;</a>; \</div><div class="line">    EXTERN_AS_MEMBERS(<a class="code" href="classebml_1_1ebmlMapClass.html">ebml::ebmlMapClass&lt;KEYTYPE, ##__VA_ARGS__&gt;</a>, <a class="code" href="classebml_1_1ebmlMap.html">ebml::ebmlMap&lt;KEYTYPE, ##__VA_ARGS__&gt;</a>)</div><div class="ttc" id="classebml_1_1ebmlMap_html"><div class="ttname"><a href="classebml_1_1ebmlMap.html">ebml::ebmlMap</a></div><div class="ttdef"><b>Definition:</b> map.h:50</div></div>
+<div class="ttc" id="classebml_1_1ebmlMapClass_html"><div class="ttname"><a href="classebml_1_1ebmlMapClass.html">ebml::ebmlMapClass</a></div><div class="ttdef"><b>Definition:</b> map.h:176</div></div>
+<div class="ttc" id="classebml_1_1ebmlPair_html"><div class="ttname"><a href="classebml_1_1ebmlPair.html">ebml::ebmlPair</a></div><div class="ttdef"><b>Definition:</b> map.h:14</div></div>
+<div class="ttc" id="classebml_1_1ebmlPairClass_html"><div class="ttname"><a href="classebml_1_1ebmlPairClass.html">ebml::ebmlPairClass</a></div><div class="ttdef"><b>Definition:</b> map.h:23</div></div>
+</div><!-- fragment -->
+</div>
+</div>
+<a id="a10270459a5e10e99993436737aefa4df"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a10270459a5e10e99993436737aefa4df">&#9670;&nbsp;</a></span>INST_MAP_TYPE</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">#define INST_MAP_TYPE</td>
+          <td>(</td>
+          <td class="paramtype">&#160;</td>
+          <td class="paramname">KEYTYPE</td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<b>Value:</b><div class="fragment"><div class="line"><span class="keyword">template</span> <span class="keyword">class </span><a class="code" href="classebml_1_1ebmlPairClass.html">ebml::ebmlPairClass&lt;const KEYTYPE&gt;</a>; \</div><div class="line">    template <span class="keyword">class </span><a class="code" href="classebml_1_1ebmlPair.html">ebml::ebmlPair&lt;const KEYTYPE&gt;</a>; \</div><div class="line">    INST_AS_MEMBERS(<a class="code" href="classebml_1_1ebmlPairClass.html">ebml::ebmlPairClass&lt;const KEYTYPE&gt;</a>, <a class="code" href="classebml_1_1ebmlPair.html">ebml::ebmlPair&lt;const KEYTYPE&gt;</a>) \</div><div class="line">    template <span class="keyword">class </span><a class="code" href="classebml_1_1ebmlMapClass.html">ebml::ebmlMapClass&lt;KEYTYPE&gt;</a>; \</div><div class="line">    template <span class="keyword">class </span><a class="code" href="classebml_1_1ebmlMap.html">ebml::ebmlMap&lt;KEYTYPE&gt;</a>; \</div><div class="line">    INST_AS_MEMBERS(<a class="code" href="classebml_1_1ebmlMapClass.html">ebml::ebmlMapClass&lt;KEYTYPE&gt;</a>, <a class="code" href="classebml_1_1ebmlMap.html">ebml::ebmlMap&lt;KEYTYPE&gt;</a>)</div><div class="ttc" id="classebml_1_1ebmlMap_html"><div class="ttname"><a href="classebml_1_1ebmlMap.html">ebml::ebmlMap</a></div><div class="ttdef"><b>Definition:</b> map.h:50</div></div>
+<div class="ttc" id="classebml_1_1ebmlMapClass_html"><div class="ttname"><a href="classebml_1_1ebmlMapClass.html">ebml::ebmlMapClass</a></div><div class="ttdef"><b>Definition:</b> map.h:176</div></div>
+<div class="ttc" id="classebml_1_1ebmlPair_html"><div class="ttname"><a href="classebml_1_1ebmlPair.html">ebml::ebmlPair</a></div><div class="ttdef"><b>Definition:</b> map.h:14</div></div>
+<div class="ttc" id="classebml_1_1ebmlPairClass_html"><div class="ttname"><a href="classebml_1_1ebmlPairClass.html">ebml::ebmlPairClass</a></div><div class="ttdef"><b>Definition:</b> map.h:23</div></div>
+</div><!-- fragment -->
+</div>
+</div>
+<a id="a29b085432761b0895688d72d0a08f381"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a29b085432761b0895688d72d0a08f381">&#9670;&nbsp;</a></span>INST_MAP_TYPE_EXT</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">#define INST_MAP_TYPE_EXT</td>
+          <td>(</td>
+          <td class="paramtype">&#160;</td>
+          <td class="paramname">KEYTYPE, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">&#160;</td>
+          <td class="paramname"><em>...</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<b>Value:</b><div class="fragment"><div class="line"><span class="keyword">template</span> <span class="keyword">class </span><a class="code" href="classebml_1_1ebmlPairClass.html">ebml::ebmlPairClass&lt;const KEYTYPE&gt;</a>; \</div><div class="line">    template <span class="keyword">class </span><a class="code" href="classebml_1_1ebmlPair.html">ebml::ebmlPair&lt;const KEYTYPE&gt;</a>; \</div><div class="line">    INST_AS_MEMBERS(<a class="code" href="classebml_1_1ebmlPairClass.html">ebml::ebmlPairClass&lt;const KEYTYPE&gt;</a>, <a class="code" href="classebml_1_1ebmlPair.html">ebml::ebmlPair&lt;const KEYTYPE&gt;</a>) \</div><div class="line">    template <span class="keyword">class </span><a class="code" href="classebml_1_1ebmlMapClass.html">ebml::ebmlMapClass&lt;KEYTYPE, ##__VA_ARGS__&gt;</a>; \</div><div class="line">    template <span class="keyword">class </span><a class="code" href="classebml_1_1ebmlMap.html">ebml::ebmlMap&lt;KEYTYPE, ##__VA_ARGS__&gt;</a>; \</div><div class="line">    INST_AS_MEMBERS(<a class="code" href="classebml_1_1ebmlMapClass.html">ebml::ebmlMapClass&lt;KEYTYPE, ##__VA_ARGS__&gt;</a>, <a class="code" href="classebml_1_1ebmlMap.html">ebml::ebmlMap&lt;KEYTYPE, ##__VA_ARGS__&gt;</a>)</div><div class="ttc" id="classebml_1_1ebmlMap_html"><div class="ttname"><a href="classebml_1_1ebmlMap.html">ebml::ebmlMap</a></div><div class="ttdef"><b>Definition:</b> map.h:50</div></div>
+<div class="ttc" id="classebml_1_1ebmlMapClass_html"><div class="ttname"><a href="classebml_1_1ebmlMapClass.html">ebml::ebmlMapClass</a></div><div class="ttdef"><b>Definition:</b> map.h:176</div></div>
+<div class="ttc" id="classebml_1_1ebmlPair_html"><div class="ttname"><a href="classebml_1_1ebmlPair.html">ebml::ebmlPair</a></div><div class="ttdef"><b>Definition:</b> map.h:14</div></div>
+<div class="ttc" id="classebml_1_1ebmlPairClass_html"><div class="ttname"><a href="classebml_1_1ebmlPairClass.html">ebml::ebmlPairClass</a></div><div class="ttdef"><b>Definition:</b> map.h:23</div></div>
+</div><!-- fragment -->
+</div>
+</div>
 </div><!-- contents -->
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>

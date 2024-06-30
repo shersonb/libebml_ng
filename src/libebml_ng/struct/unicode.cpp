@@ -4,6 +4,7 @@
 #include "libebml_ng/struct/unicode.h"
 #include "libebml_ng/struct.tpp"
 #include "libebml_ng/exceptions.h"
+#include "libebml_ng/ebmlElement.h"
 
 namespace ebml {
     static const unsigned long long sizes[4] = {1LL << 7, 1LL << 11, 1LL << 16, 1LL << 21};

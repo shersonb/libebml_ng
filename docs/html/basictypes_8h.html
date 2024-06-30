@@ -68,14 +68,17 @@ $(function() {
   <div class="summary">
 <a href="#namespaces">Namespaces</a> &#124;
 <a href="#define-members">Macros</a> &#124;
-<a href="#typedef-members">Typedefs</a> &#124;
-<a href="#func-members">Functions</a>  </div>
+<a href="#typedef-members">Typedefs</a>  </div>
   <div class="headertitle">
 <div class="title">basictypes.h File Reference</div>  </div>
 </div><!--header-->
 <div class="contents">
-<div class="textblock"><code>#include &quot;<a class="el" href="template_8h_source.html">libebml_ng/template.h</a>&quot;</code><br />
+<div class="textblock"><code>#include &lt;string&gt;</code><br />
+<code>#include &quot;<a class="el" href="elementcls_8h_source.html">libebml_ng/elementcls.h</a>&quot;</code><br />
+<code>#include &quot;<a class="el" href="element_8h_source.html">libebml_ng/element.h</a>&quot;</code><br />
+<code>#include &quot;<a class="el" href="dataelement_8h_source.html">libebml_ng/dataelement.h</a>&quot;</code><br />
 <code>#include &quot;<a class="el" href="datetime_8h_source.html">libebml_ng/struct/datetime.h</a>&quot;</code><br />
+<code>#include &quot;<a class="el" href="map_8h_source.html">libebml_ng/masterelement/map.h</a>&quot;</code><br />
 </div>
 <p><a href="basictypes_8h_source.html">Go to the source code of this file.</a></p>
 <table class="memberdecls">
@@ -86,8 +89,6 @@ Namespaces</h2></td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="define-members"></a>
 Macros</h2></td></tr>
-<tr class="memitem:a04d01fea6c31ddb4b4b90243898815f2"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="basictypes_8h.html#a04d01fea6c31ddb4b4b90243898815f2">DECL_EBML_CLS</a>(T)</td></tr>
-<tr class="separator:a04d01fea6c31ddb4b4b90243898815f2"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a5ed837e62ab25ec444f4a263a8a84d3a"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="basictypes_8h.html#a5ed837e62ab25ec444f4a263a8a84d3a">DECL_EBML_ALIAS</a>(T,  alias)</td></tr>
 <tr class="separator:a5ed837e62ab25ec444f4a263a8a84d3a"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
@@ -117,21 +118,6 @@ Typedefs</h2></td></tr>
 <tr class="separator:afea0376d38786592ad3e71d619256ab5"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a544c5c28e36511ffd20b5907e551754f"><td class="memItemLeft" align="right" valign="top">typedef ::<a class="el" href="classebml_1_1ebmlDataElement.html">ebml::ebmlDataElement</a>&lt; timepoint_t &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespaceebml.html#a544c5c28e36511ffd20b5907e551754f">ebml::ebmlDateTime</a></td></tr>
 <tr class="separator:a544c5c28e36511ffd20b5907e551754f"><td class="memSeparator" colspan="2">&#160;</td></tr>
-</table><table class="memberdecls">
-<tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="func-members"></a>
-Functions</h2></td></tr>
-<tr class="memitem:a788046c0c8a46dc9a4a09058207a0c7d"><td class="memItemLeft" align="right" valign="top">template std::string &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="basictypes_8h.html#a788046c0c8a46dc9a4a09058207a0c7d">ebml::data&lt; std::string &gt;</a> (const ebmlElement_sp &amp;)</td></tr>
-<tr class="separator:a788046c0c8a46dc9a4a09058207a0c7d"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:af6a36b3fcf97793a79307054680f8f99"><td class="memItemLeft" align="right" valign="top">template const std::string &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="basictypes_8h.html#af6a36b3fcf97793a79307054680f8f99">ebml::data&lt; std::string &gt;</a> (const c_ebmlElement_sp &amp;)</td></tr>
-<tr class="separator:af6a36b3fcf97793a79307054680f8f99"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a73482a0a9b59a94c3609ba1088763841"><td class="memItemLeft" align="right" valign="top">template std::wstring &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="basictypes_8h.html#a73482a0a9b59a94c3609ba1088763841">ebml::data&lt; std::wstring &gt;</a> (const ebmlElement_sp &amp;)</td></tr>
-<tr class="separator:a73482a0a9b59a94c3609ba1088763841"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:abfb55840338be40beeaa3955bc138c5f"><td class="memItemLeft" align="right" valign="top">template const std::wstring &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="basictypes_8h.html#abfb55840338be40beeaa3955bc138c5f">ebml::data&lt; std::wstring &gt;</a> (const c_ebmlElement_sp &amp;)</td></tr>
-<tr class="separator:abfb55840338be40beeaa3955bc138c5f"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:aa49e89a4a0b27b990b15e79b0f11f88b"><td class="memItemLeft" align="right" valign="top">template <a class="el" href="namespaceebml.html#a7e667ec3fe8b51fb5b8f9690734d8638">ebml::timepoint_t</a> &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="basictypes_8h.html#aa49e89a4a0b27b990b15e79b0f11f88b">ebml::data&lt; ebml::timepoint_t &gt;</a> (const ebmlElement_sp &amp;)</td></tr>
-<tr class="separator:aa49e89a4a0b27b990b15e79b0f11f88b"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:aa8f72fbfba4027da262a9912c73a301a"><td class="memItemLeft" align="right" valign="top">template const <a class="el" href="namespaceebml.html#a7e667ec3fe8b51fb5b8f9690734d8638">ebml::timepoint_t</a> &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="basictypes_8h.html#aa8f72fbfba4027da262a9912c73a301a">ebml::data&lt; ebml::timepoint_t &gt;</a> (const c_ebmlElement_sp &amp;)</td></tr>
-<tr class="separator:aa8f72fbfba4027da262a9912c73a301a"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <h2 class="groupheader">Macro Definition Documentation</h2>
 <a id="a5ed837e62ab25ec444f4a263a8a84d3a"></a>
@@ -160,137 +146,6 @@ Functions</h2></td></tr>
       </table>
 </div><div class="memdoc">
 <b>Value:</b><div class="fragment"><div class="line">typedef ::ebml::ebmlDataElementClass&lt;T&gt; alias##Class; \</div><div class="line">    typedef ::ebml::ebmlDataElement&lt;T&gt; alias;</div></div><!-- fragment -->
-</div>
-</div>
-<a id="a04d01fea6c31ddb4b4b90243898815f2"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a04d01fea6c31ddb4b4b90243898815f2">&#9670;&nbsp;</a></span>DECL_EBML_CLS</h2>
-
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">#define DECL_EBML_CLS</td>
-          <td>(</td>
-          <td class="paramtype">&#160;</td>
-          <td class="paramname">T</td><td>)</td>
-          <td></td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-<b>Value:</b><div class="fragment"><div class="line"><span class="keyword">extern</span> <span class="keyword">template</span> <span class="keyword">class </span><a class="code" href="classebml_1_1ebmlDataElementClass.html">ebml::ebmlDataElementClass&lt;T&gt;</a>; \</div><div class="line">    extern <span class="keyword">template</span> <span class="keyword">class </span><a class="code" href="classebml_1_1ebmlDataElement.html">ebml::ebmlDataElement&lt;T&gt;</a>; \</div><div class="line">    extern <span class="keyword">template</span> T&amp; ebml::data&lt;T&gt;(<span class="keyword">const</span> <a class="code" href="namespaceebml.html#adad533b7705a16bb360fe56380c5e7be">ebmlElement_sp</a>&amp;); \</div><div class="line">    extern <span class="keyword">template</span> <span class="keyword">const</span> T&amp; ebml::data&lt;T&gt;(<span class="keyword">const</span> <a class="code" href="namespaceebml.html#a2deef4e8071531b32e3533f1bf978917">c_ebmlElement_sp</a>&amp;);</div><div class="ttc" id="classebml_1_1ebmlDataElementClass_html"><div class="ttname"><a href="classebml_1_1ebmlDataElementClass.html">ebml::ebmlDataElementClass</a></div><div class="ttdef"><b>Definition:</b> template.h:11</div></div>
-<div class="ttc" id="namespaceebml_html_adad533b7705a16bb360fe56380c5e7be"><div class="ttname"><a href="namespaceebml.html#adad533b7705a16bb360fe56380c5e7be">ebml::ebmlElement_sp</a></div><div class="ttdeci">std::shared_ptr&lt; ebmlElement &gt; ebmlElement_sp</div><div class="ttdef"><b>Definition:</b> base.h:21</div></div>
-<div class="ttc" id="classebml_1_1ebmlDataElement_html"><div class="ttname"><a href="classebml_1_1ebmlDataElement.html">ebml::ebmlDataElement</a></div><div class="ttdef"><b>Definition:</b> template.h:8</div></div>
-<div class="ttc" id="namespaceebml_html_a2deef4e8071531b32e3533f1bf978917"><div class="ttname"><a href="namespaceebml.html#a2deef4e8071531b32e3533f1bf978917">ebml::c_ebmlElement_sp</a></div><div class="ttdeci">std::shared_ptr&lt; const ebmlElement &gt; c_ebmlElement_sp</div><div class="ttdef"><b>Definition:</b> base.h:24</div></div>
-</div><!-- fragment -->
-</div>
-</div>
-<h2 class="groupheader">Function Documentation</h2>
-<a id="aa49e89a4a0b27b990b15e79b0f11f88b"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#aa49e89a4a0b27b990b15e79b0f11f88b">&#9670;&nbsp;</a></span>ebml::data&lt; ebml::timepoint_t &gt;() <span class="overload">[1/2]</span></h2>
-
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">template <a class="el" href="namespaceebml.html#a7e667ec3fe8b51fb5b8f9690734d8638">ebml::timepoint_t</a>&amp; <a class="el" href="namespaceebml.html#a6365629b3110a3c5d0cde94d08aac26c">ebml::data</a>&lt; <a class="el" href="namespaceebml.html#a7e667ec3fe8b51fb5b8f9690734d8638">ebml::timepoint_t</a> &gt; </td>
-          <td>(</td>
-          <td class="paramtype">const ebmlElement_sp &amp;&#160;</td>
-          <td class="paramname"></td><td>)</td>
-          <td></td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-</div>
-</div>
-<a id="aa8f72fbfba4027da262a9912c73a301a"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#aa8f72fbfba4027da262a9912c73a301a">&#9670;&nbsp;</a></span>ebml::data&lt; ebml::timepoint_t &gt;() <span class="overload">[2/2]</span></h2>
-
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">template const <a class="el" href="namespaceebml.html#a7e667ec3fe8b51fb5b8f9690734d8638">ebml::timepoint_t</a>&amp; <a class="el" href="namespaceebml.html#a6365629b3110a3c5d0cde94d08aac26c">ebml::data</a>&lt; <a class="el" href="namespaceebml.html#a7e667ec3fe8b51fb5b8f9690734d8638">ebml::timepoint_t</a> &gt; </td>
-          <td>(</td>
-          <td class="paramtype">const c_ebmlElement_sp &amp;&#160;</td>
-          <td class="paramname"></td><td>)</td>
-          <td></td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-</div>
-</div>
-<a id="af6a36b3fcf97793a79307054680f8f99"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#af6a36b3fcf97793a79307054680f8f99">&#9670;&nbsp;</a></span>ebml::data&lt; std::string &gt;() <span class="overload">[1/2]</span></h2>
-
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">template const std::string&amp; <a class="el" href="namespaceebml.html#a6365629b3110a3c5d0cde94d08aac26c">ebml::data</a>&lt; std::string &gt; </td>
-          <td>(</td>
-          <td class="paramtype">const c_ebmlElement_sp &amp;&#160;</td>
-          <td class="paramname"></td><td>)</td>
-          <td></td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-</div>
-</div>
-<a id="a788046c0c8a46dc9a4a09058207a0c7d"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a788046c0c8a46dc9a4a09058207a0c7d">&#9670;&nbsp;</a></span>ebml::data&lt; std::string &gt;() <span class="overload">[2/2]</span></h2>
-
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">template std::string&amp; <a class="el" href="namespaceebml.html#a6365629b3110a3c5d0cde94d08aac26c">ebml::data</a>&lt; std::string &gt; </td>
-          <td>(</td>
-          <td class="paramtype">const ebmlElement_sp &amp;&#160;</td>
-          <td class="paramname"></td><td>)</td>
-          <td></td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-</div>
-</div>
-<a id="a73482a0a9b59a94c3609ba1088763841"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a73482a0a9b59a94c3609ba1088763841">&#9670;&nbsp;</a></span>ebml::data&lt; std::wstring &gt;() <span class="overload">[1/2]</span></h2>
-
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">template std::wstring&amp; <a class="el" href="namespaceebml.html#a6365629b3110a3c5d0cde94d08aac26c">ebml::data</a>&lt; std::wstring &gt; </td>
-          <td>(</td>
-          <td class="paramtype">const ebmlElement_sp &amp;&#160;</td>
-          <td class="paramname"></td><td>)</td>
-          <td></td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-</div>
-</div>
-<a id="abfb55840338be40beeaa3955bc138c5f"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#abfb55840338be40beeaa3955bc138c5f">&#9670;&nbsp;</a></span>ebml::data&lt; std::wstring &gt;() <span class="overload">[2/2]</span></h2>
-
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">template const std::wstring&amp; <a class="el" href="namespaceebml.html#a6365629b3110a3c5d0cde94d08aac26c">ebml::data</a>&lt; std::wstring &gt; </td>
-          <td>(</td>
-          <td class="paramtype">const c_ebmlElement_sp &amp;&#160;</td>
-          <td class="paramname"></td><td>)</td>
-          <td></td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
 </div>
 </div>
 </div><!-- contents -->

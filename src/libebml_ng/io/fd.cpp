@@ -31,14 +31,14 @@ namespace ebml {
             }
         } else if (__mode & std::ios_base::out) {
             if (__mode & std::ios_base::trunc) {
-                flags |= O_TRUNC;
+                flags |= O_TRUNC | O_CREAT;
                 fileMode |= S_IRUSR | S_IWUSR | S_IRGRP | S_IWGRP | S_IROTH | S_IWOTH;
             }
 
             if (__mode & std::ios_base::in) {
                 flags |= O_RDWR;
             } else {
-                flags |= O_WRONLY | O_CREAT;
+                flags |= O_WRONLY;
             }
         } else if (__mode & std::ios_base::in) {
             flags |= O_RDONLY;
@@ -144,6 +144,30 @@ namespace ebml {
         }
 
         return bytes_written;
+    }
+
+    template<>
+    void io<int>::truncate() {
+        auto lock = this->acquireLock();
+        auto pos = this->_tell();
+
+        if (ftruncate(this->_file, pos) == -1) {
+            throw std::ios_base::failure("Write Error");
+        }
+    }
+
+    template<>
+    void io<int>::truncate(off_t pos) {
+        if (ftruncate(this->_file, pos) == -1) {
+            throw std::ios_base::failure("Write Error");
+        }
+    }
+
+    template<>
+    struct stat io<int>::stat() {
+        struct stat result;
+        fstat(this->_file, &result);
+        return result;
     }
 
     template class io<int>;

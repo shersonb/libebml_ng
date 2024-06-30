@@ -4,6 +4,11 @@
 #include "libebml_ng/struct/ull.h"
 #include "libebml_ng/struct.tpp"
 
+#include "libebml_ng/struct/binary.h"
+#include "libebml_ng/repr.h"
+#include <string>
+#include <iostream>
+
 namespace ebml {
     DEF_SIZE(unsigned long long) {
         unsigned long long k = 1;
@@ -33,7 +38,7 @@ namespace ebml {
 
         as_chars = (char*)&value;
 
-        if (_is_littleendian) {
+        if (std::endian::native == std::endian::little) {
             memcpy(dest, as_chars, size);
             _reverse(dest, 0, size - 1);
         } else {
@@ -45,7 +50,7 @@ namespace ebml {
 
     DEF_UNPACK(unsigned long long) {
         unsigned long long ret = 0;
-        char* as_chars;
+        char* as_chars = (char*)&ret;
 
         if (size == 0) {
             return 0;
@@ -55,9 +60,7 @@ namespace ebml {
             throw std::invalid_argument("unpack<unsigned long long>: invalid value for size");
         };
 
-        as_chars = (char*)&ret;
-
-        if (_is_littleendian) {
+        if (std::endian::native == std::endian::little) {
             memcpy(as_chars, src, size);
             _reverse(as_chars, 0, size - 1);
         } else {

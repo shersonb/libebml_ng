@@ -6,7 +6,7 @@
 
 namespace ebml {
     template<typename T>
-    io<T>::io(T file) : ioBase() {
+    io<T>::io(const T& file) : ioBase() {
         this->_file = file;
         if (this->seekable()) {
             this->_pos = this->tell();
@@ -16,15 +16,16 @@ namespace ebml {
     template<typename T>
     ioBase_sp io<T>::open(const std::string& filename, const std::ios_base::openmode& __mode) {
         T file = io<T>::_open(filename, __mode);
-        auto ret = std::make_shared<io<T>>(file);
+        auto ret = new io<T>(file);
         ret->_mode = __mode;
         ret->_close_on_dealloc = false;
-        return ret;
+        return ioBase_sp(ret);
     }
 
     template<typename T>
-    ioBase_sp io<T>::wrap(T file) {
-        return std::make_shared<io<T>>(file);
+    ioBase_sp io<T>::wrap(const T& file) {
+        // return std::make_shared<io<T>>(file);
+        return ptr(new io<T>(file));
     }
 
     template<typename T>

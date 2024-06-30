@@ -1,4 +1,5 @@
 var searchData=
 [
-  ['occurspec_5ft',['occurSpec_t',['../structebml_1_1occurSpec__t.html',1,'ebml']]]
+  ['parsefile',['parseFile',['../classebml_1_1parseFile.html',1,'ebml']]],
+  ['parsestring',['parseString',['../classebml_1_1parseString.html',1,'ebml']]]
 ];

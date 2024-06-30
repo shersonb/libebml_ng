@@ -6,3 +6,66 @@
 \item 
  \mbox{\hyperlink{namespaceebml}{ebml}}
 \end{DoxyCompactItemize}
+\subsection*{Macros}
+\begin{DoxyCompactItemize}
+\item 
+\#define \mbox{\hyperlink{double_8h_ad0a8be8536c7bc257cfa7a3cff14d040}{D\+E\+C\+L\+\_\+\+E\+X\+T\+E\+R\+N\+\_\+\+S\+T\+R\+\_\+\+F\+U\+N\+C\+T\+I\+O\+NS}}(T)
+\item 
+\#define \mbox{\hyperlink{double_8h_a94855d2bb7d41fa2caf9195eb3ffa05d}{D\+E\+C\+L\+\_\+\+E\+X\+T\+E\+R\+N\+\_\+\+F\+U\+N\+C\+T\+I\+O\+N\+S\+\_\+\+A\+LT}}(T)
+\end{DoxyCompactItemize}
+\subsection*{Functions}
+\begin{DoxyCompactItemize}
+\item 
+size\+\_\+t \mbox{\hyperlink{namespaceebml_ac5f0085d005103d2eb42e098b7d45c15}{ebml\+::size}} (const float \&)
+\item 
+size\+\_\+t \mbox{\hyperlink{namespaceebml_a9a1c3387186ced48928b78f0404924fd}{ebml\+::pack}} (const float \&, char $\ast$)
+\item 
+{\footnotesize template$<$$>$ }\\float \mbox{\hyperlink{namespaceebml_a9055e0d919f5e12fd661512096c811d1}{ebml\+::unpack$<$ float $>$}} (const char $\ast$, size\+\_\+t)
+\item 
+template size\+\_\+t \mbox{\hyperlink{namespaceebml_a2f3ac2d3e5ba0655228ae2a4a046a79f}{ebml\+::pack}} (const float \&, size\+\_\+t, char $\ast$)
+\item 
+template std\+::string \mbox{\hyperlink{namespaceebml_acbb370dedf65bee76a4e77f8107e6b31}{ebml\+::pack}} (const float \&)
+\item 
+template float \mbox{\hyperlink{namespaceebml_a34096c5ab0e26fba384ea9d910a5a393}{ebml\+::unpack$<$ float $>$}} (const std\+::string \&)
+\item 
+size\+\_\+t \mbox{\hyperlink{namespaceebml_a2fe5501da3393b9c982848aa5e61c372}{ebml\+::size}} (const double \&)
+\item 
+size\+\_\+t \mbox{\hyperlink{namespaceebml_ad562523994b9b844a2ed42f2c9dc0743}{ebml\+::pack}} (const double \&, char $\ast$)
+\item 
+{\footnotesize template$<$$>$ }\\double \mbox{\hyperlink{namespaceebml_a8fc03073fb4d10e4aef90a2985201603}{ebml\+::unpack$<$ double $>$}} (const char $\ast$, size\+\_\+t)
+\item 
+template size\+\_\+t \mbox{\hyperlink{namespaceebml_a027af75ad19fec2ebab68496ee378985}{ebml\+::pack}} (const double \&, size\+\_\+t, char $\ast$)
+\item 
+template std\+::string \mbox{\hyperlink{namespaceebml_a71bb6ebad794abe2b04f2d24036636cd}{ebml\+::pack}} (const double \&)
+\item 
+template double \mbox{\hyperlink{namespaceebml_af6f7324527703d090d8518b49776033a}{ebml\+::unpack$<$ double $>$}} (const std\+::string \&)
+\end{DoxyCompactItemize}
+
+
+\subsection{Macro Definition Documentation}
+\mbox{\Hypertarget{double_8h_a94855d2bb7d41fa2caf9195eb3ffa05d}\label{double_8h_a94855d2bb7d41fa2caf9195eb3ffa05d}} 
+\index{double.\+h@{double.\+h}!D\+E\+C\+L\+\_\+\+E\+X\+T\+E\+R\+N\+\_\+\+F\+U\+N\+C\+T\+I\+O\+N\+S\+\_\+\+A\+LT@{D\+E\+C\+L\+\_\+\+E\+X\+T\+E\+R\+N\+\_\+\+F\+U\+N\+C\+T\+I\+O\+N\+S\+\_\+\+A\+LT}}
+\index{D\+E\+C\+L\+\_\+\+E\+X\+T\+E\+R\+N\+\_\+\+F\+U\+N\+C\+T\+I\+O\+N\+S\+\_\+\+A\+LT@{D\+E\+C\+L\+\_\+\+E\+X\+T\+E\+R\+N\+\_\+\+F\+U\+N\+C\+T\+I\+O\+N\+S\+\_\+\+A\+LT}!double.\+h@{double.\+h}}
+\subsubsection{\texorpdfstring{D\+E\+C\+L\+\_\+\+E\+X\+T\+E\+R\+N\+\_\+\+F\+U\+N\+C\+T\+I\+O\+N\+S\+\_\+\+A\+LT}{DECL\_EXTERN\_FUNCTIONS\_ALT}}
+{\footnotesize\ttfamily \#define D\+E\+C\+L\+\_\+\+E\+X\+T\+E\+R\+N\+\_\+\+F\+U\+N\+C\+T\+I\+O\+N\+S\+\_\+\+A\+LT(\begin{DoxyParamCaption}\item[{}]{T }\end{DoxyParamCaption})}
+
+{\bfseries Value\+:}
+\begin{DoxyCode}
+\textcolor{keywordtype}{size\_t} \mbox{\hyperlink{namespaceebml_a2fe5501da3393b9c982848aa5e61c372}{size}}(\textcolor{keyword}{const} T&); \(\backslash\)
+    size\_t \mbox{\hyperlink{namespaceebml_a71bb6ebad794abe2b04f2d24036636cd}{pack}}(\textcolor{keyword}{const} T&, \textcolor{keywordtype}{char}*); \(\backslash\)
+    template<> \(\backslash\)
+    T unpack<T>(\textcolor{keyword}{const} \textcolor{keywordtype}{char}*, size\_t); \(\backslash\)
+    extern \textcolor{keyword}{template} \textcolor{keywordtype}{size\_t} \mbox{\hyperlink{namespaceebml_a71bb6ebad794abe2b04f2d24036636cd}{pack}}(\textcolor{keyword}{const} T&, \textcolor{keywordtype}{size\_t}, \textcolor{keywordtype}{char}*); \(\backslash\)
+    DECL\_EXTERN\_STR\_FUNCTIONS(T)
+\end{DoxyCode}
+\mbox{\Hypertarget{double_8h_ad0a8be8536c7bc257cfa7a3cff14d040}\label{double_8h_ad0a8be8536c7bc257cfa7a3cff14d040}} 
+\index{double.\+h@{double.\+h}!D\+E\+C\+L\+\_\+\+E\+X\+T\+E\+R\+N\+\_\+\+S\+T\+R\+\_\+\+F\+U\+N\+C\+T\+I\+O\+NS@{D\+E\+C\+L\+\_\+\+E\+X\+T\+E\+R\+N\+\_\+\+S\+T\+R\+\_\+\+F\+U\+N\+C\+T\+I\+O\+NS}}
+\index{D\+E\+C\+L\+\_\+\+E\+X\+T\+E\+R\+N\+\_\+\+S\+T\+R\+\_\+\+F\+U\+N\+C\+T\+I\+O\+NS@{D\+E\+C\+L\+\_\+\+E\+X\+T\+E\+R\+N\+\_\+\+S\+T\+R\+\_\+\+F\+U\+N\+C\+T\+I\+O\+NS}!double.\+h@{double.\+h}}
+\subsubsection{\texorpdfstring{D\+E\+C\+L\+\_\+\+E\+X\+T\+E\+R\+N\+\_\+\+S\+T\+R\+\_\+\+F\+U\+N\+C\+T\+I\+O\+NS}{DECL\_EXTERN\_STR\_FUNCTIONS}}
+{\footnotesize\ttfamily \#define D\+E\+C\+L\+\_\+\+E\+X\+T\+E\+R\+N\+\_\+\+S\+T\+R\+\_\+\+F\+U\+N\+C\+T\+I\+O\+NS(\begin{DoxyParamCaption}\item[{}]{T }\end{DoxyParamCaption})}
+
+{\bfseries Value\+:}
+\begin{DoxyCode}
+\textcolor{keyword}{extern} \textcolor{keyword}{template} std::string \mbox{\hyperlink{namespaceebml_a71bb6ebad794abe2b04f2d24036636cd}{pack}}(\textcolor{keyword}{const} T&); \(\backslash\)
+    extern \textcolor{keyword}{template} T unpack<T>(\textcolor{keyword}{const} std::string&);
+\end{DoxyCode}

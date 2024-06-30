@@ -17,10 +17,8 @@ var searchData=
   ['_5fparent',['_parent',['../classebml_1_1ebmlElement.html#a5521124a98cbff8f29e61ecb7f265d6a',1,'ebml::ebmlElement::_parent()'],['../classebml_1_1slot__t.html#af18d868b3273a624355c01639673711b',1,'ebml::slot_t::_parent()']]],
   ['_5fparent_5fweak',['_parent_weak',['../classebml_1_1ebmlElement.html#ac4ae374c7897e4f8800ca6e0e1592bf9',1,'ebml::ebmlElement']]],
   ['_5fpos',['_pos',['../classebml_1_1ioBase.html#ada889242b80f658e0a80a465bf2bd9f7',1,'ebml::ioBase']]],
+  ['_5fsizewidth',['_sizeWidth',['../classebml_1_1ebmlElement.html#a57c40a5bbd26c059e9f181d022ce9fe0',1,'ebml::ebmlElement']]],
   ['_5fslot',['_slot',['../classebml_1_1slot__t.html#a0ae4e9259d6abf3697978fa71d120e94',1,'ebml::slot_t']]],
-  ['_5fslots_5fby_5febmlid',['_slots_by_ebmlID',['../classebml_1_1ebmlMultiSlotClass.html#a714ffe27d02c980fbc01035afdda9b4d',1,'ebml::ebmlMultiSlotClass']]],
-  ['_5fslots_5fby_5fname',['_slots_by_name',['../classebml_1_1ebmlMultiSlotClass.html#ad3b985976d72238ed96dba0b49540e4d',1,'ebml::ebmlMultiSlotClass']]],
-  ['_5fslotspecs',['_slotSpecs',['../classebml_1_1ebmlMultiSlotClass.html#acf45df8a12023df6aca62e56b0048c46',1,'ebml::ebmlMultiSlotClass']]],
   ['_5fvalue',['_value',['../classebml_1_1ebmlPair.html#af34944c081ca98c445403101d5b9cb2f',1,'ebml::ebmlPair']]],
   ['_5fvaluespec',['_valueSpec',['../classebml_1_1ebmlPairClass.html#ad560a3a9e6b47eb8e51e707de59df919',1,'ebml::ebmlPairClass']]]
 ];

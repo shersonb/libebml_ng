@@ -19,6 +19,10 @@ namespace ebml {
         parseString* parent;
 
         parseString();
+        parseString(const parseString&);
+        parseString(parseString&&);
+        parseString& operator=(const parseString&);
+        parseString& operator=(parseString&&);
         // parseString(const char*);
         // parseString(const char*, off_t);
         parseString(const char*, size_t);
@@ -33,6 +37,11 @@ namespace ebml {
         class iterator;
         parseString::iterator begin() const;
         unsigned long long outerSize() const;
+
+        template<typename T>
+        T unpack() const {
+            return ebml::unpack<T>(this->data, this->dataSize);
+        }
     };
 
     class parseString::iterator {
@@ -49,5 +58,11 @@ namespace ebml {
         bool operator!=(const parseString::iterator&) const;
         bool atEnd() const;
     };
+
+    extern template unsigned long long parseString::unpack<unsigned long long>() const;
+    extern template long long parseString::unpack<long long>() const;
+    extern template double parseString::unpack<double>() const;
+    extern template std::string parseString::unpack<std::string>() const;
+    extern template std::wstring parseString::unpack<std::wstring>() const;
 }
 #endif

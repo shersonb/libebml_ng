@@ -1,5 +1,4 @@
 var searchData=
 [
-  ['parsefile',['parseFile',['../classebml_1_1parseFile.html',1,'ebml']]],
-  ['parsestring',['parseString',['../classebml_1_1parseString.html',1,'ebml']]]
+  ['range_5ft',['range_t',['../structebml_1_1range__t.html',1,'ebml']]]
 ];

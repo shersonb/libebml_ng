@@ -16,7 +16,6 @@ namespace ebml {
 
     DEF_PACK(timepoint_t) {
         long long N = std::chrono::duration_cast<std::chrono::nanoseconds>(value - epoch).count();
-        std::cout << N << std::endl;
         return pack(N, size, dest);
     }
 

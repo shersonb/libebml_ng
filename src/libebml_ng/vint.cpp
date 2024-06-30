@@ -5,45 +5,49 @@
 #include <stdio.h>
 #include <array>
 
+#include "libebml_ng/struct.h"
 #include "libebml_ng/exceptions.h"
 #include "libebml_ng/vint.h"
 #include "libebml_ng/struct/ull.h"
+#include "libebml_ng/repr.h"
 
 namespace ebml {
-    unsigned char vintWidth(char b) {
-        static const std::array<unsigned char, 8> masks = {{
-            0x80, 0x40, 0x20, 0x10, 0x08, 0x04, 0x02, 0x01
-        }};
-        unsigned char k;
+    const size_t UNKNOWN = 0xffffffffffffffff;
 
-        for (k = 0; k < 8; ++k) {
-            if (b & masks[k]) {
-                return k + 1;
-            }
-        }
-
-        throw ebmlInvalidVint("Variable-length integer cannot start with null byte.");
-    }
-
-    unsigned char widthAsVint(unsigned long long n) {
-        unsigned char k = 0;
-
-        if (n == 0xffffffffffffffff) {
-            return 8;
-        }
-
-        while (k <= 8) {
-            if (n < (1ULL << (7*k)) - 1ULL) {
-                return k;
-            };
-            k++;
-        }
-
-        throw std::overflow_error(
-            std::string("int too big to convert (") + std::to_string(__LINE__)
-            + std::string(":") + std::string(__FILE__) + std::string(")")
-        );
-    }
+    // unsigned char vintWidth(char b) {
+    //     static const std::array<unsigned char, 8> masks = {{
+    //         0x80, 0x40, 0x20, 0x10, 0x08, 0x04, 0x02, 0x01
+    //     }};
+    //     unsigned char k;
+    //
+    //     for (k = 0; k < 8; ++k) {
+    //         if (b & masks[k]) {
+    //             return k + 1;
+    //         }
+    //     }
+    //
+    //     throw ebmlInvalidVint("Variable-length integer cannot start with null byte.");
+    // }
+    //
+    // unsigned char widthAsVint(unsigned long long n) {
+    //     unsigned char k = 0;
+    //
+    //     if (n == 0xffffffffffffffff) {
+    //         return 8;
+    //     }
+    //
+    //     while (k <= 8) {
+    //         if (n < (1ULL << (7*k)) - 1ULL) {
+    //             return k;
+    //         };
+    //         k++;
+    //     }
+    //
+    //     throw std::overflow_error(
+    //         std::string("int too big to convert (") + std::to_string(__LINE__)
+    //         + std::string(":") + std::string(__FILE__) + std::string(")")
+    //     );
+    // }
 
     void packVint(unsigned long long n, unsigned char size, char* dest) {
         if ((size == 0) or (size > 8)) {
@@ -68,11 +72,11 @@ namespace ebml {
         pack((1ULL << (7*size)) | n, size, dest);
     }
 
-    unsigned char packVint(unsigned long long n, char* dest) {
-        unsigned char size = widthAsVint(n);
-        packVint(n, size, dest);
-        return size;
-    }
+    // unsigned char packVint(unsigned long long n, char* dest) {
+    //     unsigned char size = widthAsVint(n);
+    //     packVint(n, size, dest);
+    //     return size;
+    // }
 
     unsigned long long unpackVint(const char* data, unsigned char size) {
         unsigned long long val;
@@ -87,12 +91,12 @@ namespace ebml {
         return val;
     }
 
-    unsigned long long unpackVint(const char* data) {
-        unsigned char size;
-
-        size = vintWidth(data[0]);
-        return unpackVint(data, size);
-    }
+    // unsigned long long unpackVint(const char* data) {
+    //     unsigned char size;
+    //
+    //     size = vintWidth(data[0]);
+    //     return unpackVint(data, size);
+    // }
 
     unsigned long long unpackVint(const char* data, size_t dataSize, unsigned char& vintw) {
         unsigned char size;
@@ -111,13 +115,13 @@ namespace ebml {
         return unpackVint(data, size);
     }
 
-    unsigned long long unpackVint(ioBase* file, unsigned char& vintw) {
+    unsigned long long unpackVint(ioBase& file, unsigned char& vintw) {
         char buffer[8];
         unsigned char width;
         unsigned char readsize;
-        off_t offset = file->tell();
+        off_t offset = file.tell();
 
-        if (file->read(buffer, 1) == 0) {
+        if (file.read(buffer, 1) == 0) {
             /*Use vint[0] = 0 to indicate end of stream.*/
             vintw = 0;
             return 0;
@@ -130,7 +134,7 @@ namespace ebml {
         }
 
         if (width > 1) {
-            readsize = file->read(buffer + 1, width - 1);
+            readsize = file.read(buffer + 1, width - 1);
 
             if (readsize + 1 < width) {
                 throw ebmlUnexpectedEndOfData("unpackVint(ioBase*, unsigned char&): Unexpected end of data while attempting to read vint.",
@@ -147,12 +151,12 @@ namespace ebml {
         }
     }
 
-    unsigned long long unpackVint(ioBase* file, off_t offset, unsigned char& vintw) {
+    unsigned long long unpackVint(ioBase& file, off_t offset, unsigned char& vintw) {
         char buffer[8];
         unsigned char width;
         unsigned char readsize;
 
-        if (file->read(buffer, offset, 1) == 0) {
+        if (file.read(buffer, offset, 1) == 0) {
             // Use vintw = 0 to indicate end of stream.
             vintw = 0;
             return 0;
@@ -165,7 +169,7 @@ namespace ebml {
         }
 
         if (width > 1) {
-            readsize = file->read(buffer + 1, offset + 1, width - 1);
+            readsize = file.read(buffer + 1, offset + 1, width - 1);
 
             if (readsize + 1 < width) {
                 throw ebmlInvalidVint("Unexpected end of data while attempting to read vint.", DECODE_ERR_DEFAULT, offset);

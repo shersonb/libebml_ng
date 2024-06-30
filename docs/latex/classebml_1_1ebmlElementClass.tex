@@ -2,12 +2,12 @@
 \label{classebml_1_1ebmlElementClass}\index{ebml\+::ebml\+Element\+Class@{ebml\+::ebml\+Element\+Class}}
 
 
-{\ttfamily \#include $<$base.\+h$>$}
+{\ttfamily \#include $<$elementcls.\+h$>$}
 
 Inheritance diagram for ebml\+:\+:ebml\+Element\+Class\+:\begin{figure}[H]
 \begin{center}
 \leavevmode
-\includegraphics[height=1.365854cm]{classebml_1_1ebmlElementClass}
+\includegraphics[height=1.138211cm]{classebml_1_1ebmlElementClass}
 \end{center}
 \end{figure}
 \subsection*{Public Member Functions}
@@ -19,17 +19,29 @@ Inheritance diagram for ebml\+:\+:ebml\+Element\+Class\+:\begin{figure}[H]
 \item 
 \mbox{\hyperlink{namespaceebml_adad533b7705a16bb360fe56380c5e7be}{ebml\+Element\+\_\+sp}} \mbox{\hyperlink{classebml_1_1ebmlElementClass_a45bdca04f3008152ad7df0856ef8724b}{operator()}} () const
 \item 
-virtual \mbox{\hyperlink{namespaceebml_adad533b7705a16bb360fe56380c5e7be}{ebml\+Element\+\_\+sp}} \mbox{\hyperlink{classebml_1_1ebmlElementClass_a9bda26f54e5d5a1e27aaaf0e124ec457}{decode}} (const \mbox{\hyperlink{classebml_1_1parseString}{parse\+String}} \&) const
+\mbox{\hyperlink{namespaceebml_adad533b7705a16bb360fe56380c5e7be}{ebml\+Element\+\_\+sp}} \mbox{\hyperlink{classebml_1_1ebmlElementClass_a9de19726c4794e4e3cb1f32e445c5002}{decode}} (const \mbox{\hyperlink{classebml_1_1parseString}{parse\+String}} \&) const
 \item 
-virtual \mbox{\hyperlink{namespaceebml_adad533b7705a16bb360fe56380c5e7be}{ebml\+Element\+\_\+sp}} \mbox{\hyperlink{classebml_1_1ebmlElementClass_a94461f09e1c1c57ffe86febb9710edc7}{decode}} (const \mbox{\hyperlink{classebml_1_1parseFile}{parse\+File}} \&) const
+virtual \mbox{\hyperlink{namespaceebml_adad533b7705a16bb360fe56380c5e7be}{ebml\+Element\+\_\+sp}} \mbox{\hyperlink{classebml_1_1ebmlElementClass_aa6bf675de4918fd7b553d141871a2ede}{\+\_\+decode}} (const \mbox{\hyperlink{classebml_1_1parseString}{parse\+String}} \&) const =0
 \item 
-\mbox{\hyperlink{namespaceebml_adad533b7705a16bb360fe56380c5e7be}{ebml\+Element\+\_\+sp}} \mbox{\hyperlink{classebml_1_1ebmlElementClass_ac24711e997db80f691a8bff4f610242f}{decode}} (const char $\ast$\mbox{\hyperlink{namespaceebml_a6365629b3110a3c5d0cde94d08aac26c}{data}}, size\+\_\+t \mbox{\hyperlink{namespaceebml_a75eaf24de9c90584c60e27de3b1dd63e}{size}}) const
+\mbox{\hyperlink{namespaceebml_adad533b7705a16bb360fe56380c5e7be}{ebml\+Element\+\_\+sp}} \mbox{\hyperlink{classebml_1_1ebmlElementClass_ab7f46d2ffffadf3b8be8f1d780b15a41}{decode}} (const \mbox{\hyperlink{classebml_1_1parseFile}{parse\+File}} \&) const
 \item 
-\mbox{\hyperlink{namespaceebml_adad533b7705a16bb360fe56380c5e7be}{ebml\+Element\+\_\+sp}} \mbox{\hyperlink{classebml_1_1ebmlElementClass_a2e45d73cfc2bfda5b4731af42299aaf1}{decode}} (const std\+::string \&\mbox{\hyperlink{namespaceebml_a6365629b3110a3c5d0cde94d08aac26c}{data}}) const
+virtual \mbox{\hyperlink{namespaceebml_adad533b7705a16bb360fe56380c5e7be}{ebml\+Element\+\_\+sp}} \mbox{\hyperlink{classebml_1_1ebmlElementClass_aedbfff5909af215acaa3ca28643f1bc9}{\+\_\+decode}} (const \mbox{\hyperlink{classebml_1_1parseFile}{parse\+File}} \&) const =0
+\item 
+\mbox{\hyperlink{namespaceebml_adad533b7705a16bb360fe56380c5e7be}{ebml\+Element\+\_\+sp}} \mbox{\hyperlink{classebml_1_1ebmlElementClass_ac24711e997db80f691a8bff4f610242f}{decode}} (const char $\ast$\mbox{\hyperlink{namespaceebml_ab21f8b4ff85186f670f17e84a02d9740}{data}}, size\+\_\+t \mbox{\hyperlink{namespaceebml_a75eaf24de9c90584c60e27de3b1dd63e}{size}}) const
+\item 
+\mbox{\hyperlink{namespaceebml_adad533b7705a16bb360fe56380c5e7be}{ebml\+Element\+\_\+sp}} \mbox{\hyperlink{classebml_1_1ebmlElementClass_a2e45d73cfc2bfda5b4731af42299aaf1}{decode}} (const std\+::string \&\mbox{\hyperlink{namespaceebml_ab21f8b4ff85186f670f17e84a02d9740}{data}}) const
 \item 
 \mbox{\hyperlink{namespaceebml_adad533b7705a16bb360fe56380c5e7be}{ebml\+Element\+\_\+sp}} \mbox{\hyperlink{classebml_1_1ebmlElementClass_ade81fc2a088d16f40474fd9885770f84}{decode}} (\mbox{\hyperlink{namespaceebml_a7bb59128ac6af27e47367938a846b569}{io\+Base\+\_\+sp}} \&) const
 \item 
 \mbox{\hyperlink{namespaceebml_adad533b7705a16bb360fe56380c5e7be}{ebml\+Element\+\_\+sp}} \mbox{\hyperlink{classebml_1_1ebmlElementClass_a313f310d2501859a73ba5d19ebacb550}{decode}} (\mbox{\hyperlink{classebml_1_1ioBase}{io\+Base}} $\ast$) const
+\item 
+\mbox{\hyperlink{namespaceebml_adad533b7705a16bb360fe56380c5e7be}{ebml\+Element\+\_\+sp}} \mbox{\hyperlink{classebml_1_1ebmlElementClass_a22d53b2eb309a030d1e4691bd564d08e}{decode}} (\mbox{\hyperlink{namespaceebml_a7bb59128ac6af27e47367938a846b569}{io\+Base\+\_\+sp}} \&, off\+\_\+t \&) const
+\item 
+\mbox{\hyperlink{namespaceebml_adad533b7705a16bb360fe56380c5e7be}{ebml\+Element\+\_\+sp}} \mbox{\hyperlink{classebml_1_1ebmlElementClass_a4441b1ac041896cf7bccd9d59ebbf080}{decode}} (\mbox{\hyperlink{classebml_1_1ioBase}{io\+Base}} $\ast$, off\+\_\+t \&) const
+\item 
+\mbox{\hyperlink{namespaceebml_adad533b7705a16bb360fe56380c5e7be}{ebml\+Element\+\_\+sp}} \mbox{\hyperlink{classebml_1_1ebmlElementClass_ae7d79a92abd19825137ccb0b7d1893e7}{decode}} (\mbox{\hyperlink{namespaceebml_a7bb59128ac6af27e47367938a846b569}{io\+Base\+\_\+sp}} \&, off\+\_\+t, off\+\_\+t \&) const
+\item 
+\mbox{\hyperlink{namespaceebml_adad533b7705a16bb360fe56380c5e7be}{ebml\+Element\+\_\+sp}} \mbox{\hyperlink{classebml_1_1ebmlElementClass_a7c8b6853b84adff619ba8700070a9997}{decode}} (\mbox{\hyperlink{classebml_1_1ioBase}{io\+Base}} $\ast$, off\+\_\+t, off\+\_\+t \&) const
 \item 
 \mbox{\hyperlink{namespaceebml_a2deef4e8071531b32e3533f1bf978917}{c\+\_\+ebml\+Element\+\_\+sp}} \mbox{\hyperlink{classebml_1_1ebmlElementClass_ad44d7844db705e5e1d8c35a780b58486}{cdecode}} (const \mbox{\hyperlink{classebml_1_1parseString}{parse\+String}} \&) const
 \item 
@@ -43,13 +55,17 @@ virtual \mbox{\hyperlink{namespaceebml_adad533b7705a16bb360fe56380c5e7be}{ebml\+
 \item 
 \mbox{\hyperlink{namespaceebml_a2deef4e8071531b32e3533f1bf978917}{c\+\_\+ebml\+Element\+\_\+sp}} \mbox{\hyperlink{classebml_1_1ebmlElementClass_a583586c72ae328913f0a920843d46677}{cdecode}} (\mbox{\hyperlink{classebml_1_1ioBase}{io\+Base}} $\ast$) const
 \item 
-{\footnotesize template$<$typename T  = ebml\+Element\+Class$>$ }\\T \& \mbox{\hyperlink{classebml_1_1ebmlElementClass_a9ad70f610118f70424b5ff92468ad1ca}{ref}} ()
+virtual \mbox{\hyperlink{classebml_1_1seekData__t}{seek\+Data\+\_\+t}} $\ast$ \mbox{\hyperlink{classebml_1_1ebmlElementClass_a211de9c10948a2b4a6b3550eb76c1102}{make\+Seek\+Data}} (const \mbox{\hyperlink{classebml_1_1parseFile}{parse\+File}} \&) const
 \item 
-{\footnotesize template$<$typename T  = ebml\+Element\+Class$>$ }\\const T \& \mbox{\hyperlink{classebml_1_1ebmlElementClass_a174c0bdaef3ec9511f30970c7d0827bc}{ref}} () const
+virtual \mbox{\hyperlink{classebml_1_1seekData__t}{seek\+Data\+\_\+t}} $\ast$ \mbox{\hyperlink{classebml_1_1ebmlElementClass_ac844edef1226b728c127cdf946b3d152}{make\+Seek\+Data}} (const \mbox{\hyperlink{classebml_1_1parseFile}{parse\+File}} \&, const \mbox{\hyperlink{namespaceebml_adad533b7705a16bb360fe56380c5e7be}{ebml\+Element\+\_\+sp}} \&) const
 \item 
-{\footnotesize template$<$typename T  = ebml\+Element\+Class$>$ }\\T $\ast$ \mbox{\hyperlink{classebml_1_1ebmlElementClass_af6901ccaf31aa832687777a0c225abd2}{ptr}} ()
+{\footnotesize template$<$typename T  = ebml\+Element\+Class$>$ }\\T \& \mbox{\hyperlink{classebml_1_1ebmlElementClass_ab8c68b1f0a25aead5003d7100a27d5d3}{as}} ()
 \item 
-{\footnotesize template$<$typename T  = ebml\+Element\+Class$>$ }\\const T $\ast$ \mbox{\hyperlink{classebml_1_1ebmlElementClass_ad41af01c63a43d4a629483a2076dcb4e}{ptr}} () const
+{\footnotesize template$<$typename T  = ebml\+Element\+Class$>$ }\\const T \& \mbox{\hyperlink{classebml_1_1ebmlElementClass_a5d49c645d8b92ef330e5960a02f2fbf7}{as}} () const
+\item 
+{\footnotesize template$<$typename T  = ebml\+Element\+Class$>$ }\\T $\ast$ \mbox{\hyperlink{classebml_1_1ebmlElementClass_a485c3f4a11b09d301b80f44e1802e9ab}{ptr}} ()
+\item 
+{\footnotesize template$<$typename T  = ebml\+Element\+Class$>$ }\\const T $\ast$ \mbox{\hyperlink{classebml_1_1ebmlElementClass_a4d3188e97ab01f1db0427faa5b5d6059}{ptr}} () const
 \item 
 virtual std\+::wstring \mbox{\hyperlink{classebml_1_1ebmlElementClass_a251cc751901423a86099d58d49f28291}{minirepr}} () const
 \item 
@@ -77,6 +93,8 @@ virtual \mbox{\hyperlink{namespaceebml_adad533b7705a16bb360fe56380c5e7be}{ebml\+
 class \mbox{\hyperlink{classebml_1_1ebmlElementClass_ab57be41c560fe3aac8d5eb6b138c09a5}{ebml\+Element}}
 \item 
 class \mbox{\hyperlink{classebml_1_1ebmlElementClass_ad88e86cba72e9332a4693c1c6009b281}{ebml\+Master\+Element}}
+\item 
+class \mbox{\hyperlink{classebml_1_1ebmlElementClass_aa005a2a7ef20ef779d383e3da2e0b46d}{ebml\+Master\+Element\+Class}}
 \end{DoxyCompactItemize}
 
 
@@ -137,7 +155,7 @@ Example\+:
 
 
 
-Reimplemented in \mbox{\hyperlink{classebml_1_1ebmlDataElementClass_3_01const_01T_01_4_adfbb2c0872ea79aef9e769bf92a679ca}{ebml\+::ebml\+Data\+Element\+Class$<$ const T $>$}}.
+Reimplemented in \mbox{\hyperlink{classebml_1_1ebmlMasterElementClass_a8b57f2fe211ab7a418f8b7d4a981a1d7}{ebml\+::ebml\+Master\+Element\+Class}}.
 
 \mbox{\Hypertarget{classebml_1_1ebmlElementClass_ae423476637d4ca052cd7aa0047f2b3eb}\label{classebml_1_1ebmlElementClass_ae423476637d4ca052cd7aa0047f2b3eb}} 
 \index{ebml\+::ebml\+Element\+Class@{ebml\+::ebml\+Element\+Class}!\+\_\+cdecode@{\+\_\+cdecode}}
@@ -147,7 +165,27 @@ Reimplemented in \mbox{\hyperlink{classebml_1_1ebmlDataElementClass_3_01const_01
 
 
 
-Reimplemented in \mbox{\hyperlink{classebml_1_1ebmlDataElementClass_3_01const_01T_01_4_a73cd60993aad76a5123f0f6c56b506dc}{ebml\+::ebml\+Data\+Element\+Class$<$ const T $>$}}.
+Reimplemented in \mbox{\hyperlink{classebml_1_1ebmlMasterElementClass_a6ef689ac153338400cfb8367edd32f54}{ebml\+::ebml\+Master\+Element\+Class}}.
+
+\mbox{\Hypertarget{classebml_1_1ebmlElementClass_aa6bf675de4918fd7b553d141871a2ede}\label{classebml_1_1ebmlElementClass_aa6bf675de4918fd7b553d141871a2ede}} 
+\index{ebml\+::ebml\+Element\+Class@{ebml\+::ebml\+Element\+Class}!\+\_\+decode@{\+\_\+decode}}
+\index{\+\_\+decode@{\+\_\+decode}!ebml\+::ebml\+Element\+Class@{ebml\+::ebml\+Element\+Class}}
+\subsubsection{\texorpdfstring{\+\_\+decode()}{\_decode()}\hspace{0.1cm}{\footnotesize\ttfamily [1/2]}}
+{\footnotesize\ttfamily virtual \mbox{\hyperlink{namespaceebml_adad533b7705a16bb360fe56380c5e7be}{ebml\+Element\+\_\+sp}} ebml\+::ebml\+Element\+Class\+::\+\_\+decode (\begin{DoxyParamCaption}\item[{const \mbox{\hyperlink{classebml_1_1parseString}{parse\+String}} \&}]{ }\end{DoxyParamCaption}) const\hspace{0.3cm}{\ttfamily [pure virtual]}}
+
+
+
+Implemented in \mbox{\hyperlink{classebml_1_1ebmlMasterElementClass_a4499f7187f0480518080cf8135884981}{ebml\+::ebml\+Master\+Element\+Class}}, \mbox{\hyperlink{classebml_1_1ebmlDataElementClass_3_01const_01T_01_4_a0f8a6e30cd3cc630950a780a726849a7}{ebml\+::ebml\+Data\+Element\+Class$<$ const T $>$}}, \mbox{\hyperlink{classebml_1_1ebmlDataElementClass_a481cda6ab9f96ab21434daabd9ad1ed9}{ebml\+::ebml\+Data\+Element\+Class$<$ T $>$}}, \mbox{\hyperlink{classebml_1_1ebmlDataElementClass_a481cda6ab9f96ab21434daabd9ad1ed9}{ebml\+::ebml\+Data\+Element\+Class$<$ const K $>$}}, and \mbox{\hyperlink{classebml_1_1ebmlVoidClass_ab12dc43d26e82dee3c66d69219e4d78d}{ebml\+::ebml\+Void\+Class}}.
+
+\mbox{\Hypertarget{classebml_1_1ebmlElementClass_aedbfff5909af215acaa3ca28643f1bc9}\label{classebml_1_1ebmlElementClass_aedbfff5909af215acaa3ca28643f1bc9}} 
+\index{ebml\+::ebml\+Element\+Class@{ebml\+::ebml\+Element\+Class}!\+\_\+decode@{\+\_\+decode}}
+\index{\+\_\+decode@{\+\_\+decode}!ebml\+::ebml\+Element\+Class@{ebml\+::ebml\+Element\+Class}}
+\subsubsection{\texorpdfstring{\+\_\+decode()}{\_decode()}\hspace{0.1cm}{\footnotesize\ttfamily [2/2]}}
+{\footnotesize\ttfamily virtual \mbox{\hyperlink{namespaceebml_adad533b7705a16bb360fe56380c5e7be}{ebml\+Element\+\_\+sp}} ebml\+::ebml\+Element\+Class\+::\+\_\+decode (\begin{DoxyParamCaption}\item[{const \mbox{\hyperlink{classebml_1_1parseFile}{parse\+File}} \&}]{ }\end{DoxyParamCaption}) const\hspace{0.3cm}{\ttfamily [pure virtual]}}
+
+
+
+Implemented in \mbox{\hyperlink{classebml_1_1ebmlMasterElementClass_aeda43063d78233403fa084800ff9c109}{ebml\+::ebml\+Master\+Element\+Class}}, \mbox{\hyperlink{classebml_1_1ebmlDataElementClass_3_01const_01T_01_4_a472912867198ebff97d963cdd7f5ce33}{ebml\+::ebml\+Data\+Element\+Class$<$ const T $>$}}, \mbox{\hyperlink{classebml_1_1ebmlDataElementClass_ac0b070ab767aecb9387f9c0e412e8136}{ebml\+::ebml\+Data\+Element\+Class$<$ T $>$}}, \mbox{\hyperlink{classebml_1_1ebmlDataElementClass_ac0b070ab767aecb9387f9c0e412e8136}{ebml\+::ebml\+Data\+Element\+Class$<$ const K $>$}}, and \mbox{\hyperlink{classebml_1_1ebmlVoidClass_a4b4b65f2289a5f4cbd182dac7b5aa1db}{ebml\+::ebml\+Void\+Class}}.
 
 \mbox{\Hypertarget{classebml_1_1ebmlElementClass_a223ede6b8bc3c85251d2d73f0256fb45}\label{classebml_1_1ebmlElementClass_a223ede6b8bc3c85251d2d73f0256fb45}} 
 \index{ebml\+::ebml\+Element\+Class@{ebml\+::ebml\+Element\+Class}!\+\_\+new@{\+\_\+new}}
@@ -157,8 +195,52 @@ Reimplemented in \mbox{\hyperlink{classebml_1_1ebmlDataElementClass_3_01const_01
 
 
 
-Implemented in \mbox{\hyperlink{classebml_1_1ebmlVoidClass_a8852efa478e785ae70b4fce60f67e6f7}{ebml\+::ebml\+Void\+Class}}, \mbox{\hyperlink{classebml_1_1ebmlMapClass_a3370b9b3457982693c08723af7d5130a}{ebml\+::ebml\+Map\+Class$<$ K, H, E, A $>$}}, \mbox{\hyperlink{classebml_1_1ebmlDataElementClass_3_01const_01T_01_4_ac0f96ad77925a1236e1a637db0d5a356}{ebml\+::ebml\+Data\+Element\+Class$<$ const T $>$}}, \mbox{\hyperlink{classebml_1_1ebmlMultiSlotClass_a51b5c0c3c0aa3c2e54e63f536413b5a5}{ebml\+::ebml\+Multi\+Slot\+Class}}, \mbox{\hyperlink{classebml_1_1ebmlPairClass_abb748027028719a4a1682c089ac21226}{ebml\+::ebml\+Pair\+Class$<$ T $>$}}, \mbox{\hyperlink{classebml_1_1ebmlPairClass_abb748027028719a4a1682c089ac21226}{ebml\+::ebml\+Pair\+Class$<$ const K $>$}}, \mbox{\hyperlink{classebml_1_1ebmlDataElementClass_a022ddc37a9bf678de66dab9157d08b9a}{ebml\+::ebml\+Data\+Element\+Class$<$ T $>$}}, \mbox{\hyperlink{classebml_1_1ebmlDataElementClass_a022ddc37a9bf678de66dab9157d08b9a}{ebml\+::ebml\+Data\+Element\+Class$<$ const K $>$}}, and \mbox{\hyperlink{classebml_1_1ebmlListClass_aef729ee70f218de1013c3782c481bffb}{ebml\+::ebml\+List\+Class}}.
+Implemented in \mbox{\hyperlink{classebml_1_1ebmlMapClass_a3370b9b3457982693c08723af7d5130a}{ebml\+::ebml\+Map\+Class$<$ K, H, E, A $>$}}, \mbox{\hyperlink{classebml_1_1ebmlDataElementClass_3_01const_01T_01_4_aaf6b66092e1987919e277661b62f2d90}{ebml\+::ebml\+Data\+Element\+Class$<$ const T $>$}}, \mbox{\hyperlink{classebml_1_1ebmlMultiSlotClass_ab0cb2ed53ef6a3a8e64ffc47c72f5b94}{ebml\+::ebml\+Multi\+Slot\+Class}}, \mbox{\hyperlink{classebml_1_1ebmlPairClass_abb748027028719a4a1682c089ac21226}{ebml\+::ebml\+Pair\+Class$<$ T $>$}}, \mbox{\hyperlink{classebml_1_1ebmlPairClass_abb748027028719a4a1682c089ac21226}{ebml\+::ebml\+Pair\+Class$<$ const K $>$}}, \mbox{\hyperlink{classebml_1_1ebmlLazyLoadClass_a5492f081f425fcbff11095f483b52f32}{ebml\+::ebml\+Lazy\+Load\+Class}}, \mbox{\hyperlink{classebml_1_1ebmlDataElementClass_a79fabffdfd33bee94cd14416646da546}{ebml\+::ebml\+Data\+Element\+Class$<$ T $>$}}, \mbox{\hyperlink{classebml_1_1ebmlDataElementClass_a79fabffdfd33bee94cd14416646da546}{ebml\+::ebml\+Data\+Element\+Class$<$ const K $>$}}, \mbox{\hyperlink{classebml_1_1ebmlListClass_aef729ee70f218de1013c3782c481bffb}{ebml\+::ebml\+List\+Class}}, and \mbox{\hyperlink{classebml_1_1ebmlVoidClass_a3403a8145594a3ce5e34b02dd2f938ae}{ebml\+::ebml\+Void\+Class}}.
 
+\mbox{\Hypertarget{classebml_1_1ebmlElementClass_ab8c68b1f0a25aead5003d7100a27d5d3}\label{classebml_1_1ebmlElementClass_ab8c68b1f0a25aead5003d7100a27d5d3}} 
+\index{ebml\+::ebml\+Element\+Class@{ebml\+::ebml\+Element\+Class}!as@{as}}
+\index{as@{as}!ebml\+::ebml\+Element\+Class@{ebml\+::ebml\+Element\+Class}}
+\subsubsection{\texorpdfstring{as()}{as()}\hspace{0.1cm}{\footnotesize\ttfamily [1/2]}}
+{\footnotesize\ttfamily template$<$typename T  = ebml\+Element\+Class$>$ \\
+T\& ebml\+::ebml\+Element\+Class\+::as (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+Convenience member function that dynamically casts \mbox{\hyperlink{classebml_1_1ebmlElementClass}{ebml\+Element\+Class}} to a subclass.
+
+\begin{DoxyReturn}{Returns}
+Reference to instance as a T object.
+\end{DoxyReturn}
+Example\+: 
+\begin{DoxyCode}
+\mbox{\hyperlink{classebml_1_1ebmlElementClass_a6c2081870c5d66c70e0cf988ff253420}{ebmlElementClass}} \mbox{\hyperlink{classebml_1_1ebmlElement_a15cf59e94b01e2c49ec96512b9bd9d90}{cls}} = ebmlVoidClass();
+ebmlVoidClass& \mbox{\hyperlink{namespaceebml_afbfd509d1cb71e416a07253746e886e9}{Void}} = \mbox{\hyperlink{classebml_1_1ebmlElement_a15cf59e94b01e2c49ec96512b9bd9d90}{cls}}.ref<ebmlVoidClass>();
+\end{DoxyCode}
+ 
+\begin{DoxyExceptions}{Exceptions}
+{\em std\+::bad\+\_\+alloc} & If instance is not an instance of T. \\
+\hline
+\end{DoxyExceptions}
+\mbox{\Hypertarget{classebml_1_1ebmlElementClass_a5d49c645d8b92ef330e5960a02f2fbf7}\label{classebml_1_1ebmlElementClass_a5d49c645d8b92ef330e5960a02f2fbf7}} 
+\index{ebml\+::ebml\+Element\+Class@{ebml\+::ebml\+Element\+Class}!as@{as}}
+\index{as@{as}!ebml\+::ebml\+Element\+Class@{ebml\+::ebml\+Element\+Class}}
+\subsubsection{\texorpdfstring{as()}{as()}\hspace{0.1cm}{\footnotesize\ttfamily [2/2]}}
+{\footnotesize\ttfamily template$<$typename T  = ebml\+Element\+Class$>$ \\
+const T\& ebml\+::ebml\+Element\+Class\+::as (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption}) const\hspace{0.3cm}{\ttfamily [inline]}}
+
+Convenience member function that dynamically casts const \mbox{\hyperlink{classebml_1_1ebmlElementClass}{ebml\+Element\+Class}} to a subclass.
+
+\begin{DoxyReturn}{Returns}
+Const reference to instance as a T object.
+\end{DoxyReturn}
+Example\+: 
+\begin{DoxyCode}
+\textcolor{keyword}{const} \mbox{\hyperlink{classebml_1_1ebmlElementClass_a6c2081870c5d66c70e0cf988ff253420}{ebmlElementClass}} \mbox{\hyperlink{classebml_1_1ebmlElement_a15cf59e94b01e2c49ec96512b9bd9d90}{cls}} = ebmlVoidClass();
+\textcolor{keyword}{const} ebmlVoidClass& \mbox{\hyperlink{namespaceebml_afbfd509d1cb71e416a07253746e886e9}{Void}} = \mbox{\hyperlink{classebml_1_1ebmlElement_a15cf59e94b01e2c49ec96512b9bd9d90}{cls}}.a<ebmlVoidClass>();
+\end{DoxyCode}
+ 
+\begin{DoxyExceptions}{Exceptions}
+{\em std\+::bad\+\_\+alloc} & If instance is not an instance of T. \\
+\hline
+\end{DoxyExceptions}
 \mbox{\Hypertarget{classebml_1_1ebmlElementClass_ad44d7844db705e5e1d8c35a780b58486}\label{classebml_1_1ebmlElementClass_ad44d7844db705e5e1d8c35a780b58486}} 
 \index{ebml\+::ebml\+Element\+Class@{ebml\+::ebml\+Element\+Class}!cdecode@{cdecode}}
 \index{cdecode@{cdecode}!ebml\+::ebml\+Element\+Class@{ebml\+::ebml\+Element\+Class}}
@@ -193,7 +275,7 @@ Example\+:
 \begin{DoxyCode}
 ebmlVoidClass \mbox{\hyperlink{namespaceebml_afbfd509d1cb71e416a07253746e886e9}{Void}};
 \textcolor{keyword}{const} \textcolor{keywordtype}{char}* = \textcolor{stringliteral}{"\(\backslash\)xec\(\backslash\)x82\(\backslash\)x00\(\backslash\)x00"};
-\mbox{\hyperlink{namespaceebml_adad533b7705a16bb360fe56380c5e7be}{ebmlElement\_sp}} elem = \mbox{\hyperlink{namespaceebml_afbfd509d1cb71e416a07253746e886e9}{Void}}.\mbox{\hyperlink{classebml_1_1ebmlElementClass_ad44d7844db705e5e1d8c35a780b58486}{cdecode}}(\mbox{\hyperlink{namespaceebml_a6365629b3110a3c5d0cde94d08aac26c}{data}}, 4);
+\mbox{\hyperlink{namespaceebml_adad533b7705a16bb360fe56380c5e7be}{ebmlElement\_sp}} elem = \mbox{\hyperlink{namespaceebml_afbfd509d1cb71e416a07253746e886e9}{Void}}.\mbox{\hyperlink{classebml_1_1ebmlElementClass_ad44d7844db705e5e1d8c35a780b58486}{cdecode}}(\mbox{\hyperlink{namespaceebml_ab21f8b4ff85186f670f17e84a02d9740}{data}}, 4);
 \end{DoxyCode}
  \mbox{\Hypertarget{classebml_1_1ebmlElementClass_a2696f361d3cf6f1f544657266ad21808}\label{classebml_1_1ebmlElementClass_a2696f361d3cf6f1f544657266ad21808}} 
 \index{ebml\+::ebml\+Element\+Class@{ebml\+::ebml\+Element\+Class}!cdecode@{cdecode}}
@@ -213,11 +295,11 @@ ebmlVoidClass \mbox{\hyperlink{namespaceebml_afbfd509d1cb71e416a07253746e886e9}{
 \subsubsection{\texorpdfstring{cdecode()}{cdecode()}\hspace{0.1cm}{\footnotesize\ttfamily [6/6]}}
 {\footnotesize\ttfamily \mbox{\hyperlink{namespaceebml_a2deef4e8071531b32e3533f1bf978917}{c\+\_\+ebml\+Element\+\_\+sp}} ebml\+::ebml\+Element\+Class\+::cdecode (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{classebml_1_1ioBase}{io\+Base}} $\ast$}]{ }\end{DoxyParamCaption}) const}
 
-\mbox{\Hypertarget{classebml_1_1ebmlElementClass_a9bda26f54e5d5a1e27aaaf0e124ec457}\label{classebml_1_1ebmlElementClass_a9bda26f54e5d5a1e27aaaf0e124ec457}} 
+\mbox{\Hypertarget{classebml_1_1ebmlElementClass_a9de19726c4794e4e3cb1f32e445c5002}\label{classebml_1_1ebmlElementClass_a9de19726c4794e4e3cb1f32e445c5002}} 
 \index{ebml\+::ebml\+Element\+Class@{ebml\+::ebml\+Element\+Class}!decode@{decode}}
 \index{decode@{decode}!ebml\+::ebml\+Element\+Class@{ebml\+::ebml\+Element\+Class}}
-\subsubsection{\texorpdfstring{decode()}{decode()}\hspace{0.1cm}{\footnotesize\ttfamily [1/6]}}
-{\footnotesize\ttfamily virtual \mbox{\hyperlink{namespaceebml_adad533b7705a16bb360fe56380c5e7be}{ebml\+Element\+\_\+sp}} ebml\+::ebml\+Element\+Class\+::decode (\begin{DoxyParamCaption}\item[{const \mbox{\hyperlink{classebml_1_1parseString}{parse\+String}} \&}]{ }\end{DoxyParamCaption}) const\hspace{0.3cm}{\ttfamily [virtual]}}
+\subsubsection{\texorpdfstring{decode()}{decode()}\hspace{0.1cm}{\footnotesize\ttfamily [1/10]}}
+{\footnotesize\ttfamily \mbox{\hyperlink{namespaceebml_adad533b7705a16bb360fe56380c5e7be}{ebml\+Element\+\_\+sp}} ebml\+::ebml\+Element\+Class\+::decode (\begin{DoxyParamCaption}\item[{const \mbox{\hyperlink{classebml_1_1parseString}{parse\+String}} \&}]{ }\end{DoxyParamCaption}) const}
 
 Create \mbox{\hyperlink{classebml_1_1ebmlElement}{ebml\+Element}} instance, decoding data in a \mbox{\hyperlink{classebml_1_1parseString}{parse\+String}} instance.
 
@@ -227,33 +309,25 @@ Shared pointer to new \mbox{\hyperlink{classebml_1_1ebmlElement}{ebml\+Element}}
 Example\+: 
 \begin{DoxyCode}
 ebmlVoidClass \mbox{\hyperlink{namespaceebml_afbfd509d1cb71e416a07253746e886e9}{Void}};
-\textcolor{keyword}{const} \textcolor{keywordtype}{char}* \mbox{\hyperlink{namespaceebml_a6365629b3110a3c5d0cde94d08aac26c}{data}} = \textcolor{stringliteral}{"\(\backslash\)xec\(\backslash\)x82\(\backslash\)x00\(\backslash\)x00"};
-\textcolor{keyword}{auto} parsed = parseString(\mbox{\hyperlink{namespaceebml_a6365629b3110a3c5d0cde94d08aac26c}{data}});
-\mbox{\hyperlink{namespaceebml_adad533b7705a16bb360fe56380c5e7be}{ebmlElement\_sp}} elem = \mbox{\hyperlink{namespaceebml_afbfd509d1cb71e416a07253746e886e9}{Void}}.\mbox{\hyperlink{classebml_1_1ebmlElementClass_a9bda26f54e5d5a1e27aaaf0e124ec457}{decode}}(parsed);
+\textcolor{keyword}{const} \textcolor{keywordtype}{char}* \mbox{\hyperlink{namespaceebml_ab21f8b4ff85186f670f17e84a02d9740}{data}} = \textcolor{stringliteral}{"\(\backslash\)xec\(\backslash\)x82\(\backslash\)x00\(\backslash\)x00"};
+\textcolor{keyword}{auto} parsed = parseString(\mbox{\hyperlink{namespaceebml_ab21f8b4ff85186f670f17e84a02d9740}{data}});
+\mbox{\hyperlink{namespaceebml_adad533b7705a16bb360fe56380c5e7be}{ebmlElement\_sp}} elem = \mbox{\hyperlink{namespaceebml_afbfd509d1cb71e416a07253746e886e9}{Void}}.\mbox{\hyperlink{classebml_1_1ebmlElementClass_a9de19726c4794e4e3cb1f32e445c5002}{decode}}(parsed);
 \end{DoxyCode}
- 
-
-Reimplemented in \mbox{\hyperlink{classebml_1_1ebmlDataElementClass_3_01const_01T_01_4_a02806c600c51c291303fbac56d9db70a}{ebml\+::ebml\+Data\+Element\+Class$<$ const T $>$}}.
-
-\mbox{\Hypertarget{classebml_1_1ebmlElementClass_a94461f09e1c1c57ffe86febb9710edc7}\label{classebml_1_1ebmlElementClass_a94461f09e1c1c57ffe86febb9710edc7}} 
+ \mbox{\Hypertarget{classebml_1_1ebmlElementClass_ab7f46d2ffffadf3b8be8f1d780b15a41}\label{classebml_1_1ebmlElementClass_ab7f46d2ffffadf3b8be8f1d780b15a41}} 
 \index{ebml\+::ebml\+Element\+Class@{ebml\+::ebml\+Element\+Class}!decode@{decode}}
 \index{decode@{decode}!ebml\+::ebml\+Element\+Class@{ebml\+::ebml\+Element\+Class}}
-\subsubsection{\texorpdfstring{decode()}{decode()}\hspace{0.1cm}{\footnotesize\ttfamily [2/6]}}
-{\footnotesize\ttfamily virtual \mbox{\hyperlink{namespaceebml_adad533b7705a16bb360fe56380c5e7be}{ebml\+Element\+\_\+sp}} ebml\+::ebml\+Element\+Class\+::decode (\begin{DoxyParamCaption}\item[{const \mbox{\hyperlink{classebml_1_1parseFile}{parse\+File}} \&}]{ }\end{DoxyParamCaption}) const\hspace{0.3cm}{\ttfamily [virtual]}}
+\subsubsection{\texorpdfstring{decode()}{decode()}\hspace{0.1cm}{\footnotesize\ttfamily [2/10]}}
+{\footnotesize\ttfamily \mbox{\hyperlink{namespaceebml_adad533b7705a16bb360fe56380c5e7be}{ebml\+Element\+\_\+sp}} ebml\+::ebml\+Element\+Class\+::decode (\begin{DoxyParamCaption}\item[{const \mbox{\hyperlink{classebml_1_1parseFile}{parse\+File}} \&}]{ }\end{DoxyParamCaption}) const}
 
 Create \mbox{\hyperlink{classebml_1_1ebmlElement}{ebml\+Element}} instance, decoding data in a \mbox{\hyperlink{classebml_1_1parseFile}{parse\+File}} instance.
 
 \begin{DoxyReturn}{Returns}
 Shared pointer to new \mbox{\hyperlink{classebml_1_1ebmlElement}{ebml\+Element}} instance. 
 \end{DoxyReturn}
-
-
-Reimplemented in \mbox{\hyperlink{classebml_1_1ebmlDataElementClass_3_01const_01T_01_4_a8e55ca5bba1f4406920f75cd9b0e9bbc}{ebml\+::ebml\+Data\+Element\+Class$<$ const T $>$}}.
-
 \mbox{\Hypertarget{classebml_1_1ebmlElementClass_ac24711e997db80f691a8bff4f610242f}\label{classebml_1_1ebmlElementClass_ac24711e997db80f691a8bff4f610242f}} 
 \index{ebml\+::ebml\+Element\+Class@{ebml\+::ebml\+Element\+Class}!decode@{decode}}
 \index{decode@{decode}!ebml\+::ebml\+Element\+Class@{ebml\+::ebml\+Element\+Class}}
-\subsubsection{\texorpdfstring{decode()}{decode()}\hspace{0.1cm}{\footnotesize\ttfamily [3/6]}}
+\subsubsection{\texorpdfstring{decode()}{decode()}\hspace{0.1cm}{\footnotesize\ttfamily [3/10]}}
 {\footnotesize\ttfamily \mbox{\hyperlink{namespaceebml_adad533b7705a16bb360fe56380c5e7be}{ebml\+Element\+\_\+sp}} ebml\+::ebml\+Element\+Class\+::decode (\begin{DoxyParamCaption}\item[{const char $\ast$}]{data,  }\item[{size\+\_\+t}]{size }\end{DoxyParamCaption}) const}
 
 Create \mbox{\hyperlink{classebml_1_1ebmlElement}{ebml\+Element}} instance, decoding from a const char$\ast$ array.
@@ -278,13 +352,13 @@ Shared pointer to new \mbox{\hyperlink{classebml_1_1ebmlElement}{ebml\+Element}}
 Example\+: 
 \begin{DoxyCode}
 ebmlVoidClass \mbox{\hyperlink{namespaceebml_afbfd509d1cb71e416a07253746e886e9}{Void}};
-\textcolor{keyword}{const} \textcolor{keywordtype}{char}* \mbox{\hyperlink{namespaceebml_a6365629b3110a3c5d0cde94d08aac26c}{data}} = \textcolor{stringliteral}{"\(\backslash\)xec\(\backslash\)x82\(\backslash\)x00\(\backslash\)x00"};
-\mbox{\hyperlink{namespaceebml_adad533b7705a16bb360fe56380c5e7be}{ebmlElement\_sp}} elem = \mbox{\hyperlink{namespaceebml_afbfd509d1cb71e416a07253746e886e9}{Void}}.\mbox{\hyperlink{classebml_1_1ebmlElementClass_a9bda26f54e5d5a1e27aaaf0e124ec457}{decode}}(\mbox{\hyperlink{namespaceebml_a6365629b3110a3c5d0cde94d08aac26c}{data}}, 4);
+\textcolor{keyword}{const} \textcolor{keywordtype}{char}* \mbox{\hyperlink{namespaceebml_ab21f8b4ff85186f670f17e84a02d9740}{data}} = \textcolor{stringliteral}{"\(\backslash\)xec\(\backslash\)x82\(\backslash\)x00\(\backslash\)x00"};
+\mbox{\hyperlink{namespaceebml_adad533b7705a16bb360fe56380c5e7be}{ebmlElement\_sp}} elem = \mbox{\hyperlink{namespaceebml_afbfd509d1cb71e416a07253746e886e9}{Void}}.\mbox{\hyperlink{classebml_1_1ebmlElementClass_a9de19726c4794e4e3cb1f32e445c5002}{decode}}(\mbox{\hyperlink{namespaceebml_ab21f8b4ff85186f670f17e84a02d9740}{data}}, 4);
 \end{DoxyCode}
  \mbox{\Hypertarget{classebml_1_1ebmlElementClass_a2e45d73cfc2bfda5b4731af42299aaf1}\label{classebml_1_1ebmlElementClass_a2e45d73cfc2bfda5b4731af42299aaf1}} 
 \index{ebml\+::ebml\+Element\+Class@{ebml\+::ebml\+Element\+Class}!decode@{decode}}
 \index{decode@{decode}!ebml\+::ebml\+Element\+Class@{ebml\+::ebml\+Element\+Class}}
-\subsubsection{\texorpdfstring{decode()}{decode()}\hspace{0.1cm}{\footnotesize\ttfamily [4/6]}}
+\subsubsection{\texorpdfstring{decode()}{decode()}\hspace{0.1cm}{\footnotesize\ttfamily [4/10]}}
 {\footnotesize\ttfamily \mbox{\hyperlink{namespaceebml_adad533b7705a16bb360fe56380c5e7be}{ebml\+Element\+\_\+sp}} ebml\+::ebml\+Element\+Class\+::decode (\begin{DoxyParamCaption}\item[{const std\+::string \&}]{data }\end{DoxyParamCaption}) const}
 
 Create \mbox{\hyperlink{classebml_1_1ebmlElement}{ebml\+Element}} instance, decoding from a std\+::string.
@@ -302,20 +376,56 @@ Shared pointer to new \mbox{\hyperlink{classebml_1_1ebmlElement}{ebml\+Element}}
 Example\+: 
 \begin{DoxyCode}
 ebmlVoidClass \mbox{\hyperlink{namespaceebml_afbfd509d1cb71e416a07253746e886e9}{Void}};
-\textcolor{keyword}{auto} \mbox{\hyperlink{namespaceebml_a6365629b3110a3c5d0cde94d08aac26c}{data}} = std::string(\textcolor{stringliteral}{"\(\backslash\)xec\(\backslash\)x82\(\backslash\)x00\(\backslash\)x00"}, 4);
-\mbox{\hyperlink{namespaceebml_adad533b7705a16bb360fe56380c5e7be}{ebmlElement\_sp}} elem = \mbox{\hyperlink{namespaceebml_afbfd509d1cb71e416a07253746e886e9}{Void}}.\mbox{\hyperlink{classebml_1_1ebmlElementClass_a9bda26f54e5d5a1e27aaaf0e124ec457}{decode}}(\mbox{\hyperlink{namespaceebml_a6365629b3110a3c5d0cde94d08aac26c}{data}});
+\textcolor{keyword}{auto} \mbox{\hyperlink{namespaceebml_ab21f8b4ff85186f670f17e84a02d9740}{data}} = std::string(\textcolor{stringliteral}{"\(\backslash\)xec\(\backslash\)x82\(\backslash\)x00\(\backslash\)x00"}, 4);
+\mbox{\hyperlink{namespaceebml_adad533b7705a16bb360fe56380c5e7be}{ebmlElement\_sp}} elem = \mbox{\hyperlink{namespaceebml_afbfd509d1cb71e416a07253746e886e9}{Void}}.\mbox{\hyperlink{classebml_1_1ebmlElementClass_a9de19726c4794e4e3cb1f32e445c5002}{decode}}(\mbox{\hyperlink{namespaceebml_ab21f8b4ff85186f670f17e84a02d9740}{data}});
 \end{DoxyCode}
  \mbox{\Hypertarget{classebml_1_1ebmlElementClass_ade81fc2a088d16f40474fd9885770f84}\label{classebml_1_1ebmlElementClass_ade81fc2a088d16f40474fd9885770f84}} 
 \index{ebml\+::ebml\+Element\+Class@{ebml\+::ebml\+Element\+Class}!decode@{decode}}
 \index{decode@{decode}!ebml\+::ebml\+Element\+Class@{ebml\+::ebml\+Element\+Class}}
-\subsubsection{\texorpdfstring{decode()}{decode()}\hspace{0.1cm}{\footnotesize\ttfamily [5/6]}}
+\subsubsection{\texorpdfstring{decode()}{decode()}\hspace{0.1cm}{\footnotesize\ttfamily [5/10]}}
 {\footnotesize\ttfamily \mbox{\hyperlink{namespaceebml_adad533b7705a16bb360fe56380c5e7be}{ebml\+Element\+\_\+sp}} ebml\+::ebml\+Element\+Class\+::decode (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{namespaceebml_a7bb59128ac6af27e47367938a846b569}{io\+Base\+\_\+sp}} \&}]{ }\end{DoxyParamCaption}) const}
 
 \mbox{\Hypertarget{classebml_1_1ebmlElementClass_a313f310d2501859a73ba5d19ebacb550}\label{classebml_1_1ebmlElementClass_a313f310d2501859a73ba5d19ebacb550}} 
 \index{ebml\+::ebml\+Element\+Class@{ebml\+::ebml\+Element\+Class}!decode@{decode}}
 \index{decode@{decode}!ebml\+::ebml\+Element\+Class@{ebml\+::ebml\+Element\+Class}}
-\subsubsection{\texorpdfstring{decode()}{decode()}\hspace{0.1cm}{\footnotesize\ttfamily [6/6]}}
+\subsubsection{\texorpdfstring{decode()}{decode()}\hspace{0.1cm}{\footnotesize\ttfamily [6/10]}}
 {\footnotesize\ttfamily \mbox{\hyperlink{namespaceebml_adad533b7705a16bb360fe56380c5e7be}{ebml\+Element\+\_\+sp}} ebml\+::ebml\+Element\+Class\+::decode (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{classebml_1_1ioBase}{io\+Base}} $\ast$}]{ }\end{DoxyParamCaption}) const}
+
+\mbox{\Hypertarget{classebml_1_1ebmlElementClass_a22d53b2eb309a030d1e4691bd564d08e}\label{classebml_1_1ebmlElementClass_a22d53b2eb309a030d1e4691bd564d08e}} 
+\index{ebml\+::ebml\+Element\+Class@{ebml\+::ebml\+Element\+Class}!decode@{decode}}
+\index{decode@{decode}!ebml\+::ebml\+Element\+Class@{ebml\+::ebml\+Element\+Class}}
+\subsubsection{\texorpdfstring{decode()}{decode()}\hspace{0.1cm}{\footnotesize\ttfamily [7/10]}}
+{\footnotesize\ttfamily \mbox{\hyperlink{namespaceebml_adad533b7705a16bb360fe56380c5e7be}{ebml\+Element\+\_\+sp}} ebml\+::ebml\+Element\+Class\+::decode (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{namespaceebml_a7bb59128ac6af27e47367938a846b569}{io\+Base\+\_\+sp}} \&}]{,  }\item[{off\+\_\+t \&}]{ }\end{DoxyParamCaption}) const}
+
+\mbox{\Hypertarget{classebml_1_1ebmlElementClass_a4441b1ac041896cf7bccd9d59ebbf080}\label{classebml_1_1ebmlElementClass_a4441b1ac041896cf7bccd9d59ebbf080}} 
+\index{ebml\+::ebml\+Element\+Class@{ebml\+::ebml\+Element\+Class}!decode@{decode}}
+\index{decode@{decode}!ebml\+::ebml\+Element\+Class@{ebml\+::ebml\+Element\+Class}}
+\subsubsection{\texorpdfstring{decode()}{decode()}\hspace{0.1cm}{\footnotesize\ttfamily [8/10]}}
+{\footnotesize\ttfamily \mbox{\hyperlink{namespaceebml_adad533b7705a16bb360fe56380c5e7be}{ebml\+Element\+\_\+sp}} ebml\+::ebml\+Element\+Class\+::decode (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{classebml_1_1ioBase}{io\+Base}} $\ast$}]{,  }\item[{off\+\_\+t \&}]{ }\end{DoxyParamCaption}) const}
+
+\mbox{\Hypertarget{classebml_1_1ebmlElementClass_ae7d79a92abd19825137ccb0b7d1893e7}\label{classebml_1_1ebmlElementClass_ae7d79a92abd19825137ccb0b7d1893e7}} 
+\index{ebml\+::ebml\+Element\+Class@{ebml\+::ebml\+Element\+Class}!decode@{decode}}
+\index{decode@{decode}!ebml\+::ebml\+Element\+Class@{ebml\+::ebml\+Element\+Class}}
+\subsubsection{\texorpdfstring{decode()}{decode()}\hspace{0.1cm}{\footnotesize\ttfamily [9/10]}}
+{\footnotesize\ttfamily \mbox{\hyperlink{namespaceebml_adad533b7705a16bb360fe56380c5e7be}{ebml\+Element\+\_\+sp}} ebml\+::ebml\+Element\+Class\+::decode (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{namespaceebml_a7bb59128ac6af27e47367938a846b569}{io\+Base\+\_\+sp}} \&}]{,  }\item[{off\+\_\+t}]{,  }\item[{off\+\_\+t \&}]{ }\end{DoxyParamCaption}) const}
+
+\mbox{\Hypertarget{classebml_1_1ebmlElementClass_a7c8b6853b84adff619ba8700070a9997}\label{classebml_1_1ebmlElementClass_a7c8b6853b84adff619ba8700070a9997}} 
+\index{ebml\+::ebml\+Element\+Class@{ebml\+::ebml\+Element\+Class}!decode@{decode}}
+\index{decode@{decode}!ebml\+::ebml\+Element\+Class@{ebml\+::ebml\+Element\+Class}}
+\subsubsection{\texorpdfstring{decode()}{decode()}\hspace{0.1cm}{\footnotesize\ttfamily [10/10]}}
+{\footnotesize\ttfamily \mbox{\hyperlink{namespaceebml_adad533b7705a16bb360fe56380c5e7be}{ebml\+Element\+\_\+sp}} ebml\+::ebml\+Element\+Class\+::decode (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{classebml_1_1ioBase}{io\+Base}} $\ast$}]{,  }\item[{off\+\_\+t}]{,  }\item[{off\+\_\+t \&}]{ }\end{DoxyParamCaption}) const}
+
+\mbox{\Hypertarget{classebml_1_1ebmlElementClass_a211de9c10948a2b4a6b3550eb76c1102}\label{classebml_1_1ebmlElementClass_a211de9c10948a2b4a6b3550eb76c1102}} 
+\index{ebml\+::ebml\+Element\+Class@{ebml\+::ebml\+Element\+Class}!make\+Seek\+Data@{make\+Seek\+Data}}
+\index{make\+Seek\+Data@{make\+Seek\+Data}!ebml\+::ebml\+Element\+Class@{ebml\+::ebml\+Element\+Class}}
+\subsubsection{\texorpdfstring{make\+Seek\+Data()}{makeSeekData()}\hspace{0.1cm}{\footnotesize\ttfamily [1/2]}}
+{\footnotesize\ttfamily virtual \mbox{\hyperlink{classebml_1_1seekData__t}{seek\+Data\+\_\+t}}$\ast$ ebml\+::ebml\+Element\+Class\+::make\+Seek\+Data (\begin{DoxyParamCaption}\item[{const \mbox{\hyperlink{classebml_1_1parseFile}{parse\+File}} \&}]{ }\end{DoxyParamCaption}) const\hspace{0.3cm}{\ttfamily [virtual]}}
+
+\mbox{\Hypertarget{classebml_1_1ebmlElementClass_ac844edef1226b728c127cdf946b3d152}\label{classebml_1_1ebmlElementClass_ac844edef1226b728c127cdf946b3d152}} 
+\index{ebml\+::ebml\+Element\+Class@{ebml\+::ebml\+Element\+Class}!make\+Seek\+Data@{make\+Seek\+Data}}
+\index{make\+Seek\+Data@{make\+Seek\+Data}!ebml\+::ebml\+Element\+Class@{ebml\+::ebml\+Element\+Class}}
+\subsubsection{\texorpdfstring{make\+Seek\+Data()}{makeSeekData()}\hspace{0.1cm}{\footnotesize\ttfamily [2/2]}}
+{\footnotesize\ttfamily virtual \mbox{\hyperlink{classebml_1_1seekData__t}{seek\+Data\+\_\+t}}$\ast$ ebml\+::ebml\+Element\+Class\+::make\+Seek\+Data (\begin{DoxyParamCaption}\item[{const \mbox{\hyperlink{classebml_1_1parseFile}{parse\+File}} \&}]{,  }\item[{const \mbox{\hyperlink{namespaceebml_adad533b7705a16bb360fe56380c5e7be}{ebml\+Element\+\_\+sp}} \&}]{ }\end{DoxyParamCaption}) const\hspace{0.3cm}{\ttfamily [virtual]}}
 
 \mbox{\Hypertarget{classebml_1_1ebmlElementClass_a251cc751901423a86099d58d49f28291}\label{classebml_1_1ebmlElementClass_a251cc751901423a86099d58d49f28291}} 
 \index{ebml\+::ebml\+Element\+Class@{ebml\+::ebml\+Element\+Class}!minirepr@{minirepr}}
@@ -339,12 +449,12 @@ Example\+:
 \mbox{\hyperlink{classebml_1_1ebmlElementClass_a6c2081870c5d66c70e0cf988ff253420}{ebmlElementClass}} ebmlClass = ...;
 \mbox{\hyperlink{namespaceebml_adad533b7705a16bb360fe56380c5e7be}{ebmlElement\_sp}} elem = ebmlClass();
 \end{DoxyCode}
- \mbox{\Hypertarget{classebml_1_1ebmlElementClass_af6901ccaf31aa832687777a0c225abd2}\label{classebml_1_1ebmlElementClass_af6901ccaf31aa832687777a0c225abd2}} 
+ \mbox{\Hypertarget{classebml_1_1ebmlElementClass_a485c3f4a11b09d301b80f44e1802e9ab}\label{classebml_1_1ebmlElementClass_a485c3f4a11b09d301b80f44e1802e9ab}} 
 \index{ebml\+::ebml\+Element\+Class@{ebml\+::ebml\+Element\+Class}!ptr@{ptr}}
 \index{ptr@{ptr}!ebml\+::ebml\+Element\+Class@{ebml\+::ebml\+Element\+Class}}
 \subsubsection{\texorpdfstring{ptr()}{ptr()}\hspace{0.1cm}{\footnotesize\ttfamily [1/2]}}
-{\footnotesize\ttfamily template$<$typename T $>$ \\
-T $\ast$ ebml\+::ebml\+Element\+Class\+::ptr (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})}
+{\footnotesize\ttfamily template$<$typename T  = ebml\+Element\+Class$>$ \\
+T$\ast$ ebml\+::ebml\+Element\+Class\+::ptr (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
 
 Convenience member function that dynamically casts \mbox{\hyperlink{classebml_1_1ebmlElementClass}{ebml\+Element\+Class}} to a subclass.
 
@@ -354,19 +464,19 @@ Pointer to instance as a T object.
 Example\+: 
 \begin{DoxyCode}
 \mbox{\hyperlink{classebml_1_1ebmlElementClass_a6c2081870c5d66c70e0cf988ff253420}{ebmlElementClass}} \mbox{\hyperlink{classebml_1_1ebmlElement_a15cf59e94b01e2c49ec96512b9bd9d90}{cls}} = ebmlVoidClass();
-ebmlVoidClass* \mbox{\hyperlink{namespaceebml_afbfd509d1cb71e416a07253746e886e9}{Void}} = \mbox{\hyperlink{classebml_1_1ebmlElement_a15cf59e94b01e2c49ec96512b9bd9d90}{cls}}.\mbox{\hyperlink{classebml_1_1ebmlElementClass_af6901ccaf31aa832687777a0c225abd2}{ptr}}<ebmlVoidClass>();
+ebmlVoidClass* \mbox{\hyperlink{namespaceebml_afbfd509d1cb71e416a07253746e886e9}{Void}} = \mbox{\hyperlink{classebml_1_1ebmlElement_a15cf59e94b01e2c49ec96512b9bd9d90}{cls}}.\mbox{\hyperlink{classebml_1_1ebmlElementClass_ab8c68b1f0a25aead5003d7100a27d5d3}{as}}<ebmlVoidClass>();
 \end{DoxyCode}
  
 \begin{DoxyExceptions}{Exceptions}
 {\em std\+::bad\+\_\+alloc} & If instance is not an instance of T. \\
 \hline
 \end{DoxyExceptions}
-\mbox{\Hypertarget{classebml_1_1ebmlElementClass_ad41af01c63a43d4a629483a2076dcb4e}\label{classebml_1_1ebmlElementClass_ad41af01c63a43d4a629483a2076dcb4e}} 
+\mbox{\Hypertarget{classebml_1_1ebmlElementClass_a4d3188e97ab01f1db0427faa5b5d6059}\label{classebml_1_1ebmlElementClass_a4d3188e97ab01f1db0427faa5b5d6059}} 
 \index{ebml\+::ebml\+Element\+Class@{ebml\+::ebml\+Element\+Class}!ptr@{ptr}}
 \index{ptr@{ptr}!ebml\+::ebml\+Element\+Class@{ebml\+::ebml\+Element\+Class}}
 \subsubsection{\texorpdfstring{ptr()}{ptr()}\hspace{0.1cm}{\footnotesize\ttfamily [2/2]}}
-{\footnotesize\ttfamily template$<$typename T $>$ \\
-const T $\ast$ ebml\+::ebml\+Element\+Class\+::ptr (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption}) const}
+{\footnotesize\ttfamily template$<$typename T  = ebml\+Element\+Class$>$ \\
+const T$\ast$ ebml\+::ebml\+Element\+Class\+::ptr (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption}) const\hspace{0.3cm}{\ttfamily [inline]}}
 
 Convenience member function that dynamically casts const \mbox{\hyperlink{classebml_1_1ebmlElementClass}{ebml\+Element\+Class}} to a subclass.
 
@@ -376,51 +486,7 @@ Pointer to instance as a const T object.
 Example\+: 
 \begin{DoxyCode}
 \textcolor{keyword}{const} \mbox{\hyperlink{classebml_1_1ebmlElementClass_a6c2081870c5d66c70e0cf988ff253420}{ebmlElementClass}} \mbox{\hyperlink{classebml_1_1ebmlElement_a15cf59e94b01e2c49ec96512b9bd9d90}{cls}} = ebmlVoidClass();
-\textcolor{keyword}{const} ebmlVoidClass* \mbox{\hyperlink{namespaceebml_afbfd509d1cb71e416a07253746e886e9}{Void}} = \mbox{\hyperlink{classebml_1_1ebmlElement_a15cf59e94b01e2c49ec96512b9bd9d90}{cls}}.\mbox{\hyperlink{classebml_1_1ebmlElementClass_af6901ccaf31aa832687777a0c225abd2}{ptr}}<ebmlVoidClass>();
-\end{DoxyCode}
- 
-\begin{DoxyExceptions}{Exceptions}
-{\em std\+::bad\+\_\+alloc} & If instance is not an instance of T. \\
-\hline
-\end{DoxyExceptions}
-\mbox{\Hypertarget{classebml_1_1ebmlElementClass_a9ad70f610118f70424b5ff92468ad1ca}\label{classebml_1_1ebmlElementClass_a9ad70f610118f70424b5ff92468ad1ca}} 
-\index{ebml\+::ebml\+Element\+Class@{ebml\+::ebml\+Element\+Class}!ref@{ref}}
-\index{ref@{ref}!ebml\+::ebml\+Element\+Class@{ebml\+::ebml\+Element\+Class}}
-\subsubsection{\texorpdfstring{ref()}{ref()}\hspace{0.1cm}{\footnotesize\ttfamily [1/2]}}
-{\footnotesize\ttfamily template$<$typename T $>$ \\
-T \& ebml\+::ebml\+Element\+Class\+::ref (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})}
-
-Convenience member function that dynamically casts \mbox{\hyperlink{classebml_1_1ebmlElementClass}{ebml\+Element\+Class}} to a subclass.
-
-\begin{DoxyReturn}{Returns}
-Reference to instance as a T object.
-\end{DoxyReturn}
-Example\+: 
-\begin{DoxyCode}
-\mbox{\hyperlink{classebml_1_1ebmlElementClass_a6c2081870c5d66c70e0cf988ff253420}{ebmlElementClass}} \mbox{\hyperlink{classebml_1_1ebmlElement_a15cf59e94b01e2c49ec96512b9bd9d90}{cls}} = ebmlVoidClass();
-ebmlVoidClass& \mbox{\hyperlink{namespaceebml_afbfd509d1cb71e416a07253746e886e9}{Void}} = \mbox{\hyperlink{classebml_1_1ebmlElement_a15cf59e94b01e2c49ec96512b9bd9d90}{cls}}.\mbox{\hyperlink{classebml_1_1ebmlElementClass_a9ad70f610118f70424b5ff92468ad1ca}{ref}}<ebmlVoidClass>();
-\end{DoxyCode}
- 
-\begin{DoxyExceptions}{Exceptions}
-{\em std\+::bad\+\_\+alloc} & If instance is not an instance of T. \\
-\hline
-\end{DoxyExceptions}
-\mbox{\Hypertarget{classebml_1_1ebmlElementClass_a174c0bdaef3ec9511f30970c7d0827bc}\label{classebml_1_1ebmlElementClass_a174c0bdaef3ec9511f30970c7d0827bc}} 
-\index{ebml\+::ebml\+Element\+Class@{ebml\+::ebml\+Element\+Class}!ref@{ref}}
-\index{ref@{ref}!ebml\+::ebml\+Element\+Class@{ebml\+::ebml\+Element\+Class}}
-\subsubsection{\texorpdfstring{ref()}{ref()}\hspace{0.1cm}{\footnotesize\ttfamily [2/2]}}
-{\footnotesize\ttfamily template$<$typename T $>$ \\
-const T \& ebml\+::ebml\+Element\+Class\+::ref (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption}) const}
-
-Convenience member function that dynamically casts const \mbox{\hyperlink{classebml_1_1ebmlElementClass}{ebml\+Element\+Class}} to a subclass.
-
-\begin{DoxyReturn}{Returns}
-Const reference to instance as a T object.
-\end{DoxyReturn}
-Example\+: 
-\begin{DoxyCode}
-\textcolor{keyword}{const} \mbox{\hyperlink{classebml_1_1ebmlElementClass_a6c2081870c5d66c70e0cf988ff253420}{ebmlElementClass}} \mbox{\hyperlink{classebml_1_1ebmlElement_a15cf59e94b01e2c49ec96512b9bd9d90}{cls}} = ebmlVoidClass();
-\textcolor{keyword}{const} ebmlVoidClass& \mbox{\hyperlink{namespaceebml_afbfd509d1cb71e416a07253746e886e9}{Void}} = \mbox{\hyperlink{classebml_1_1ebmlElement_a15cf59e94b01e2c49ec96512b9bd9d90}{cls}}.\mbox{\hyperlink{classebml_1_1ebmlElementClass_a9ad70f610118f70424b5ff92468ad1ca}{ref}}<ebmlVoidClass>();
+\textcolor{keyword}{const} ebmlVoidClass* \mbox{\hyperlink{namespaceebml_afbfd509d1cb71e416a07253746e886e9}{Void}} = \mbox{\hyperlink{classebml_1_1ebmlElement_a15cf59e94b01e2c49ec96512b9bd9d90}{cls}}.\mbox{\hyperlink{classebml_1_1ebmlElementClass_a485c3f4a11b09d301b80f44e1802e9ab}{ptr}}<ebmlVoidClass>();
 \end{DoxyCode}
  
 \begin{DoxyExceptions}{Exceptions}
@@ -448,6 +514,12 @@ Example\+:
 \subsubsection{\texorpdfstring{ebml\+Master\+Element}{ebmlMasterElement}}
 {\footnotesize\ttfamily friend class \mbox{\hyperlink{classebml_1_1ebmlMasterElement}{ebml\+Master\+Element}}\hspace{0.3cm}{\ttfamily [friend]}}
 
+\mbox{\Hypertarget{classebml_1_1ebmlElementClass_aa005a2a7ef20ef779d383e3da2e0b46d}\label{classebml_1_1ebmlElementClass_aa005a2a7ef20ef779d383e3da2e0b46d}} 
+\index{ebml\+::ebml\+Element\+Class@{ebml\+::ebml\+Element\+Class}!ebml\+Master\+Element\+Class@{ebml\+Master\+Element\+Class}}
+\index{ebml\+Master\+Element\+Class@{ebml\+Master\+Element\+Class}!ebml\+::ebml\+Element\+Class@{ebml\+::ebml\+Element\+Class}}
+\subsubsection{\texorpdfstring{ebml\+Master\+Element\+Class}{ebmlMasterElementClass}}
+{\footnotesize\ttfamily friend class \mbox{\hyperlink{classebml_1_1ebmlMasterElementClass}{ebml\+Master\+Element\+Class}}\hspace{0.3cm}{\ttfamily [friend]}}
+
 
 
 \subsection{Member Data Documentation}
@@ -467,4 +539,4 @@ Example\+:
 
 The documentation for this class was generated from the following file\+:\begin{DoxyCompactItemize}
 \item 
-include/libebml\+\_\+ng/\mbox{\hyperlink{base_8h}{base.\+h}}\end{DoxyCompactItemize}
+include/libebml\+\_\+ng/\mbox{\hyperlink{elementcls_8h}{elementcls.\+h}}\end{DoxyCompactItemize}

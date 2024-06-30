@@ -31,7 +31,9 @@ namespace ebml {
     template<>
     size_t io<int>::write(const char*, off_t, size_t);
 
-    template class io<int>;
+    template<>
+    struct stat io<int>::stat();
+    // template class io<int>;
 }
 
 #endif

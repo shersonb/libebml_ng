@@ -26,7 +26,14 @@ namespace ebml {
     template<>
     size_t io<FILE*>::_write(const char*, size_t);
 
-    template class io<FILE*>;
+    template<>
+    size_t io<FILE*>::_read(char*, size_t);
+
+    template<>
+    size_t io<FILE*>::_write(const char*, size_t);
+
+    template<>
+    struct stat io<FILE*>::stat();
 }
 
 #endif

@@ -1,11 +1,11 @@
 \hypertarget{map_8h}{}\section{include/libebml\+\_\+ng/masterelement/map.h File Reference}
 \label{map_8h}\index{include/libebml\+\_\+ng/masterelement/map.\+h@{include/libebml\+\_\+ng/masterelement/map.\+h}}
-{\ttfamily \#include \char`\"{}libebml\+\_\+ng/base.\+h\char`\"{}}\newline
-{\ttfamily \#include \char`\"{}libebml\+\_\+ng/masterelement/base.\+h\char`\"{}}\newline
-{\ttfamily \#include \char`\"{}libebml\+\_\+ng/template.\+h\char`\"{}}\newline
 {\ttfamily \#include $<$unordered\+\_\+map$>$}\newline
 {\ttfamily \#include $<$vector$>$}\newline
 {\ttfamily \#include $<$exception$>$}\newline
+{\ttfamily \#include \char`\"{}base.\+h\char`\"{}}\newline
+{\ttfamily \#include \char`\"{}../dataelement.\+h\char`\"{}}\newline
+{\ttfamily \#include \char`\"{}../element.\+h\char`\"{}}\newline
 \subsection*{Classes}
 \begin{DoxyCompactItemize}
 \item 
@@ -34,6 +34,17 @@ class \mbox{\hyperlink{classebml_1_1ebmlMap_1_1__const__iterator}{ebml\+::ebml\+
 \item 
  \mbox{\hyperlink{namespaceebml}{ebml}}
 \end{DoxyCompactItemize}
+\subsection*{Macros}
+\begin{DoxyCompactItemize}
+\item 
+\#define \mbox{\hyperlink{map_8h_a10d1bc3373c0ed867047e97ff67b817b}{E\+X\+T\+E\+R\+N\+\_\+\+M\+A\+P\+\_\+\+T\+Y\+PE}}(K\+E\+Y\+T\+Y\+PE)
+\item 
+\#define \mbox{\hyperlink{map_8h_a10270459a5e10e99993436737aefa4df}{I\+N\+S\+T\+\_\+\+M\+A\+P\+\_\+\+T\+Y\+PE}}(K\+E\+Y\+T\+Y\+PE)
+\item 
+\#define \mbox{\hyperlink{map_8h_a3988a61dbdd2e59792a4c6b33b25f257}{E\+X\+T\+E\+R\+N\+\_\+\+M\+A\+P\+\_\+\+T\+Y\+P\+E\+\_\+\+E\+XT}}(K\+E\+Y\+T\+Y\+PE, ...)
+\item 
+\#define \mbox{\hyperlink{map_8h_a29b085432761b0895688d72d0a08f381}{I\+N\+S\+T\+\_\+\+M\+A\+P\+\_\+\+T\+Y\+P\+E\+\_\+\+E\+XT}}(K\+E\+Y\+T\+Y\+PE, ...)
+\end{DoxyCompactItemize}
 \subsection*{Typedefs}
 \begin{DoxyCompactItemize}
 \item 
@@ -41,3 +52,75 @@ class \mbox{\hyperlink{classebml_1_1ebmlMap_1_1__const__iterator}{ebml\+::ebml\+
 \item 
 {\footnotesize template$<$typename T $>$ }\\using \mbox{\hyperlink{namespaceebml_a9c804317d5b51ef8844bdffe5e8cb4b3}{ebml\+::c\+\_\+ebml\+Pair\+\_\+sp}} = std\+::shared\+\_\+ptr$<$ const ebml\+Pair$<$ T $>$ $>$
 \end{DoxyCompactItemize}
+
+
+\subsection{Macro Definition Documentation}
+\mbox{\Hypertarget{map_8h_a10d1bc3373c0ed867047e97ff67b817b}\label{map_8h_a10d1bc3373c0ed867047e97ff67b817b}} 
+\index{map.\+h@{map.\+h}!E\+X\+T\+E\+R\+N\+\_\+\+M\+A\+P\+\_\+\+T\+Y\+PE@{E\+X\+T\+E\+R\+N\+\_\+\+M\+A\+P\+\_\+\+T\+Y\+PE}}
+\index{E\+X\+T\+E\+R\+N\+\_\+\+M\+A\+P\+\_\+\+T\+Y\+PE@{E\+X\+T\+E\+R\+N\+\_\+\+M\+A\+P\+\_\+\+T\+Y\+PE}!map.\+h@{map.\+h}}
+\subsubsection{\texorpdfstring{E\+X\+T\+E\+R\+N\+\_\+\+M\+A\+P\+\_\+\+T\+Y\+PE}{EXTERN\_MAP\_TYPE}}
+{\footnotesize\ttfamily \#define E\+X\+T\+E\+R\+N\+\_\+\+M\+A\+P\+\_\+\+T\+Y\+PE(\begin{DoxyParamCaption}\item[{}]{K\+E\+Y\+T\+Y\+PE }\end{DoxyParamCaption})}
+
+{\bfseries Value\+:}
+\begin{DoxyCode}
+\textcolor{keyword}{extern} \textcolor{keyword}{template} \textcolor{keyword}{class }\mbox{\hyperlink{classebml_1_1ebmlPairClass}{ebml::ebmlPairClass<const KEYTYPE>}}; \(\backslash\)
+    extern \textcolor{keyword}{template} \textcolor{keyword}{class }\mbox{\hyperlink{classebml_1_1ebmlPair}{ebml::ebmlPair<const KEYTYPE>}}; \(\backslash\)
+    EXTERN\_AS\_MEMBERS(\mbox{\hyperlink{classebml_1_1ebmlPairClass}{ebml::ebmlPairClass<const KEYTYPE>}}, 
+      \mbox{\hyperlink{classebml_1_1ebmlPair}{ebml::ebmlPair<const KEYTYPE>}}) \(\backslash\)
+    extern \textcolor{keyword}{template} \textcolor{keyword}{class }\mbox{\hyperlink{classebml_1_1ebmlMapClass}{ebml::ebmlMapClass<KEYTYPE>}}; \(\backslash\)
+    extern \textcolor{keyword}{template} \textcolor{keyword}{class }\mbox{\hyperlink{classebml_1_1ebmlMap}{ebml::ebmlMap<KEYTYPE>}}; \(\backslash\)
+    EXTERN\_AS\_MEMBERS(\mbox{\hyperlink{classebml_1_1ebmlMapClass}{ebml::ebmlMapClass<KEYTYPE>}}, 
+      \mbox{\hyperlink{classebml_1_1ebmlMap}{ebml::ebmlMap<KEYTYPE>}})
+\end{DoxyCode}
+\mbox{\Hypertarget{map_8h_a3988a61dbdd2e59792a4c6b33b25f257}\label{map_8h_a3988a61dbdd2e59792a4c6b33b25f257}} 
+\index{map.\+h@{map.\+h}!E\+X\+T\+E\+R\+N\+\_\+\+M\+A\+P\+\_\+\+T\+Y\+P\+E\+\_\+\+E\+XT@{E\+X\+T\+E\+R\+N\+\_\+\+M\+A\+P\+\_\+\+T\+Y\+P\+E\+\_\+\+E\+XT}}
+\index{E\+X\+T\+E\+R\+N\+\_\+\+M\+A\+P\+\_\+\+T\+Y\+P\+E\+\_\+\+E\+XT@{E\+X\+T\+E\+R\+N\+\_\+\+M\+A\+P\+\_\+\+T\+Y\+P\+E\+\_\+\+E\+XT}!map.\+h@{map.\+h}}
+\subsubsection{\texorpdfstring{E\+X\+T\+E\+R\+N\+\_\+\+M\+A\+P\+\_\+\+T\+Y\+P\+E\+\_\+\+E\+XT}{EXTERN\_MAP\_TYPE\_EXT}}
+{\footnotesize\ttfamily \#define E\+X\+T\+E\+R\+N\+\_\+\+M\+A\+P\+\_\+\+T\+Y\+P\+E\+\_\+\+E\+XT(\begin{DoxyParamCaption}\item[{}]{K\+E\+Y\+T\+Y\+PE,  }\item[{}]{... }\end{DoxyParamCaption})}
+
+{\bfseries Value\+:}
+\begin{DoxyCode}
+\textcolor{keyword}{extern} \textcolor{keyword}{template} \textcolor{keyword}{class }\mbox{\hyperlink{classebml_1_1ebmlPairClass}{ebml::ebmlPairClass<const KEYTYPE>}}; \(\backslash\)
+    extern \textcolor{keyword}{template} \textcolor{keyword}{class }\mbox{\hyperlink{classebml_1_1ebmlPair}{ebml::ebmlPair<const KEYTYPE>}}; \(\backslash\)
+    EXTERN\_AS\_MEMBERS(\mbox{\hyperlink{classebml_1_1ebmlPairClass}{ebml::ebmlPairClass<const KEYTYPE>}}, 
+      \mbox{\hyperlink{classebml_1_1ebmlPair}{ebml::ebmlPair<const KEYTYPE>}}) \(\backslash\)
+    extern \textcolor{keyword}{template} \textcolor{keyword}{class }\mbox{\hyperlink{classebml_1_1ebmlMapClass}{ebml::ebmlMapClass<KEYTYPE, ##\_\_VA\_ARGS\_\_>}}
+      ; \(\backslash\)
+    extern \textcolor{keyword}{template} \textcolor{keyword}{class }\mbox{\hyperlink{classebml_1_1ebmlMap}{ebml::ebmlMap<KEYTYPE, ##\_\_VA\_ARGS\_\_>}}; \(\backslash\)
+    EXTERN\_AS\_MEMBERS(\mbox{\hyperlink{classebml_1_1ebmlMapClass}{ebml::ebmlMapClass<KEYTYPE, ##\_\_VA\_ARGS\_\_>}},
+       \mbox{\hyperlink{classebml_1_1ebmlMap}{ebml::ebmlMap<KEYTYPE, ##\_\_VA\_ARGS\_\_>}})
+\end{DoxyCode}
+\mbox{\Hypertarget{map_8h_a10270459a5e10e99993436737aefa4df}\label{map_8h_a10270459a5e10e99993436737aefa4df}} 
+\index{map.\+h@{map.\+h}!I\+N\+S\+T\+\_\+\+M\+A\+P\+\_\+\+T\+Y\+PE@{I\+N\+S\+T\+\_\+\+M\+A\+P\+\_\+\+T\+Y\+PE}}
+\index{I\+N\+S\+T\+\_\+\+M\+A\+P\+\_\+\+T\+Y\+PE@{I\+N\+S\+T\+\_\+\+M\+A\+P\+\_\+\+T\+Y\+PE}!map.\+h@{map.\+h}}
+\subsubsection{\texorpdfstring{I\+N\+S\+T\+\_\+\+M\+A\+P\+\_\+\+T\+Y\+PE}{INST\_MAP\_TYPE}}
+{\footnotesize\ttfamily \#define I\+N\+S\+T\+\_\+\+M\+A\+P\+\_\+\+T\+Y\+PE(\begin{DoxyParamCaption}\item[{}]{K\+E\+Y\+T\+Y\+PE }\end{DoxyParamCaption})}
+
+{\bfseries Value\+:}
+\begin{DoxyCode}
+\textcolor{keyword}{template} \textcolor{keyword}{class }\mbox{\hyperlink{classebml_1_1ebmlPairClass}{ebml::ebmlPairClass<const KEYTYPE>}}; \(\backslash\)
+    template \textcolor{keyword}{class }\mbox{\hyperlink{classebml_1_1ebmlPair}{ebml::ebmlPair<const KEYTYPE>}}; \(\backslash\)
+    INST\_AS\_MEMBERS(\mbox{\hyperlink{classebml_1_1ebmlPairClass}{ebml::ebmlPairClass<const KEYTYPE>}}, 
+      \mbox{\hyperlink{classebml_1_1ebmlPair}{ebml::ebmlPair<const KEYTYPE>}}) \(\backslash\)
+    template \textcolor{keyword}{class }\mbox{\hyperlink{classebml_1_1ebmlMapClass}{ebml::ebmlMapClass<KEYTYPE>}}; \(\backslash\)
+    template \textcolor{keyword}{class }\mbox{\hyperlink{classebml_1_1ebmlMap}{ebml::ebmlMap<KEYTYPE>}}; \(\backslash\)
+    INST\_AS\_MEMBERS(\mbox{\hyperlink{classebml_1_1ebmlMapClass}{ebml::ebmlMapClass<KEYTYPE>}}, 
+      \mbox{\hyperlink{classebml_1_1ebmlMap}{ebml::ebmlMap<KEYTYPE>}})
+\end{DoxyCode}
+\mbox{\Hypertarget{map_8h_a29b085432761b0895688d72d0a08f381}\label{map_8h_a29b085432761b0895688d72d0a08f381}} 
+\index{map.\+h@{map.\+h}!I\+N\+S\+T\+\_\+\+M\+A\+P\+\_\+\+T\+Y\+P\+E\+\_\+\+E\+XT@{I\+N\+S\+T\+\_\+\+M\+A\+P\+\_\+\+T\+Y\+P\+E\+\_\+\+E\+XT}}
+\index{I\+N\+S\+T\+\_\+\+M\+A\+P\+\_\+\+T\+Y\+P\+E\+\_\+\+E\+XT@{I\+N\+S\+T\+\_\+\+M\+A\+P\+\_\+\+T\+Y\+P\+E\+\_\+\+E\+XT}!map.\+h@{map.\+h}}
+\subsubsection{\texorpdfstring{I\+N\+S\+T\+\_\+\+M\+A\+P\+\_\+\+T\+Y\+P\+E\+\_\+\+E\+XT}{INST\_MAP\_TYPE\_EXT}}
+{\footnotesize\ttfamily \#define I\+N\+S\+T\+\_\+\+M\+A\+P\+\_\+\+T\+Y\+P\+E\+\_\+\+E\+XT(\begin{DoxyParamCaption}\item[{}]{K\+E\+Y\+T\+Y\+PE,  }\item[{}]{... }\end{DoxyParamCaption})}
+
+{\bfseries Value\+:}
+\begin{DoxyCode}
+\textcolor{keyword}{template} \textcolor{keyword}{class }\mbox{\hyperlink{classebml_1_1ebmlPairClass}{ebml::ebmlPairClass<const KEYTYPE>}}; \(\backslash\)
+    template \textcolor{keyword}{class }\mbox{\hyperlink{classebml_1_1ebmlPair}{ebml::ebmlPair<const KEYTYPE>}}; \(\backslash\)
+    INST\_AS\_MEMBERS(\mbox{\hyperlink{classebml_1_1ebmlPairClass}{ebml::ebmlPairClass<const KEYTYPE>}}, 
+      \mbox{\hyperlink{classebml_1_1ebmlPair}{ebml::ebmlPair<const KEYTYPE>}}) \(\backslash\)
+    template \textcolor{keyword}{class }\mbox{\hyperlink{classebml_1_1ebmlMapClass}{ebml::ebmlMapClass<KEYTYPE, ##\_\_VA\_ARGS\_\_>}}; \(\backslash\)
+    template \textcolor{keyword}{class }\mbox{\hyperlink{classebml_1_1ebmlMap}{ebml::ebmlMap<KEYTYPE, ##\_\_VA\_ARGS\_\_>}}; \(\backslash\)
+    INST\_AS\_MEMBERS(\mbox{\hyperlink{classebml_1_1ebmlMapClass}{ebml::ebmlMapClass<KEYTYPE, ##\_\_VA\_ARGS\_\_>}}, 
+      \mbox{\hyperlink{classebml_1_1ebmlMap}{ebml::ebmlMap<KEYTYPE, ##\_\_VA\_ARGS\_\_>}})
+\end{DoxyCode}

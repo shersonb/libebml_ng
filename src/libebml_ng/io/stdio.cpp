@@ -2,6 +2,7 @@
 #define EBML_NG_IO_STDIO_CPP
 
 #include <stdexcept>
+#include <unistd.h>
 
 #include "libebml_ng/io.h"
 #include "libebml_ng/io/_stdio.h"
@@ -117,6 +118,33 @@ namespace ebml {
         return result;
     }
 
-    // template class io<FILE*>;
+    template<>
+    void io<FILE*>::truncate() {
+        auto lock = this->acquireLock();
+        auto pos = this->_tell();
+        auto fd = fileno(this->_file);
+
+        if (ftruncate(fd, pos) == -1) {
+            throw std::ios_base::failure("Write Error");
+        }
+    }
+
+    template<>
+    void io<FILE*>::truncate(off_t pos) {
+        auto fd = fileno(this->_file);
+
+        if (ftruncate(fd, pos) == -1) {
+            throw std::ios_base::failure("Write Error");
+        }
+    }
+
+    template<>
+    struct stat io<FILE*>::stat() {
+        struct stat result;
+        fstat(fileno(this->_file), &result);
+        return result;
+    }
+
+    template class io<FILE*>;
 }
 #endif

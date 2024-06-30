@@ -4,15 +4,42 @@
 #include "libebml_ng/parsing/string.h"
 #include "libebml_ng/vint.h"
 #include "libebml_ng/exceptions.h"
+#include "libebml_ng/struct/ull.h"
+#include "libebml_ng/struct/ll.h"
+#include "libebml_ng/struct/double.h"
+#include "libebml_ng/struct/binary.h"
+#include "libebml_ng/struct/unicode.h"
+#include <utility>
 
 namespace ebml {
-    parseString::parseString() {
-        this->ebmlID = 0;
-        this->ebmlIDWidth = 0;
-        this->dataSize = 0;
-        this->sizeWidth = 0;
-        this->offset = 0;
-        this->data = NULL;
+    parseString::parseString()
+    : ebmlID(0), ebmlIDWidth(0), dataSize(0), sizeWidth(0), offset(0), data(nullptr) {}
+
+    parseString::parseString(const parseString& other)
+    : ebmlID(other.ebmlID), ebmlIDWidth(other.ebmlIDWidth), dataSize(other.dataSize), sizeWidth(other.sizeWidth), offset(other.offset), data(other.data) {}
+
+    parseString::parseString(parseString&& other)
+    : ebmlID(std::exchange(other.ebmlID, 0)), ebmlIDWidth(std::exchange(other.ebmlIDWidth, 0)), dataSize(std::exchange(other.dataSize, 0)),
+    sizeWidth(std::exchange(other.sizeWidth, 0)), offset(std::exchange(other.offset, 0)), data(std::exchange(other.data, nullptr)) {}
+
+    parseString& parseString::operator=(const parseString& other) {
+        this->ebmlID = other.ebmlID;
+        this->ebmlIDWidth = other.ebmlIDWidth;
+        this->dataSize = other.dataSize;
+        this->sizeWidth = other.sizeWidth;
+        this->offset = other.offset;
+        this->data = other.data;
+        return *this;
+    }
+
+    parseString& parseString::operator=(parseString&& other) {
+        this->ebmlID = std::exchange(other.ebmlID, 0);
+        this->ebmlIDWidth = std::exchange(other.ebmlIDWidth, 0);
+        this->dataSize = std::exchange(other.dataSize, 0);
+        this->sizeWidth = std::exchange(other.sizeWidth, 0);
+        this->offset = std::exchange(other.offset, 0);
+        this->data = std::exchange(other.data, nullptr);
+        return *this;
     }
 
     parseString::parseString(
@@ -192,5 +219,11 @@ namespace ebml {
         this->offset = parsed.offset;
         this->data = buffer;
     }
+
+    template unsigned long long parseString::unpack<unsigned long long>() const;
+    template long long parseString::unpack<long long>() const;
+    template double parseString::unpack<double>() const;
+    template std::string parseString::unpack<std::string>() const;
+    template std::wstring parseString::unpack<std::wstring>() const;
 }
 #endif

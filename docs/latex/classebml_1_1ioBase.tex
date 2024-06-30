@@ -35,6 +35,10 @@ void \mbox{\hyperlink{classebml_1_1ioBase_a802fbbe754413842f45251daa8294965}{clo
 \item 
 bool \mbox{\hyperlink{classebml_1_1ioBase_a9dea7dea0e8d87a537e652e7f40128e9}{closed}} () const
 \item 
+virtual void \mbox{\hyperlink{classebml_1_1ioBase_a4cd6d91c2bb18a21c0fec425432b58c3}{truncate}} ()=0
+\item 
+virtual void \mbox{\hyperlink{classebml_1_1ioBase_ae1a40372ba926becab957ae0b054492e}{truncate}} (off\+\_\+t)=0
+\item 
 std\+::unique\+\_\+lock$<$ std\+::recursive\+\_\+mutex $>$ \mbox{\hyperlink{classebml_1_1ioBase_a8414aaadabbfdc746e810527bc76a93d}{acquire\+Lock}} ()
 \end{DoxyCompactItemize}
 \subsection*{Protected Member Functions}
@@ -178,6 +182,26 @@ Implemented in \mbox{\hyperlink{classebml_1_1io_ab019a4128b3339941124a12632c919f
 \index{tell@{tell}!ebml\+::io\+Base@{ebml\+::io\+Base}}
 \subsubsection{\texorpdfstring{tell()}{tell()}}
 {\footnotesize\ttfamily off\+\_\+t ebml\+::io\+Base\+::tell (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})}
+
+\mbox{\Hypertarget{classebml_1_1ioBase_a4cd6d91c2bb18a21c0fec425432b58c3}\label{classebml_1_1ioBase_a4cd6d91c2bb18a21c0fec425432b58c3}} 
+\index{ebml\+::io\+Base@{ebml\+::io\+Base}!truncate@{truncate}}
+\index{truncate@{truncate}!ebml\+::io\+Base@{ebml\+::io\+Base}}
+\subsubsection{\texorpdfstring{truncate()}{truncate()}\hspace{0.1cm}{\footnotesize\ttfamily [1/2]}}
+{\footnotesize\ttfamily virtual void ebml\+::io\+Base\+::truncate (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [pure virtual]}}
+
+
+
+Implemented in \mbox{\hyperlink{classebml_1_1io_a6a5c0f2182844094c6b4432a15adccc8}{ebml\+::io$<$ T $>$}}.
+
+\mbox{\Hypertarget{classebml_1_1ioBase_ae1a40372ba926becab957ae0b054492e}\label{classebml_1_1ioBase_ae1a40372ba926becab957ae0b054492e}} 
+\index{ebml\+::io\+Base@{ebml\+::io\+Base}!truncate@{truncate}}
+\index{truncate@{truncate}!ebml\+::io\+Base@{ebml\+::io\+Base}}
+\subsubsection{\texorpdfstring{truncate()}{truncate()}\hspace{0.1cm}{\footnotesize\ttfamily [2/2]}}
+{\footnotesize\ttfamily virtual void ebml\+::io\+Base\+::truncate (\begin{DoxyParamCaption}\item[{off\+\_\+t}]{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [pure virtual]}}
+
+
+
+Implemented in \mbox{\hyperlink{classebml_1_1io_a9a50a99136e7e9a4a404dc3087024a7f}{ebml\+::io$<$ T $>$}}.
 
 \mbox{\Hypertarget{classebml_1_1ioBase_a3895c5e0f86ecdcedaa288e87d68ccad}\label{classebml_1_1ioBase_a3895c5e0f86ecdcedaa288e87d68ccad}} 
 \index{ebml\+::io\+Base@{ebml\+::io\+Base}!write@{write}}

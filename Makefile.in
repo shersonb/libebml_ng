@@ -12,13 +12,16 @@ LIBNAME = libebml_ng
 SRCDIR = src
 INCDIR = include
 
-# SRCFILE = $(SRCDIR)/$(LIBNAME).cpp
 SRCFILES = libebml_ng/io/stdio.cpp \
     libebml_ng/io/fd.cpp \
     libebml_ng/repr.cpp \
     libebml_ng/io.cpp \
     libebml_ng/exceptions.cpp \
-    libebml_ng/base.cpp \
+    libebml_ng/elementcls.cpp \
+    libebml_ng/element.cpp \
+    libebml_ng/void.cpp \
+    libebml_ng/schema.cpp \
+    libebml_ng/document.cpp \
     libebml_ng/struct.cpp \
     libebml_ng/masterelement/base.cpp \
     libebml_ng/masterelement/base/childmgmt.cpp \
@@ -29,6 +32,7 @@ SRCFILES = libebml_ng/io/stdio.cpp \
     libebml_ng/masterelement/base/iteration.cpp \
     libebml_ng/masterelement/multislot.cpp \
     libebml_ng/masterelement/list.cpp \
+    libebml_ng/masterelement/lazyload.cpp \
     libebml_ng/vint.cpp \
     libebml_ng/parsing/io.cpp \
     libebml_ng/parsing/string.cpp \
@@ -40,8 +44,7 @@ SRCFILES = libebml_ng/io/stdio.cpp \
     libebml_ng/struct/datetime.cpp \
     libebml_ng/basictypes.cpp \
     libebml_ng/head.cpp \
-    libebml_ng/seekdata.cpp \
-    libebml_ng.cpp
+    libebml_ng/seekdata.cpp
 
 # Build files
 BUILDDIR = build
@@ -75,3 +78,6 @@ install: $(LIBFILE)
 # Clean rule
 clean:
 	rm -Rf $(BUILDDIR)/$(LIBNAME) $(BUILDDIR)/$(LIBNAME).o $(BUILDDIR)/$(LIBNAME).so
+
+docs:
+	doxygen -d Preprocessor Doxyfile

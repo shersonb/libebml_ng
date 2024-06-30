@@ -2,6 +2,7 @@
 #define EBML_NG_EXCEPTIONS_CPP
 
 #include "libebml_ng/exceptions.h"
+#include "libebml_ng/ebmlElement.h"
 
 namespace ebml {
     std::string make_exc_msg(const char* msg, unsigned int lineno, const char* file) {
@@ -25,9 +26,9 @@ namespace ebml {
 
     ebmlEncodeError::ebmlEncodeError(const std::string& message, const c_ebmlElement_sp& elem) : ebmlException(message), _elem(elem) {}
 
-    ebmlDecodeError::ebmlDecodeError(DECODE_ERR_SIG) : ebmlException(message) {
-        this->offset = offset;
-        this->cls = cls;
+    ebmlDecodeError::ebmlDecodeError(DECODE_ERR_SIG) : ebmlException(message), offset(offset), headSize(headSize), erroroffset(erroroffset), cls(cls) {
+        // this->offset = offset;
+        // this->cls = cls;
     }
 
     void ebmlDecodeError::add_to_offset(off_t delta) {
@@ -69,5 +70,72 @@ namespace ebml {
         this->end = end;
     }
 
+    ebmlWriteError::ebmlWriteError(const std::string& message)
+    : ebmlException(message) {}
+
+    ebmlInsertionError::ebmlInsertionError(const std::string& message, off_t prevOffset, off_t prevEnd, off_t offset, off_t endOffset, off_t nextOffset)
+    : ebmlWriteError(message), prevOffset(prevOffset), prevEnd(prevEnd), offset(offset), endOffset(endOffset), nextOffset(nextOffset) {}
+
+    ebmlInsertionError::ebmlInsertionError(const std::string& message, off_t prevOffset, off_t prevEnd, off_t offset, off_t endOffset, off_t nextOffset, const c_ebmlElement_sp& elem)
+    : ebmlWriteError(message), prevOffset(prevOffset), prevEnd(prevEnd), offset(offset), endOffset(endOffset), nextOffset(nextOffset), elem(elem) {}
+
+    ebmlInsertionError::ebmlInsertionError(const std::string& message, off_t prevOffset, off_t prevEnd, off_t offset, off_t endOffset, off_t nextOffset, c_ebmlElement_sp&& elem)
+    : ebmlWriteError(message), prevOffset(prevOffset), prevEnd(prevEnd), offset(offset), endOffset(endOffset), nextOffset(nextOffset), elem(std::move(elem)) {}
+
+    ebmlMoveError::ebmlMoveError(
+        const std::string& message,
+        off_t prevEndOld, off_t src_offset, off_t nextOffsetOld,
+        off_t prevOffset, off_t prevEnd, off_t dest_offset, off_t endOffset, off_t nextOffset)
+    : ebmlWriteError(message),
+    prevEndOld(prevEndOld), src_offset(src_offset), nextOffsetOld(nextOffsetOld),
+    prevOffset(prevOffset), prevEnd(prevEnd), dest_offset(dest_offset), endOffset(endOffset), nextOffset(nextOffset) {}
+
+    ebmlMoveError::ebmlMoveError(
+        const std::string& message,
+        off_t prevEndOld, off_t src_offset, off_t nextOffsetOld,
+        off_t prevOffset, off_t prevEnd, off_t dest_offset, off_t endOffset, off_t nextOffset, const c_ebmlElement_sp& elem)
+    : ebmlWriteError(message),
+    prevEndOld(prevEndOld), src_offset(src_offset), nextOffsetOld(nextOffsetOld),
+    prevOffset(prevOffset), prevEnd(prevEnd), dest_offset(dest_offset), endOffset(endOffset), nextOffset(nextOffset), elem(elem) {}
+
+    ebmlMoveError::ebmlMoveError(
+        const std::string& message,
+        off_t prevEndOld, off_t src_offset, off_t nextOffsetOld,
+        off_t prevOffset, off_t prevEnd, off_t dest_offset, off_t endOffset, off_t nextOffset, c_ebmlElement_sp&& elem)
+    : ebmlWriteError(message),
+    prevEndOld(prevEndOld), src_offset(src_offset), nextOffsetOld(nextOffsetOld),
+    prevOffset(prevOffset), prevEnd(prevEnd), dest_offset(dest_offset), endOffset(endOffset), nextOffset(nextOffset), elem(std::move(elem)) {}
+
+    ebmlResizeError::ebmlResizeError(
+        const std::string& message,
+        off_t offset, off_t endOffset,
+        off_t lastChildOffset, off_t lastChildEnd,
+        off_t nextSiblingOffset)
+    : ebmlWriteError(message),
+    offset(offset), endOffset(endOffset),
+    lastChildOffset(lastChildOffset), lastChildEnd(lastChildEnd),
+    nextSiblingOffset(nextSiblingOffset) {}
+
+    ebmlResizeError::ebmlResizeError(
+        const std::string& message,
+        off_t offset, off_t endOffset,
+        off_t lastChildOffset, off_t lastChildEnd,
+        off_t nextSiblingOffset, const c_ebmlElement_sp& elem)
+    : ebmlWriteError(message),
+    offset(offset), endOffset(endOffset),
+    lastChildOffset(lastChildOffset), lastChildEnd(lastChildEnd),
+    nextSiblingOffset(nextSiblingOffset),
+    elem(elem) {}
+
+    ebmlResizeError::ebmlResizeError(
+        const std::string& message,
+        off_t offset, off_t endOffset,
+        off_t lastChildOffset, off_t lastChildEnd,
+        off_t nextSiblingOffset, c_ebmlElement_sp&& elem)
+    : ebmlWriteError(message),
+    offset(offset), endOffset(endOffset),
+    lastChildOffset(lastChildOffset), lastChildEnd(lastChildEnd),
+    nextSiblingOffset(nextSiblingOffset),
+    elem(std::move(elem)) {}
 }
 #endif

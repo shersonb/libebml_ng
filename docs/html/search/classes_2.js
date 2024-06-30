@@ -14,7 +14,8 @@ var searchData=
   ['ebmlexception',['ebmlException',['../classebml_1_1ebmlException.html',1,'ebml']]],
   ['ebmlformaterror',['ebmlFormatError',['../classebml_1_1ebmlFormatError.html',1,'ebml']]],
   ['ebmlinvalidvint',['ebmlInvalidVint',['../classebml_1_1ebmlInvalidVint.html',1,'ebml']]],
-  ['ebmllazyloadmasterelement',['ebmlLazyLoadMasterElement',['../classebml_1_1ebmlLazyLoadMasterElement.html',1,'ebml']]],
+  ['ebmllazyload',['ebmlLazyLoad',['../classebml_1_1ebmlLazyLoad.html',1,'ebml']]],
+  ['ebmllazyloadclass',['ebmlLazyLoadClass',['../classebml_1_1ebmlLazyLoadClass.html',1,'ebml']]],
   ['ebmllist',['ebmlList',['../classebml_1_1ebmlList.html',1,'ebml']]],
   ['ebmllistclass',['ebmlListClass',['../classebml_1_1ebmlListClass.html',1,'ebml']]],
   ['ebmlmap',['ebmlMap',['../classebml_1_1ebmlMap.html',1,'ebml']]],
@@ -29,6 +30,7 @@ var searchData=
   ['ebmlpair',['ebmlPair',['../classebml_1_1ebmlPair.html',1,'ebml']]],
   ['ebmlpairclass',['ebmlPairClass',['../classebml_1_1ebmlPairClass.html',1,'ebml']]],
   ['ebmlpairclass_3c_20const_20k_20_3e',['ebmlPairClass&lt; const K &gt;',['../classebml_1_1ebmlPairClass.html',1,'ebml']]],
+  ['ebmlschema',['ebmlSchema',['../classebml_1_1ebmlSchema.html',1,'ebml']]],
   ['ebmlunexpectedendofdata',['ebmlUnexpectedEndOfData',['../classebml_1_1ebmlUnexpectedEndOfData.html',1,'ebml']]],
   ['ebmlvoid',['ebmlVoid',['../classebml_1_1ebmlVoid.html',1,'ebml']]],
   ['ebmlvoidclass',['ebmlVoidClass',['../classebml_1_1ebmlVoidClass.html',1,'ebml']]]

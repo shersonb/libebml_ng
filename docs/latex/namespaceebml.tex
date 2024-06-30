@@ -39,7 +39,9 @@ class \mbox{\hyperlink{classebml_1_1ebmlFormatError}{ebml\+Format\+Error}}
 \item 
 class \mbox{\hyperlink{classebml_1_1ebmlInvalidVint}{ebml\+Invalid\+Vint}}
 \item 
-class \mbox{\hyperlink{classebml_1_1ebmlLazyLoadMasterElement}{ebml\+Lazy\+Load\+Master\+Element}}
+class \mbox{\hyperlink{classebml_1_1ebmlLazyLoad}{ebml\+Lazy\+Load}}
+\item 
+class \mbox{\hyperlink{classebml_1_1ebmlLazyLoadClass}{ebml\+Lazy\+Load\+Class}}
 \item 
 class \mbox{\hyperlink{classebml_1_1ebmlList}{ebml\+List}}
 \item 
@@ -67,6 +69,8 @@ class \mbox{\hyperlink{classebml_1_1ebmlPair}{ebml\+Pair}}
 \item 
 class \mbox{\hyperlink{classebml_1_1ebmlPairClass}{ebml\+Pair\+Class}}
 \item 
+class \mbox{\hyperlink{classebml_1_1ebmlSchema}{ebml\+Schema}}
+\item 
 class \mbox{\hyperlink{classebml_1_1ebmlUnexpectedEndOfData}{ebml\+Unexpected\+End\+Of\+Data}}
 \item 
 class \mbox{\hyperlink{classebml_1_1ebmlVoid}{ebml\+Void}}
@@ -82,6 +86,8 @@ struct \mbox{\hyperlink{structebml_1_1occurSpec__t}{occur\+Spec\+\_\+t}}
 class \mbox{\hyperlink{classebml_1_1parseFile}{parse\+File}}
 \item 
 class \mbox{\hyperlink{classebml_1_1parseString}{parse\+String}}
+\item 
+struct \mbox{\hyperlink{structebml_1_1range__t}{range\+\_\+t}}
 \item 
 class \mbox{\hyperlink{classebml_1_1seekData__t}{seek\+Data\+\_\+t}}
 \item 
@@ -108,18 +114,6 @@ class \mbox{\hyperlink{classebml_1_1unicodeEncodeError}{unicode\+Encode\+Error}}
 \subsection*{Typedefs}
 \begin{DoxyCompactItemize}
 \item 
-typedef std\+::shared\+\_\+ptr$<$ \mbox{\hyperlink{classebml_1_1ebmlElement}{ebml\+Element}} $>$ \mbox{\hyperlink{namespaceebml_adad533b7705a16bb360fe56380c5e7be}{ebml\+Element\+\_\+sp}}
-\item 
-typedef std\+::shared\+\_\+ptr$<$ const \mbox{\hyperlink{classebml_1_1ebmlElement}{ebml\+Element}} $>$ \mbox{\hyperlink{namespaceebml_a2deef4e8071531b32e3533f1bf978917}{c\+\_\+ebml\+Element\+\_\+sp}}
-\item 
-typedef std\+::weak\+\_\+ptr$<$ \mbox{\hyperlink{classebml_1_1ebmlElement}{ebml\+Element}} $>$ \mbox{\hyperlink{namespaceebml_a495fb58b42b0050d887415351af02935}{ebml\+Element\+\_\+wp}}
-\item 
-typedef std\+::weak\+\_\+ptr$<$ const \mbox{\hyperlink{classebml_1_1ebmlElement}{ebml\+Element}} $>$ \mbox{\hyperlink{namespaceebml_abc218c2fc1444b2fd8a8a5fae67e0151}{c\+\_\+ebml\+Element\+\_\+wp}}
-\item 
-typedef std\+::shared\+\_\+ptr$<$ \mbox{\hyperlink{classebml_1_1ebmlDocument}{ebml\+Document}} $>$ \mbox{\hyperlink{namespaceebml_a66018942b568da5041136a945148b450}{ebml\+Document\+\_\+sp}}
-\item 
-typedef std\+::weak\+\_\+ptr$<$ \mbox{\hyperlink{classebml_1_1ebmlDocument}{ebml\+Document}} $>$ \mbox{\hyperlink{namespaceebml_acfead4f724a6f8d55c730c6fbd362cea}{ebml\+Document\+\_\+wp}}
-\item 
 typedef \+::\mbox{\hyperlink{classebml_1_1ebmlDataElementClass}{ebml\+::ebml\+Data\+Element\+Class}}$<$ unsigned long long $>$ \mbox{\hyperlink{namespaceebml_a506b246c5594e5d0322c3c05e9820fd2}{ebml\+Unsigned\+Integer\+Class}}
 \item 
 typedef \+::\mbox{\hyperlink{classebml_1_1ebmlDataElement}{ebml\+::ebml\+Data\+Element}}$<$ unsigned long long $>$ \mbox{\hyperlink{namespaceebml_a094d15ef60da5dd0e74a4e379ac3e547}{ebml\+Unsigned\+Integer}}
@@ -144,11 +138,11 @@ typedef \+::\mbox{\hyperlink{classebml_1_1ebmlDataElementClass}{ebml\+::ebml\+Da
 \item 
 typedef \+::\mbox{\hyperlink{classebml_1_1ebmlDataElement}{ebml\+::ebml\+Data\+Element}}$<$ \mbox{\hyperlink{namespaceebml_a7e667ec3fe8b51fb5b8f9690734d8638}{timepoint\+\_\+t}} $>$ \mbox{\hyperlink{namespaceebml_a544c5c28e36511ffd20b5907e551754f}{ebml\+Date\+Time}}
 \item 
+{\footnotesize template$<$typename T $>$ }\\using \mbox{\hyperlink{namespaceebml_a738c4f024d5a5af45f80985d0456ca6f}{ebml\+Data\+Element\+\_\+sp}} = std\+::shared\+\_\+ptr$<$ \mbox{\hyperlink{classebml_1_1ebmlDataElement}{ebml\+Data\+Element}}$<$ T $>$ $>$
+\item 
 typedef unsigned long long \mbox{\hyperlink{namespaceebml_a86c5f604ddf12a74aa9812e997a58691}{ebml\+I\+D\+\_\+t}}
 \item 
 typedef unsigned char \mbox{\hyperlink{namespaceebml_a2ccdfb60b23efb51fe07f9d066e23604}{vint\+Width\+\_\+t}}
-\item 
-typedef std\+::shared\+\_\+ptr$<$ \mbox{\hyperlink{classebml_1_1ioBase}{io\+Base}} $>$ \mbox{\hyperlink{namespaceebml_a7bb59128ac6af27e47367938a846b569}{io\+Base\+\_\+sp}}
 \item 
 typedef std\+::list$<$ \mbox{\hyperlink{structebml_1_1childClassSpecArg__t}{child\+Class\+Spec\+Arg\+\_\+t}} $>$ \mbox{\hyperlink{namespaceebml_abf07998998c284c9be3f76b5d9e192e1}{child\+Class\+Spec\+Arg\+\_\+l}}
 \item 
@@ -182,16 +176,30 @@ typedef std\+::shared\+\_\+ptr$<$ \mbox{\hyperlink{classebml_1_1ebmlMultiSlot}{e
 \item 
 typedef std\+::shared\+\_\+ptr$<$ const \mbox{\hyperlink{classebml_1_1ebmlMultiSlot}{ebml\+Multi\+Slot}} $>$ \mbox{\hyperlink{namespaceebml_a2b7466e45489d2a5dbfa29b411eb4ed0}{c\+\_\+ebml\+Multi\+Slot\+\_\+sp}}
 \item 
-typedef std\+::chrono\+::time\+\_\+point$<$ std\+::chrono\+::system\+\_\+clock, std\+::chrono\+::nanoseconds $>$ \mbox{\hyperlink{namespaceebml_a7e667ec3fe8b51fb5b8f9690734d8638}{timepoint\+\_\+t}}
+typedef std\+::shared\+\_\+ptr$<$ \mbox{\hyperlink{classebml_1_1ebmlElement}{ebml\+Element}} $>$ \mbox{\hyperlink{namespaceebml_adad533b7705a16bb360fe56380c5e7be}{ebml\+Element\+\_\+sp}}
 \item 
-{\footnotesize template$<$typename T $>$ }\\using \mbox{\hyperlink{namespaceebml_a738c4f024d5a5af45f80985d0456ca6f}{ebml\+Data\+Element\+\_\+sp}} = std\+::shared\+\_\+ptr$<$ \mbox{\hyperlink{classebml_1_1ebmlDataElement}{ebml\+Data\+Element}}$<$ T $>$ $>$
+typedef std\+::shared\+\_\+ptr$<$ const \mbox{\hyperlink{classebml_1_1ebmlElement}{ebml\+Element}} $>$ \mbox{\hyperlink{namespaceebml_a2deef4e8071531b32e3533f1bf978917}{c\+\_\+ebml\+Element\+\_\+sp}}
+\item 
+typedef std\+::weak\+\_\+ptr$<$ \mbox{\hyperlink{classebml_1_1ebmlElement}{ebml\+Element}} $>$ \mbox{\hyperlink{namespaceebml_a495fb58b42b0050d887415351af02935}{ebml\+Element\+\_\+wp}}
+\item 
+typedef std\+::weak\+\_\+ptr$<$ const \mbox{\hyperlink{classebml_1_1ebmlElement}{ebml\+Element}} $>$ \mbox{\hyperlink{namespaceebml_abc218c2fc1444b2fd8a8a5fae67e0151}{c\+\_\+ebml\+Element\+\_\+wp}}
+\item 
+typedef std\+::shared\+\_\+ptr$<$ \mbox{\hyperlink{classebml_1_1ebmlDocument}{ebml\+Document}} $>$ \mbox{\hyperlink{namespaceebml_a66018942b568da5041136a945148b450}{ebml\+Document\+\_\+sp}}
+\item 
+typedef std\+::weak\+\_\+ptr$<$ \mbox{\hyperlink{classebml_1_1ebmlDocument}{ebml\+Document}} $>$ \mbox{\hyperlink{namespaceebml_acfead4f724a6f8d55c730c6fbd362cea}{ebml\+Document\+\_\+wp}}
+\item 
+typedef std\+::shared\+\_\+ptr$<$ \mbox{\hyperlink{classebml_1_1ioBase}{io\+Base}} $>$ \mbox{\hyperlink{namespaceebml_a7bb59128ac6af27e47367938a846b569}{io\+Base\+\_\+sp}}
+\item 
+typedef std\+::chrono\+::time\+\_\+point$<$ std\+::chrono\+::system\+\_\+clock, std\+::chrono\+::nanoseconds $>$ \mbox{\hyperlink{namespaceebml_a7e667ec3fe8b51fb5b8f9690734d8638}{timepoint\+\_\+t}}
 \end{DoxyCompactItemize}
 \subsection*{Functions}
 \begin{DoxyCompactItemize}
 \item 
-std\+::string \mbox{\hyperlink{namespaceebml_a41bf8a299c4418f406beff89817b0690}{make\+\_\+exc\+\_\+msg}} (const char $\ast$msg, unsigned int lineno, const char $\ast$file)
+{\footnotesize template$<$typename T $>$ }\\T \& \mbox{\hyperlink{namespaceebml_ab21f8b4ff85186f670f17e84a02d9740}{data}} (const \mbox{\hyperlink{namespaceebml_adad533b7705a16bb360fe56380c5e7be}{ebml\+Element\+\_\+sp}} \&elem)
 \item 
-{\footnotesize template$<$typename T , typename U , typename... Args$>$ }\\std\+::shared\+\_\+ptr$<$ U $>$ \mbox{\hyperlink{namespaceebml_a224edf6a007990902f8ae866e3e2fc59}{new\+\_\+sp}} (Args... args)
+{\footnotesize template$<$typename T $>$ }\\const T \& \mbox{\hyperlink{namespaceebml_a9b10dec5a642a1703033296c3e892946}{data}} (const \mbox{\hyperlink{namespaceebml_a2deef4e8071531b32e3533f1bf978917}{c\+\_\+ebml\+Element\+\_\+sp}} \&elem)
+\item 
+std\+::string \mbox{\hyperlink{namespaceebml_a41bf8a299c4418f406beff89817b0690}{make\+\_\+exc\+\_\+msg}} (const char $\ast$msg, unsigned int lineno, const char $\ast$file)
 \item 
 {\footnotesize template$<$typename T $>$ }\\T \& \mbox{\hyperlink{namespaceebml_a6365629b3110a3c5d0cde94d08aac26c}{data}} (const \mbox{\hyperlink{classebml_1_1childSlot__t}{child\+Slot\+\_\+t}} \&elem)
 \item 
@@ -243,6 +251,30 @@ template std\+::string \mbox{\hyperlink{namespaceebml_a5f46d1f43787604ff84e25a01
 \item 
 template \mbox{\hyperlink{namespaceebml_a7e667ec3fe8b51fb5b8f9690734d8638}{timepoint\+\_\+t}} \mbox{\hyperlink{namespaceebml_ac97339d25d5dab88390116547e0ef400}{unpack$<$ timepoint\+\_\+t $>$}} (const std\+::string \&)
 \item 
+size\+\_\+t \mbox{\hyperlink{namespaceebml_ac5f0085d005103d2eb42e098b7d45c15}{size}} (const float \&)
+\item 
+size\+\_\+t \mbox{\hyperlink{namespaceebml_a9a1c3387186ced48928b78f0404924fd}{pack}} (const float \&, char $\ast$)
+\item 
+{\footnotesize template$<$$>$ }\\float \mbox{\hyperlink{namespaceebml_a9055e0d919f5e12fd661512096c811d1}{unpack$<$ float $>$}} (const char $\ast$, size\+\_\+t)
+\item 
+template size\+\_\+t \mbox{\hyperlink{namespaceebml_a2f3ac2d3e5ba0655228ae2a4a046a79f}{pack}} (const float \&, size\+\_\+t, char $\ast$)
+\item 
+template std\+::string \mbox{\hyperlink{namespaceebml_acbb370dedf65bee76a4e77f8107e6b31}{pack}} (const float \&)
+\item 
+template float \mbox{\hyperlink{namespaceebml_a34096c5ab0e26fba384ea9d910a5a393}{unpack$<$ float $>$}} (const std\+::string \&)
+\item 
+size\+\_\+t \mbox{\hyperlink{namespaceebml_a2fe5501da3393b9c982848aa5e61c372}{size}} (const double \&)
+\item 
+size\+\_\+t \mbox{\hyperlink{namespaceebml_ad562523994b9b844a2ed42f2c9dc0743}{pack}} (const double \&, char $\ast$)
+\item 
+{\footnotesize template$<$$>$ }\\double \mbox{\hyperlink{namespaceebml_a8fc03073fb4d10e4aef90a2985201603}{unpack$<$ double $>$}} (const char $\ast$, size\+\_\+t)
+\item 
+template size\+\_\+t \mbox{\hyperlink{namespaceebml_a027af75ad19fec2ebab68496ee378985}{pack}} (const double \&, size\+\_\+t, char $\ast$)
+\item 
+template std\+::string \mbox{\hyperlink{namespaceebml_a71bb6ebad794abe2b04f2d24036636cd}{pack}} (const double \&)
+\item 
+template double \mbox{\hyperlink{namespaceebml_af6f7324527703d090d8518b49776033a}{unpack$<$ double $>$}} (const std\+::string \&)
+\item 
 size\+\_\+t \mbox{\hyperlink{namespaceebml_a54b33809097f683fb8345f9668e8237b}{size}} (const long long \&)
 \item 
 size\+\_\+t \mbox{\hyperlink{namespaceebml_ae32979c8cc295384d62cd00e9a256059}{pack}} (const long long \&, size\+\_\+t, char $\ast$)
@@ -293,10 +325,6 @@ void \mbox{\hyperlink{namespaceebml_ac1a0abdc17f3f647cf7d1fa990622b89}{\+\_\+rev
 \item 
 {\footnotesize template$<$typename T $>$ }\\T \mbox{\hyperlink{namespaceebml_a33d2b669314c64b95ed6c37534b6b655}{unpack}} (const std\+::string \&)
 \item 
-{\footnotesize template$<$typename T $>$ }\\T \& \mbox{\hyperlink{namespaceebml_a4edfd02f8910c0abfd4bbbf928f92d9e}{data}} (const \mbox{\hyperlink{namespaceebml_adad533b7705a16bb360fe56380c5e7be}{ebml\+Element\+\_\+sp}} \&elem)
-\item 
-{\footnotesize template$<$typename T $>$ }\\const T \& \mbox{\hyperlink{namespaceebml_ac78bf9d3ced3b11fedcb6172849b2cfc}{data}} (const \mbox{\hyperlink{namespaceebml_a2deef4e8071531b32e3533f1bf978917}{c\+\_\+ebml\+Element\+\_\+sp}} \&elem)
-\item 
 \mbox{\hyperlink{namespaceebml_a2ccdfb60b23efb51fe07f9d066e23604}{vint\+Width\+\_\+t}} \mbox{\hyperlink{namespaceebml_a025ed44f4346fdb6573b2bf336797f27}{vint\+Width}} (char)
 \item 
 \mbox{\hyperlink{namespaceebml_a2ccdfb60b23efb51fe07f9d066e23604}{vint\+Width\+\_\+t}} \mbox{\hyperlink{namespaceebml_a39e20a7de94c1f11f941e6cf63af370c}{width\+As\+Vint}} (unsigned long long)
@@ -305,7 +333,7 @@ void \mbox{\hyperlink{namespaceebml_ac1a0abdc17f3f647cf7d1fa990622b89}{\+\_\+rev
 \item 
 void \mbox{\hyperlink{namespaceebml_ab96b36c3bf5bae473a35bec372103006}{pack\+Vint}} (unsigned long long, \mbox{\hyperlink{namespaceebml_a2ccdfb60b23efb51fe07f9d066e23604}{vint\+Width\+\_\+t}}, char $\ast$)
 \item 
-unsigned long long \mbox{\hyperlink{namespaceebml_a7928e2829b2feaf2516b0b019b28bf65}{unpack\+Vint}} (const char $\ast$\mbox{\hyperlink{namespaceebml_a6365629b3110a3c5d0cde94d08aac26c}{data}})
+unsigned long long \mbox{\hyperlink{namespaceebml_a7928e2829b2feaf2516b0b019b28bf65}{unpack\+Vint}} (const char $\ast$\mbox{\hyperlink{namespaceebml_ab21f8b4ff85186f670f17e84a02d9740}{data}})
 \item 
 unsigned long long \mbox{\hyperlink{namespaceebml_a28d35d96aa75eadb27676a59d6972506}{unpack\+Vint}} (const char $\ast$, size\+\_\+t, \mbox{\hyperlink{namespaceebml_a2ccdfb60b23efb51fe07f9d066e23604}{vint\+Width\+\_\+t}} \&)
 \item 
@@ -315,8 +343,6 @@ unsigned long long \mbox{\hyperlink{namespaceebml_a897f00b5febf5789f251984ec046b
 \end{DoxyCompactItemize}
 \subsection*{Variables}
 \begin{DoxyCompactItemize}
-\item 
-\mbox{\hyperlink{classebml_1_1ebmlVoidClass}{ebml\+Void\+Class}} \mbox{\hyperlink{namespaceebml_afbfd509d1cb71e416a07253746e886e9}{Void}}
 \item 
 \mbox{\hyperlink{namespaceebml_a506b246c5594e5d0322c3c05e9820fd2}{ebml\+Unsigned\+Integer\+Class}} \mbox{\hyperlink{namespaceebml_ab043f0427daa3a4eb36615002a603c2f}{E\+B\+M\+L\+Version}}
 \item 
@@ -337,6 +363,10 @@ unsigned long long \mbox{\hyperlink{namespaceebml_a897f00b5febf5789f251984ec046b
 const \mbox{\hyperlink{namespaceebml_a7e667ec3fe8b51fb5b8f9690734d8638}{timepoint\+\_\+t}} \mbox{\hyperlink{namespaceebml_a137fb22cbfb98d4e7bd6367064078bee}{epoch}}
 \item 
 bool \mbox{\hyperlink{namespaceebml_a3dca826d4a08dfedbd01e9aa1c09bc1e}{\+\_\+is\+\_\+littleendian}}
+\item 
+const size\+\_\+t \mbox{\hyperlink{namespaceebml_afdd26b7d8e8274b92f571969a325e52e}{U\+N\+K\+N\+O\+WN}}
+\item 
+\mbox{\hyperlink{classebml_1_1ebmlVoidClass}{ebml\+Void\+Class}} \mbox{\hyperlink{namespaceebml_afbfd509d1cb71e416a07253746e886e9}{Void}}
 \end{DoxyCompactItemize}
 
 
@@ -347,13 +377,13 @@ bool \mbox{\hyperlink{namespaceebml_a3dca826d4a08dfedbd01e9aa1c09bc1e}{\+\_\+is\
 \subsubsection{\texorpdfstring{c\+\_\+ebml\+Element\+\_\+sp}{c\_ebmlElement\_sp}}
 {\footnotesize\ttfamily typedef std\+::shared\+\_\+ptr$<$const \mbox{\hyperlink{classebml_1_1ebmlElement}{ebml\+Element}}$>$ \mbox{\hyperlink{namespaceebml_a2deef4e8071531b32e3533f1bf978917}{ebml\+::c\+\_\+ebml\+Element\+\_\+sp}}}
 
-\mbox{\Hypertarget{namespaceebml_abc218c2fc1444b2fd8a8a5fae67e0151}\label{namespaceebml_abc218c2fc1444b2fd8a8a5fae67e0151}} 
+Shared pointer to a const \mbox{\hyperlink{classebml_1_1ebmlElement}{ebml\+Element}} instance. \mbox{\Hypertarget{namespaceebml_abc218c2fc1444b2fd8a8a5fae67e0151}\label{namespaceebml_abc218c2fc1444b2fd8a8a5fae67e0151}} 
 \index{ebml@{ebml}!c\+\_\+ebml\+Element\+\_\+wp@{c\+\_\+ebml\+Element\+\_\+wp}}
 \index{c\+\_\+ebml\+Element\+\_\+wp@{c\+\_\+ebml\+Element\+\_\+wp}!ebml@{ebml}}
 \subsubsection{\texorpdfstring{c\+\_\+ebml\+Element\+\_\+wp}{c\_ebmlElement\_wp}}
 {\footnotesize\ttfamily typedef std\+::weak\+\_\+ptr$<$const \mbox{\hyperlink{classebml_1_1ebmlElement}{ebml\+Element}}$>$ \mbox{\hyperlink{namespaceebml_abc218c2fc1444b2fd8a8a5fae67e0151}{ebml\+::c\+\_\+ebml\+Element\+\_\+wp}}}
 
-\mbox{\Hypertarget{namespaceebml_a7a62721c59c06de6cadf348c51eabe1c}\label{namespaceebml_a7a62721c59c06de6cadf348c51eabe1c}} 
+Weak pointer to a const \mbox{\hyperlink{classebml_1_1ebmlElement}{ebml\+Element}} instance. \mbox{\Hypertarget{namespaceebml_a7a62721c59c06de6cadf348c51eabe1c}\label{namespaceebml_a7a62721c59c06de6cadf348c51eabe1c}} 
 \index{ebml@{ebml}!c\+\_\+ebml\+Master\+Element\+\_\+sp@{c\+\_\+ebml\+Master\+Element\+\_\+sp}}
 \index{c\+\_\+ebml\+Master\+Element\+\_\+sp@{c\+\_\+ebml\+Master\+Element\+\_\+sp}!ebml@{ebml}}
 \subsubsection{\texorpdfstring{c\+\_\+ebml\+Master\+Element\+\_\+sp}{c\_ebmlMasterElement\_sp}}
@@ -439,13 +469,13 @@ Weak pointer to an \mbox{\hyperlink{classebml_1_1ebmlDocument}{ebml\+Document}} 
 \subsubsection{\texorpdfstring{ebml\+Element\+\_\+sp}{ebmlElement\_sp}}
 {\footnotesize\ttfamily typedef std\+::shared\+\_\+ptr$<$\mbox{\hyperlink{classebml_1_1ebmlElement}{ebml\+Element}}$>$ \mbox{\hyperlink{namespaceebml_adad533b7705a16bb360fe56380c5e7be}{ebml\+::ebml\+Element\+\_\+sp}}}
 
-\mbox{\Hypertarget{namespaceebml_a495fb58b42b0050d887415351af02935}\label{namespaceebml_a495fb58b42b0050d887415351af02935}} 
+Shared pointer to an \mbox{\hyperlink{classebml_1_1ebmlElement}{ebml\+Element}} instance. \mbox{\Hypertarget{namespaceebml_a495fb58b42b0050d887415351af02935}\label{namespaceebml_a495fb58b42b0050d887415351af02935}} 
 \index{ebml@{ebml}!ebml\+Element\+\_\+wp@{ebml\+Element\+\_\+wp}}
 \index{ebml\+Element\+\_\+wp@{ebml\+Element\+\_\+wp}!ebml@{ebml}}
 \subsubsection{\texorpdfstring{ebml\+Element\+\_\+wp}{ebmlElement\_wp}}
 {\footnotesize\ttfamily typedef std\+::weak\+\_\+ptr$<$\mbox{\hyperlink{classebml_1_1ebmlElement}{ebml\+Element}}$>$ \mbox{\hyperlink{namespaceebml_a495fb58b42b0050d887415351af02935}{ebml\+::ebml\+Element\+\_\+wp}}}
 
-\mbox{\Hypertarget{namespaceebml_a103756ab7f2c1c3c2bbc34334bd9b416}\label{namespaceebml_a103756ab7f2c1c3c2bbc34334bd9b416}} 
+Weak pointer to an \mbox{\hyperlink{classebml_1_1ebmlElement}{ebml\+Element}} instance. \mbox{\Hypertarget{namespaceebml_a103756ab7f2c1c3c2bbc34334bd9b416}\label{namespaceebml_a103756ab7f2c1c3c2bbc34334bd9b416}} 
 \index{ebml@{ebml}!ebml\+Element\+Class\+\_\+d@{ebml\+Element\+Class\+\_\+d}}
 \index{ebml\+Element\+Class\+\_\+d@{ebml\+Element\+Class\+\_\+d}!ebml@{ebml}}
 \subsubsection{\texorpdfstring{ebml\+Element\+Class\+\_\+d}{ebmlElementClass\_d}}
@@ -536,7 +566,7 @@ using \mbox{\hyperlink{namespaceebml_a15439f6031c0f4ced33b9ab5e28af120}{ebml\+::
 \subsubsection{\texorpdfstring{io\+Base\+\_\+sp}{ioBase\_sp}}
 {\footnotesize\ttfamily typedef std\+::shared\+\_\+ptr$<$\mbox{\hyperlink{classebml_1_1ioBase}{io\+Base}}$>$ \mbox{\hyperlink{namespaceebml_a7bb59128ac6af27e47367938a846b569}{ebml\+::io\+Base\+\_\+sp}}}
 
-\mbox{\Hypertarget{namespaceebml_a4ecb956f78f49ef5e24e0d0db9b646f4}\label{namespaceebml_a4ecb956f78f49ef5e24e0d0db9b646f4}} 
+Shared pointer to an \mbox{\hyperlink{classebml_1_1ioBase}{io\+Base}} instance. \mbox{\Hypertarget{namespaceebml_a4ecb956f78f49ef5e24e0d0db9b646f4}\label{namespaceebml_a4ecb956f78f49ef5e24e0d0db9b646f4}} 
 \index{ebml@{ebml}!occur\+\_\+d@{occur\+\_\+d}}
 \index{occur\+\_\+d@{occur\+\_\+d}!ebml@{ebml}}
 \subsubsection{\texorpdfstring{occur\+\_\+d}{occur\_d}}
@@ -594,19 +624,19 @@ using \mbox{\hyperlink{namespaceebml_a15439f6031c0f4ced33b9ab5e28af120}{ebml\+::
 {\footnotesize\ttfamily template$<$typename T $>$ \\
 T\& ebml\+::data (\begin{DoxyParamCaption}\item[{const \mbox{\hyperlink{classebml_1_1childSlot__t}{child\+Slot\+\_\+t}} \&}]{elem }\end{DoxyParamCaption})}
 
-\mbox{\Hypertarget{namespaceebml_a4edfd02f8910c0abfd4bbbf928f92d9e}\label{namespaceebml_a4edfd02f8910c0abfd4bbbf928f92d9e}} 
+\mbox{\Hypertarget{namespaceebml_ab21f8b4ff85186f670f17e84a02d9740}\label{namespaceebml_ab21f8b4ff85186f670f17e84a02d9740}} 
 \index{ebml@{ebml}!data@{data}}
 \index{data@{data}!ebml@{ebml}}
 \subsubsection{\texorpdfstring{data()}{data()}\hspace{0.1cm}{\footnotesize\ttfamily [2/5]}}
 {\footnotesize\ttfamily template$<$typename T $>$ \\
-template double \& ebml\+::data$<$ double $>$ (\begin{DoxyParamCaption}\item[{const \mbox{\hyperlink{namespaceebml_adad533b7705a16bb360fe56380c5e7be}{ebml\+Element\+\_\+sp}} \&}]{elem }\end{DoxyParamCaption})}
+T\& ebml\+::data (\begin{DoxyParamCaption}\item[{const \mbox{\hyperlink{namespaceebml_adad533b7705a16bb360fe56380c5e7be}{ebml\+Element\+\_\+sp}} \&}]{elem }\end{DoxyParamCaption})}
 
-\mbox{\Hypertarget{namespaceebml_ac78bf9d3ced3b11fedcb6172849b2cfc}\label{namespaceebml_ac78bf9d3ced3b11fedcb6172849b2cfc}} 
+\mbox{\Hypertarget{namespaceebml_a9b10dec5a642a1703033296c3e892946}\label{namespaceebml_a9b10dec5a642a1703033296c3e892946}} 
 \index{ebml@{ebml}!data@{data}}
 \index{data@{data}!ebml@{ebml}}
 \subsubsection{\texorpdfstring{data()}{data()}\hspace{0.1cm}{\footnotesize\ttfamily [3/5]}}
 {\footnotesize\ttfamily template$<$typename T $>$ \\
-template const double \& ebml\+::data$<$ double $>$ (\begin{DoxyParamCaption}\item[{const \mbox{\hyperlink{namespaceebml_a2deef4e8071531b32e3533f1bf978917}{c\+\_\+ebml\+Element\+\_\+sp}} \&}]{elem }\end{DoxyParamCaption})}
+const T\& ebml\+::data (\begin{DoxyParamCaption}\item[{const \mbox{\hyperlink{namespaceebml_a2deef4e8071531b32e3533f1bf978917}{c\+\_\+ebml\+Element\+\_\+sp}} \&}]{elem }\end{DoxyParamCaption})}
 
 \mbox{\Hypertarget{namespaceebml_a766ff55857f1018516a926913abc8a83}\label{namespaceebml_a766ff55857f1018516a926913abc8a83}} 
 \index{ebml@{ebml}!data@{data}}
@@ -628,121 +658,150 @@ T\& ebml\+::data (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{classebml_1_1s
 \subsubsection{\texorpdfstring{make\+\_\+exc\+\_\+msg()}{make\_exc\_msg()}}
 {\footnotesize\ttfamily std\+::string ebml\+::make\+\_\+exc\+\_\+msg (\begin{DoxyParamCaption}\item[{const char $\ast$}]{msg,  }\item[{unsigned int}]{lineno,  }\item[{const char $\ast$}]{file }\end{DoxyParamCaption})}
 
-\mbox{\Hypertarget{namespaceebml_a224edf6a007990902f8ae866e3e2fc59}\label{namespaceebml_a224edf6a007990902f8ae866e3e2fc59}} 
-\index{ebml@{ebml}!new\+\_\+sp@{new\+\_\+sp}}
-\index{new\+\_\+sp@{new\+\_\+sp}!ebml@{ebml}}
-\subsubsection{\texorpdfstring{new\+\_\+sp()}{new\_sp()}}
-{\footnotesize\ttfamily template$<$typename T , typename U , typename... Args$>$ \\
-std\+::shared\+\_\+ptr$<$U$>$ ebml\+::new\+\_\+sp (\begin{DoxyParamCaption}\item[{Args...}]{args }\end{DoxyParamCaption})}
-
-\mbox{\Hypertarget{namespaceebml_a1c119d830a8a0d4f83e1362ade4c84ba}\label{namespaceebml_a1c119d830a8a0d4f83e1362ade4c84ba}} 
-\index{ebml@{ebml}!pack@{pack}}
-\index{pack@{pack}!ebml@{ebml}}
-\subsubsection{\texorpdfstring{pack()}{pack()}\hspace{0.1cm}{\footnotesize\ttfamily [1/18]}}
-{\footnotesize\ttfamily template std\+::string ebml\+::pack (\begin{DoxyParamCaption}\item[{const long long \&}]{ }\end{DoxyParamCaption})}
-
-\mbox{\Hypertarget{namespaceebml_a71a18263f24d4160b1c97d74273745c7}\label{namespaceebml_a71a18263f24d4160b1c97d74273745c7}} 
-\index{ebml@{ebml}!pack@{pack}}
-\index{pack@{pack}!ebml@{ebml}}
-\subsubsection{\texorpdfstring{pack()}{pack()}\hspace{0.1cm}{\footnotesize\ttfamily [2/18]}}
-{\footnotesize\ttfamily size\+\_\+t ebml\+::pack (\begin{DoxyParamCaption}\item[{const unsigned long long \&}]{,  }\item[{size\+\_\+t}]{,  }\item[{char $\ast$}]{ }\end{DoxyParamCaption})}
-
-\mbox{\Hypertarget{namespaceebml_aefd18e43ba3909d196ab0bfa6d4ab640}\label{namespaceebml_aefd18e43ba3909d196ab0bfa6d4ab640}} 
-\index{ebml@{ebml}!pack@{pack}}
-\index{pack@{pack}!ebml@{ebml}}
-\subsubsection{\texorpdfstring{pack()}{pack()}\hspace{0.1cm}{\footnotesize\ttfamily [3/18]}}
-{\footnotesize\ttfamily template size\+\_\+t ebml\+::pack (\begin{DoxyParamCaption}\item[{const unsigned long long \&}]{,  }\item[{char $\ast$}]{ }\end{DoxyParamCaption})}
-
-\mbox{\Hypertarget{namespaceebml_a4792d18415e00b078131b9590e832b9b}\label{namespaceebml_a4792d18415e00b078131b9590e832b9b}} 
-\index{ebml@{ebml}!pack@{pack}}
-\index{pack@{pack}!ebml@{ebml}}
-\subsubsection{\texorpdfstring{pack()}{pack()}\hspace{0.1cm}{\footnotesize\ttfamily [4/18]}}
-{\footnotesize\ttfamily template std\+::string ebml\+::pack (\begin{DoxyParamCaption}\item[{const unsigned long long \&}]{ }\end{DoxyParamCaption})}
-
 \mbox{\Hypertarget{namespaceebml_ae32979c8cc295384d62cd00e9a256059}\label{namespaceebml_ae32979c8cc295384d62cd00e9a256059}} 
 \index{ebml@{ebml}!pack@{pack}}
 \index{pack@{pack}!ebml@{ebml}}
-\subsubsection{\texorpdfstring{pack()}{pack()}\hspace{0.1cm}{\footnotesize\ttfamily [5/18]}}
+\subsubsection{\texorpdfstring{pack()}{pack()}\hspace{0.1cm}{\footnotesize\ttfamily [1/24]}}
 {\footnotesize\ttfamily size\+\_\+t ebml\+::pack (\begin{DoxyParamCaption}\item[{const long long \&}]{,  }\item[{size\+\_\+t}]{,  }\item[{char $\ast$}]{ }\end{DoxyParamCaption})}
 
 \mbox{\Hypertarget{namespaceebml_ac35ff5c48449c99a03dced64fdad8d9e}\label{namespaceebml_ac35ff5c48449c99a03dced64fdad8d9e}} 
 \index{ebml@{ebml}!pack@{pack}}
 \index{pack@{pack}!ebml@{ebml}}
-\subsubsection{\texorpdfstring{pack()}{pack()}\hspace{0.1cm}{\footnotesize\ttfamily [6/18]}}
+\subsubsection{\texorpdfstring{pack()}{pack()}\hspace{0.1cm}{\footnotesize\ttfamily [2/24]}}
 {\footnotesize\ttfamily template size\+\_\+t ebml\+::pack (\begin{DoxyParamCaption}\item[{const long long \&}]{,  }\item[{char $\ast$}]{ }\end{DoxyParamCaption})}
+
+\mbox{\Hypertarget{namespaceebml_a1c119d830a8a0d4f83e1362ade4c84ba}\label{namespaceebml_a1c119d830a8a0d4f83e1362ade4c84ba}} 
+\index{ebml@{ebml}!pack@{pack}}
+\index{pack@{pack}!ebml@{ebml}}
+\subsubsection{\texorpdfstring{pack()}{pack()}\hspace{0.1cm}{\footnotesize\ttfamily [3/24]}}
+{\footnotesize\ttfamily template std\+::string ebml\+::pack (\begin{DoxyParamCaption}\item[{const long long \&}]{ }\end{DoxyParamCaption})}
+
+\mbox{\Hypertarget{namespaceebml_a71a18263f24d4160b1c97d74273745c7}\label{namespaceebml_a71a18263f24d4160b1c97d74273745c7}} 
+\index{ebml@{ebml}!pack@{pack}}
+\index{pack@{pack}!ebml@{ebml}}
+\subsubsection{\texorpdfstring{pack()}{pack()}\hspace{0.1cm}{\footnotesize\ttfamily [4/24]}}
+{\footnotesize\ttfamily size\+\_\+t ebml\+::pack (\begin{DoxyParamCaption}\item[{const unsigned long long \&}]{,  }\item[{size\+\_\+t}]{,  }\item[{char $\ast$}]{ }\end{DoxyParamCaption})}
+
+\mbox{\Hypertarget{namespaceebml_aefd18e43ba3909d196ab0bfa6d4ab640}\label{namespaceebml_aefd18e43ba3909d196ab0bfa6d4ab640}} 
+\index{ebml@{ebml}!pack@{pack}}
+\index{pack@{pack}!ebml@{ebml}}
+\subsubsection{\texorpdfstring{pack()}{pack()}\hspace{0.1cm}{\footnotesize\ttfamily [5/24]}}
+{\footnotesize\ttfamily template size\+\_\+t ebml\+::pack (\begin{DoxyParamCaption}\item[{const unsigned long long \&}]{,  }\item[{char $\ast$}]{ }\end{DoxyParamCaption})}
+
+\mbox{\Hypertarget{namespaceebml_a4792d18415e00b078131b9590e832b9b}\label{namespaceebml_a4792d18415e00b078131b9590e832b9b}} 
+\index{ebml@{ebml}!pack@{pack}}
+\index{pack@{pack}!ebml@{ebml}}
+\subsubsection{\texorpdfstring{pack()}{pack()}\hspace{0.1cm}{\footnotesize\ttfamily [6/24]}}
+{\footnotesize\ttfamily template std\+::string ebml\+::pack (\begin{DoxyParamCaption}\item[{const unsigned long long \&}]{ }\end{DoxyParamCaption})}
+
+\mbox{\Hypertarget{namespaceebml_a2f3ac2d3e5ba0655228ae2a4a046a79f}\label{namespaceebml_a2f3ac2d3e5ba0655228ae2a4a046a79f}} 
+\index{ebml@{ebml}!pack@{pack}}
+\index{pack@{pack}!ebml@{ebml}}
+\subsubsection{\texorpdfstring{pack()}{pack()}\hspace{0.1cm}{\footnotesize\ttfamily [7/24]}}
+{\footnotesize\ttfamily template size\+\_\+t ebml\+::pack (\begin{DoxyParamCaption}\item[{const float \&}]{,  }\item[{size\+\_\+t}]{,  }\item[{char $\ast$}]{ }\end{DoxyParamCaption})}
+
+\mbox{\Hypertarget{namespaceebml_acbb370dedf65bee76a4e77f8107e6b31}\label{namespaceebml_acbb370dedf65bee76a4e77f8107e6b31}} 
+\index{ebml@{ebml}!pack@{pack}}
+\index{pack@{pack}!ebml@{ebml}}
+\subsubsection{\texorpdfstring{pack()}{pack()}\hspace{0.1cm}{\footnotesize\ttfamily [8/24]}}
+{\footnotesize\ttfamily template std\+::string ebml\+::pack (\begin{DoxyParamCaption}\item[{const float \&}]{ }\end{DoxyParamCaption})}
 
 \mbox{\Hypertarget{namespaceebml_afe17a10f5bbba38018c292f620088230}\label{namespaceebml_afe17a10f5bbba38018c292f620088230}} 
 \index{ebml@{ebml}!pack@{pack}}
 \index{pack@{pack}!ebml@{ebml}}
-\subsubsection{\texorpdfstring{pack()}{pack()}\hspace{0.1cm}{\footnotesize\ttfamily [7/18]}}
+\subsubsection{\texorpdfstring{pack()}{pack()}\hspace{0.1cm}{\footnotesize\ttfamily [9/24]}}
 {\footnotesize\ttfamily size\+\_\+t ebml\+::pack (\begin{DoxyParamCaption}\item[{const std\+::wstring \&}]{,  }\item[{size\+\_\+t}]{,  }\item[{char $\ast$}]{ }\end{DoxyParamCaption})}
 
-\mbox{\Hypertarget{namespaceebml_ac0fc71c240d5809912675751dc1644bf}\label{namespaceebml_ac0fc71c240d5809912675751dc1644bf}} 
+\mbox{\Hypertarget{namespaceebml_a9a1c3387186ced48928b78f0404924fd}\label{namespaceebml_a9a1c3387186ced48928b78f0404924fd}} 
 \index{ebml@{ebml}!pack@{pack}}
 \index{pack@{pack}!ebml@{ebml}}
-\subsubsection{\texorpdfstring{pack()}{pack()}\hspace{0.1cm}{\footnotesize\ttfamily [8/18]}}
-{\footnotesize\ttfamily template size\+\_\+t ebml\+::pack (\begin{DoxyParamCaption}\item[{const std\+::wstring \&}]{,  }\item[{char $\ast$}]{ }\end{DoxyParamCaption})}
+\subsubsection{\texorpdfstring{pack()}{pack()}\hspace{0.1cm}{\footnotesize\ttfamily [10/24]}}
+{\footnotesize\ttfamily size\+\_\+t ebml\+::pack (\begin{DoxyParamCaption}\item[{const float \&}]{,  }\item[{char $\ast$}]{ }\end{DoxyParamCaption})}
 
 \mbox{\Hypertarget{namespaceebml_ab3177fa4c2fceef733358b336d5792db}\label{namespaceebml_ab3177fa4c2fceef733358b336d5792db}} 
 \index{ebml@{ebml}!pack@{pack}}
 \index{pack@{pack}!ebml@{ebml}}
-\subsubsection{\texorpdfstring{pack()}{pack()}\hspace{0.1cm}{\footnotesize\ttfamily [9/18]}}
+\subsubsection{\texorpdfstring{pack()}{pack()}\hspace{0.1cm}{\footnotesize\ttfamily [11/24]}}
 {\footnotesize\ttfamily template std\+::string ebml\+::pack (\begin{DoxyParamCaption}\item[{const std\+::wstring \&}]{ }\end{DoxyParamCaption})}
+
+\mbox{\Hypertarget{namespaceebml_ac0fc71c240d5809912675751dc1644bf}\label{namespaceebml_ac0fc71c240d5809912675751dc1644bf}} 
+\index{ebml@{ebml}!pack@{pack}}
+\index{pack@{pack}!ebml@{ebml}}
+\subsubsection{\texorpdfstring{pack()}{pack()}\hspace{0.1cm}{\footnotesize\ttfamily [12/24]}}
+{\footnotesize\ttfamily template size\+\_\+t ebml\+::pack (\begin{DoxyParamCaption}\item[{const std\+::wstring \&}]{,  }\item[{char $\ast$}]{ }\end{DoxyParamCaption})}
 
 \mbox{\Hypertarget{namespaceebml_a2ee8aa5ba5754b7c9e63da8fce0e413b}\label{namespaceebml_a2ee8aa5ba5754b7c9e63da8fce0e413b}} 
 \index{ebml@{ebml}!pack@{pack}}
 \index{pack@{pack}!ebml@{ebml}}
-\subsubsection{\texorpdfstring{pack()}{pack()}\hspace{0.1cm}{\footnotesize\ttfamily [10/18]}}
+\subsubsection{\texorpdfstring{pack()}{pack()}\hspace{0.1cm}{\footnotesize\ttfamily [13/24]}}
 {\footnotesize\ttfamily size\+\_\+t ebml\+::pack (\begin{DoxyParamCaption}\item[{const std\+::string \&}]{,  }\item[{char $\ast$}]{ }\end{DoxyParamCaption})}
+
+\mbox{\Hypertarget{namespaceebml_ad562523994b9b844a2ed42f2c9dc0743}\label{namespaceebml_ad562523994b9b844a2ed42f2c9dc0743}} 
+\index{ebml@{ebml}!pack@{pack}}
+\index{pack@{pack}!ebml@{ebml}}
+\subsubsection{\texorpdfstring{pack()}{pack()}\hspace{0.1cm}{\footnotesize\ttfamily [14/24]}}
+{\footnotesize\ttfamily size\+\_\+t ebml\+::pack (\begin{DoxyParamCaption}\item[{const double \&}]{,  }\item[{char $\ast$}]{ }\end{DoxyParamCaption})}
 
 \mbox{\Hypertarget{namespaceebml_a436b47856669dd55e115bb9144e4e543}\label{namespaceebml_a436b47856669dd55e115bb9144e4e543}} 
 \index{ebml@{ebml}!pack@{pack}}
 \index{pack@{pack}!ebml@{ebml}}
-\subsubsection{\texorpdfstring{pack()}{pack()}\hspace{0.1cm}{\footnotesize\ttfamily [11/18]}}
+\subsubsection{\texorpdfstring{pack()}{pack()}\hspace{0.1cm}{\footnotesize\ttfamily [15/24]}}
 {\footnotesize\ttfamily size\+\_\+t ebml\+::pack (\begin{DoxyParamCaption}\item[{const std\+::string \&}]{,  }\item[{size\+\_\+t}]{,  }\item[{char $\ast$}]{ }\end{DoxyParamCaption})}
+
+\mbox{\Hypertarget{namespaceebml_a027af75ad19fec2ebab68496ee378985}\label{namespaceebml_a027af75ad19fec2ebab68496ee378985}} 
+\index{ebml@{ebml}!pack@{pack}}
+\index{pack@{pack}!ebml@{ebml}}
+\subsubsection{\texorpdfstring{pack()}{pack()}\hspace{0.1cm}{\footnotesize\ttfamily [16/24]}}
+{\footnotesize\ttfamily template size\+\_\+t ebml\+::pack (\begin{DoxyParamCaption}\item[{const double \&}]{,  }\item[{size\+\_\+t}]{,  }\item[{char $\ast$}]{ }\end{DoxyParamCaption})}
+
+\mbox{\Hypertarget{namespaceebml_a71bb6ebad794abe2b04f2d24036636cd}\label{namespaceebml_a71bb6ebad794abe2b04f2d24036636cd}} 
+\index{ebml@{ebml}!pack@{pack}}
+\index{pack@{pack}!ebml@{ebml}}
+\subsubsection{\texorpdfstring{pack()}{pack()}\hspace{0.1cm}{\footnotesize\ttfamily [17/24]}}
+{\footnotesize\ttfamily template std\+::string ebml\+::pack (\begin{DoxyParamCaption}\item[{const double \&}]{ }\end{DoxyParamCaption})}
 
 \mbox{\Hypertarget{namespaceebml_a12db4cd27f116243759ded7e321b0a45}\label{namespaceebml_a12db4cd27f116243759ded7e321b0a45}} 
 \index{ebml@{ebml}!pack@{pack}}
 \index{pack@{pack}!ebml@{ebml}}
-\subsubsection{\texorpdfstring{pack()}{pack()}\hspace{0.1cm}{\footnotesize\ttfamily [12/18]}}
+\subsubsection{\texorpdfstring{pack()}{pack()}\hspace{0.1cm}{\footnotesize\ttfamily [18/24]}}
 {\footnotesize\ttfamily template std\+::string ebml\+::pack (\begin{DoxyParamCaption}\item[{const std\+::string \&}]{ }\end{DoxyParamCaption})}
 
 \mbox{\Hypertarget{namespaceebml_a1878818f2cc11ea62ecab6513bc7e9d1}\label{namespaceebml_a1878818f2cc11ea62ecab6513bc7e9d1}} 
 \index{ebml@{ebml}!pack@{pack}}
 \index{pack@{pack}!ebml@{ebml}}
-\subsubsection{\texorpdfstring{pack()}{pack()}\hspace{0.1cm}{\footnotesize\ttfamily [13/18]}}
+\subsubsection{\texorpdfstring{pack()}{pack()}\hspace{0.1cm}{\footnotesize\ttfamily [19/24]}}
 {\footnotesize\ttfamily size\+\_\+t ebml\+::pack (\begin{DoxyParamCaption}\item[{const \mbox{\hyperlink{namespaceebml_a7e667ec3fe8b51fb5b8f9690734d8638}{timepoint\+\_\+t}} \&}]{,  }\item[{size\+\_\+t}]{,  }\item[{char $\ast$}]{ }\end{DoxyParamCaption})}
-
-\mbox{\Hypertarget{namespaceebml_a5f46d1f43787604ff84e25a0115d08cd}\label{namespaceebml_a5f46d1f43787604ff84e25a0115d08cd}} 
-\index{ebml@{ebml}!pack@{pack}}
-\index{pack@{pack}!ebml@{ebml}}
-\subsubsection{\texorpdfstring{pack()}{pack()}\hspace{0.1cm}{\footnotesize\ttfamily [14/18]}}
-{\footnotesize\ttfamily template std\+::string ebml\+::pack (\begin{DoxyParamCaption}\item[{const \mbox{\hyperlink{namespaceebml_a7e667ec3fe8b51fb5b8f9690734d8638}{timepoint\+\_\+t}} \&}]{ }\end{DoxyParamCaption})}
 
 \mbox{\Hypertarget{namespaceebml_a0292a5a59fc28b1537dcf2d1e2c9cf2d}\label{namespaceebml_a0292a5a59fc28b1537dcf2d1e2c9cf2d}} 
 \index{ebml@{ebml}!pack@{pack}}
 \index{pack@{pack}!ebml@{ebml}}
-\subsubsection{\texorpdfstring{pack()}{pack()}\hspace{0.1cm}{\footnotesize\ttfamily [15/18]}}
+\subsubsection{\texorpdfstring{pack()}{pack()}\hspace{0.1cm}{\footnotesize\ttfamily [20/24]}}
 {\footnotesize\ttfamily template size\+\_\+t ebml\+::pack (\begin{DoxyParamCaption}\item[{const \mbox{\hyperlink{namespaceebml_a7e667ec3fe8b51fb5b8f9690734d8638}{timepoint\+\_\+t}} \&}]{,  }\item[{char $\ast$}]{ }\end{DoxyParamCaption})}
+
+\mbox{\Hypertarget{namespaceebml_a5f46d1f43787604ff84e25a0115d08cd}\label{namespaceebml_a5f46d1f43787604ff84e25a0115d08cd}} 
+\index{ebml@{ebml}!pack@{pack}}
+\index{pack@{pack}!ebml@{ebml}}
+\subsubsection{\texorpdfstring{pack()}{pack()}\hspace{0.1cm}{\footnotesize\ttfamily [21/24]}}
+{\footnotesize\ttfamily template std\+::string ebml\+::pack (\begin{DoxyParamCaption}\item[{const \mbox{\hyperlink{namespaceebml_a7e667ec3fe8b51fb5b8f9690734d8638}{timepoint\+\_\+t}} \&}]{ }\end{DoxyParamCaption})}
 
 \mbox{\Hypertarget{namespaceebml_a902c75e723a22780c779a3fc1531a07f}\label{namespaceebml_a902c75e723a22780c779a3fc1531a07f}} 
 \index{ebml@{ebml}!pack@{pack}}
 \index{pack@{pack}!ebml@{ebml}}
-\subsubsection{\texorpdfstring{pack()}{pack()}\hspace{0.1cm}{\footnotesize\ttfamily [16/18]}}
+\subsubsection{\texorpdfstring{pack()}{pack()}\hspace{0.1cm}{\footnotesize\ttfamily [22/24]}}
 {\footnotesize\ttfamily template$<$typename T $>$ \\
 size\+\_\+t ebml\+::pack (\begin{DoxyParamCaption}\item[{const T \&}]{value,  }\item[{char $\ast$}]{dest }\end{DoxyParamCaption})}
 
 \mbox{\Hypertarget{namespaceebml_a2ca9fdcd493e677f02886593a4ae63e0}\label{namespaceebml_a2ca9fdcd493e677f02886593a4ae63e0}} 
 \index{ebml@{ebml}!pack@{pack}}
 \index{pack@{pack}!ebml@{ebml}}
-\subsubsection{\texorpdfstring{pack()}{pack()}\hspace{0.1cm}{\footnotesize\ttfamily [17/18]}}
+\subsubsection{\texorpdfstring{pack()}{pack()}\hspace{0.1cm}{\footnotesize\ttfamily [23/24]}}
 {\footnotesize\ttfamily template$<$typename T $>$ \\
 size\+\_\+t ebml\+::pack (\begin{DoxyParamCaption}\item[{const T \&}]{value,  }\item[{size\+\_\+t}]{size,  }\item[{char $\ast$}]{dest }\end{DoxyParamCaption})}
 
 \mbox{\Hypertarget{namespaceebml_a8cf030e141b95cd742c465794a8faf02}\label{namespaceebml_a8cf030e141b95cd742c465794a8faf02}} 
 \index{ebml@{ebml}!pack@{pack}}
 \index{pack@{pack}!ebml@{ebml}}
-\subsubsection{\texorpdfstring{pack()}{pack()}\hspace{0.1cm}{\footnotesize\ttfamily [18/18]}}
+\subsubsection{\texorpdfstring{pack()}{pack()}\hspace{0.1cm}{\footnotesize\ttfamily [24/24]}}
 {\footnotesize\ttfamily template$<$typename T $>$ \\
 std\+::string ebml\+::pack (\begin{DoxyParamCaption}\item[{const T \&}]{value }\end{DoxyParamCaption})}
 
@@ -821,41 +880,53 @@ std\+::wstring ebml\+::repr (\begin{DoxyParamCaption}\item[{T $\ast$const}]{obj 
 \subsubsection{\texorpdfstring{repr()}{repr()}\hspace{0.1cm}{\footnotesize\ttfamily [10/10]}}
 {\footnotesize\ttfamily std\+::wstring ebml\+::repr (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{namespaceebml_a7e667ec3fe8b51fb5b8f9690734d8638}{timepoint\+\_\+t}}}]{ }\end{DoxyParamCaption})}
 
-\mbox{\Hypertarget{namespaceebml_a6e2cf9e4800e8a09b5f4cb8de613ad77}\label{namespaceebml_a6e2cf9e4800e8a09b5f4cb8de613ad77}} 
-\index{ebml@{ebml}!size@{size}}
-\index{size@{size}!ebml@{ebml}}
-\subsubsection{\texorpdfstring{size()}{size()}\hspace{0.1cm}{\footnotesize\ttfamily [1/6]}}
-{\footnotesize\ttfamily size\+\_\+t ebml\+::size (\begin{DoxyParamCaption}\item[{const unsigned long long \&}]{ }\end{DoxyParamCaption})}
-
 \mbox{\Hypertarget{namespaceebml_a0385005834de08a2401ec491023f9ab3}\label{namespaceebml_a0385005834de08a2401ec491023f9ab3}} 
 \index{ebml@{ebml}!size@{size}}
 \index{size@{size}!ebml@{ebml}}
-\subsubsection{\texorpdfstring{size()}{size()}\hspace{0.1cm}{\footnotesize\ttfamily [2/6]}}
+\subsubsection{\texorpdfstring{size()}{size()}\hspace{0.1cm}{\footnotesize\ttfamily [1/8]}}
 {\footnotesize\ttfamily template$<$typename T $>$ \\
 size\+\_\+t ebml\+::size (\begin{DoxyParamCaption}\item[{const T \&}]{value }\end{DoxyParamCaption})}
 
 \mbox{\Hypertarget{namespaceebml_a54b33809097f683fb8345f9668e8237b}\label{namespaceebml_a54b33809097f683fb8345f9668e8237b}} 
 \index{ebml@{ebml}!size@{size}}
 \index{size@{size}!ebml@{ebml}}
-\subsubsection{\texorpdfstring{size()}{size()}\hspace{0.1cm}{\footnotesize\ttfamily [3/6]}}
+\subsubsection{\texorpdfstring{size()}{size()}\hspace{0.1cm}{\footnotesize\ttfamily [2/8]}}
 {\footnotesize\ttfamily size\+\_\+t ebml\+::size (\begin{DoxyParamCaption}\item[{const long long \&}]{ }\end{DoxyParamCaption})}
+
+\mbox{\Hypertarget{namespaceebml_a6e2cf9e4800e8a09b5f4cb8de613ad77}\label{namespaceebml_a6e2cf9e4800e8a09b5f4cb8de613ad77}} 
+\index{ebml@{ebml}!size@{size}}
+\index{size@{size}!ebml@{ebml}}
+\subsubsection{\texorpdfstring{size()}{size()}\hspace{0.1cm}{\footnotesize\ttfamily [3/8]}}
+{\footnotesize\ttfamily size\+\_\+t ebml\+::size (\begin{DoxyParamCaption}\item[{const unsigned long long \&}]{ }\end{DoxyParamCaption})}
 
 \mbox{\Hypertarget{namespaceebml_ab52135bc5dd3c3195dfc839bc8b551fd}\label{namespaceebml_ab52135bc5dd3c3195dfc839bc8b551fd}} 
 \index{ebml@{ebml}!size@{size}}
 \index{size@{size}!ebml@{ebml}}
-\subsubsection{\texorpdfstring{size()}{size()}\hspace{0.1cm}{\footnotesize\ttfamily [4/6]}}
+\subsubsection{\texorpdfstring{size()}{size()}\hspace{0.1cm}{\footnotesize\ttfamily [4/8]}}
 {\footnotesize\ttfamily size\+\_\+t ebml\+::size (\begin{DoxyParamCaption}\item[{const std\+::wstring \&}]{ }\end{DoxyParamCaption})}
+
+\mbox{\Hypertarget{namespaceebml_ac5f0085d005103d2eb42e098b7d45c15}\label{namespaceebml_ac5f0085d005103d2eb42e098b7d45c15}} 
+\index{ebml@{ebml}!size@{size}}
+\index{size@{size}!ebml@{ebml}}
+\subsubsection{\texorpdfstring{size()}{size()}\hspace{0.1cm}{\footnotesize\ttfamily [5/8]}}
+{\footnotesize\ttfamily size\+\_\+t ebml\+::size (\begin{DoxyParamCaption}\item[{const float \&}]{ }\end{DoxyParamCaption})}
+
+\mbox{\Hypertarget{namespaceebml_a2fe5501da3393b9c982848aa5e61c372}\label{namespaceebml_a2fe5501da3393b9c982848aa5e61c372}} 
+\index{ebml@{ebml}!size@{size}}
+\index{size@{size}!ebml@{ebml}}
+\subsubsection{\texorpdfstring{size()}{size()}\hspace{0.1cm}{\footnotesize\ttfamily [6/8]}}
+{\footnotesize\ttfamily size\+\_\+t ebml\+::size (\begin{DoxyParamCaption}\item[{const double \&}]{ }\end{DoxyParamCaption})}
 
 \mbox{\Hypertarget{namespaceebml_a75eaf24de9c90584c60e27de3b1dd63e}\label{namespaceebml_a75eaf24de9c90584c60e27de3b1dd63e}} 
 \index{ebml@{ebml}!size@{size}}
 \index{size@{size}!ebml@{ebml}}
-\subsubsection{\texorpdfstring{size()}{size()}\hspace{0.1cm}{\footnotesize\ttfamily [5/6]}}
+\subsubsection{\texorpdfstring{size()}{size()}\hspace{0.1cm}{\footnotesize\ttfamily [7/8]}}
 {\footnotesize\ttfamily size\+\_\+t ebml\+::size (\begin{DoxyParamCaption}\item[{const std\+::string \&}]{ }\end{DoxyParamCaption})}
 
 \mbox{\Hypertarget{namespaceebml_a95bc53481ddec59de86aa1ab7f8aae88}\label{namespaceebml_a95bc53481ddec59de86aa1ab7f8aae88}} 
 \index{ebml@{ebml}!size@{size}}
 \index{size@{size}!ebml@{ebml}}
-\subsubsection{\texorpdfstring{size()}{size()}\hspace{0.1cm}{\footnotesize\ttfamily [6/6]}}
+\subsubsection{\texorpdfstring{size()}{size()}\hspace{0.1cm}{\footnotesize\ttfamily [8/8]}}
 {\footnotesize\ttfamily size\+\_\+t ebml\+::size (\begin{DoxyParamCaption}\item[{const \mbox{\hyperlink{namespaceebml_a7e667ec3fe8b51fb5b8f9690734d8638}{timepoint\+\_\+t}} \&}]{ }\end{DoxyParamCaption})}
 
 \mbox{\Hypertarget{namespaceebml_a55a0f9d0c93e80d488021fd03c4f3861}\label{namespaceebml_a55a0f9d0c93e80d488021fd03c4f3861}} 
@@ -872,18 +943,44 @@ T ebml\+::unpack (\begin{DoxyParamCaption}\item[{const char $\ast$}]{,  }\item[{
 {\footnotesize\ttfamily template$<$typename T $>$ \\
 T ebml\+::unpack (\begin{DoxyParamCaption}\item[{const std\+::string \&}]{ }\end{DoxyParamCaption})}
 
-\mbox{\Hypertarget{namespaceebml_abb67ef3f7f8a4e21d3aa99d928dd715c}\label{namespaceebml_abb67ef3f7f8a4e21d3aa99d928dd715c}} 
-\index{ebml@{ebml}!unpack$<$ long long $>$@{unpack$<$ long long $>$}}
-\index{unpack$<$ long long $>$@{unpack$<$ long long $>$}!ebml@{ebml}}
-\subsubsection{\texorpdfstring{unpack$<$ long long $>$()}{unpack< long long >()}\hspace{0.1cm}{\footnotesize\ttfamily [1/2]}}
+\mbox{\Hypertarget{namespaceebml_af6f7324527703d090d8518b49776033a}\label{namespaceebml_af6f7324527703d090d8518b49776033a}} 
+\index{ebml@{ebml}!unpack$<$ double $>$@{unpack$<$ double $>$}}
+\index{unpack$<$ double $>$@{unpack$<$ double $>$}!ebml@{ebml}}
+\subsubsection{\texorpdfstring{unpack$<$ double $>$()}{unpack< double >()}\hspace{0.1cm}{\footnotesize\ttfamily [1/2]}}
+{\footnotesize\ttfamily template double \mbox{\hyperlink{namespaceebml_a55a0f9d0c93e80d488021fd03c4f3861}{ebml\+::unpack}}$<$ double $>$ (\begin{DoxyParamCaption}\item[{const std\+::string \&}]{ }\end{DoxyParamCaption})}
+
+\mbox{\Hypertarget{namespaceebml_a8fc03073fb4d10e4aef90a2985201603}\label{namespaceebml_a8fc03073fb4d10e4aef90a2985201603}} 
+\index{ebml@{ebml}!unpack$<$ double $>$@{unpack$<$ double $>$}}
+\index{unpack$<$ double $>$@{unpack$<$ double $>$}!ebml@{ebml}}
+\subsubsection{\texorpdfstring{unpack$<$ double $>$()}{unpack< double >()}\hspace{0.1cm}{\footnotesize\ttfamily [2/2]}}
 {\footnotesize\ttfamily template$<$$>$ \\
-long long \mbox{\hyperlink{namespaceebml_a55a0f9d0c93e80d488021fd03c4f3861}{ebml\+::unpack}}$<$ long long $>$ (\begin{DoxyParamCaption}\item[{const char $\ast$}]{,  }\item[{size\+\_\+t}]{ }\end{DoxyParamCaption})}
+double \mbox{\hyperlink{namespaceebml_a55a0f9d0c93e80d488021fd03c4f3861}{ebml\+::unpack}}$<$ double $>$ (\begin{DoxyParamCaption}\item[{const char $\ast$}]{,  }\item[{size\+\_\+t}]{ }\end{DoxyParamCaption})}
+
+\mbox{\Hypertarget{namespaceebml_a9055e0d919f5e12fd661512096c811d1}\label{namespaceebml_a9055e0d919f5e12fd661512096c811d1}} 
+\index{ebml@{ebml}!unpack$<$ float $>$@{unpack$<$ float $>$}}
+\index{unpack$<$ float $>$@{unpack$<$ float $>$}!ebml@{ebml}}
+\subsubsection{\texorpdfstring{unpack$<$ float $>$()}{unpack< float >()}\hspace{0.1cm}{\footnotesize\ttfamily [1/2]}}
+{\footnotesize\ttfamily template$<$$>$ \\
+float \mbox{\hyperlink{namespaceebml_a55a0f9d0c93e80d488021fd03c4f3861}{ebml\+::unpack}}$<$ float $>$ (\begin{DoxyParamCaption}\item[{const char $\ast$}]{,  }\item[{size\+\_\+t}]{ }\end{DoxyParamCaption})}
+
+\mbox{\Hypertarget{namespaceebml_a34096c5ab0e26fba384ea9d910a5a393}\label{namespaceebml_a34096c5ab0e26fba384ea9d910a5a393}} 
+\index{ebml@{ebml}!unpack$<$ float $>$@{unpack$<$ float $>$}}
+\index{unpack$<$ float $>$@{unpack$<$ float $>$}!ebml@{ebml}}
+\subsubsection{\texorpdfstring{unpack$<$ float $>$()}{unpack< float >()}\hspace{0.1cm}{\footnotesize\ttfamily [2/2]}}
+{\footnotesize\ttfamily template float \mbox{\hyperlink{namespaceebml_a55a0f9d0c93e80d488021fd03c4f3861}{ebml\+::unpack}}$<$ float $>$ (\begin{DoxyParamCaption}\item[{const std\+::string \&}]{ }\end{DoxyParamCaption})}
 
 \mbox{\Hypertarget{namespaceebml_aee739b2993a6e10f162ee2346d77d17c}\label{namespaceebml_aee739b2993a6e10f162ee2346d77d17c}} 
 \index{ebml@{ebml}!unpack$<$ long long $>$@{unpack$<$ long long $>$}}
 \index{unpack$<$ long long $>$@{unpack$<$ long long $>$}!ebml@{ebml}}
-\subsubsection{\texorpdfstring{unpack$<$ long long $>$()}{unpack< long long >()}\hspace{0.1cm}{\footnotesize\ttfamily [2/2]}}
+\subsubsection{\texorpdfstring{unpack$<$ long long $>$()}{unpack< long long >()}\hspace{0.1cm}{\footnotesize\ttfamily [1/2]}}
 {\footnotesize\ttfamily template long long \mbox{\hyperlink{namespaceebml_a55a0f9d0c93e80d488021fd03c4f3861}{ebml\+::unpack}}$<$ long long $>$ (\begin{DoxyParamCaption}\item[{const std\+::string \&}]{ }\end{DoxyParamCaption})}
+
+\mbox{\Hypertarget{namespaceebml_abb67ef3f7f8a4e21d3aa99d928dd715c}\label{namespaceebml_abb67ef3f7f8a4e21d3aa99d928dd715c}} 
+\index{ebml@{ebml}!unpack$<$ long long $>$@{unpack$<$ long long $>$}}
+\index{unpack$<$ long long $>$@{unpack$<$ long long $>$}!ebml@{ebml}}
+\subsubsection{\texorpdfstring{unpack$<$ long long $>$()}{unpack< long long >()}\hspace{0.1cm}{\footnotesize\ttfamily [2/2]}}
+{\footnotesize\ttfamily template$<$$>$ \\
+long long \mbox{\hyperlink{namespaceebml_a55a0f9d0c93e80d488021fd03c4f3861}{ebml\+::unpack}}$<$ long long $>$ (\begin{DoxyParamCaption}\item[{const char $\ast$}]{,  }\item[{size\+\_\+t}]{ }\end{DoxyParamCaption})}
 
 \mbox{\Hypertarget{namespaceebml_ad8250743a22e62d2cdee2b695870398e}\label{namespaceebml_ad8250743a22e62d2cdee2b695870398e}} 
 \index{ebml@{ebml}!unpack$<$ std\+::string $>$@{unpack$<$ std\+::string $>$}}
@@ -898,44 +995,44 @@ std\+::string \mbox{\hyperlink{namespaceebml_a55a0f9d0c93e80d488021fd03c4f3861}{
 \subsubsection{\texorpdfstring{unpack$<$ std\+::string $>$()}{unpack< std::string >()}\hspace{0.1cm}{\footnotesize\ttfamily [2/2]}}
 {\footnotesize\ttfamily template std\+::string \mbox{\hyperlink{namespaceebml_a55a0f9d0c93e80d488021fd03c4f3861}{ebml\+::unpack}}$<$ std\+::string $>$ (\begin{DoxyParamCaption}\item[{const std\+::string \&}]{ }\end{DoxyParamCaption})}
 
-\mbox{\Hypertarget{namespaceebml_afaec55e41b1bac6c33abe9b8707d489b}\label{namespaceebml_afaec55e41b1bac6c33abe9b8707d489b}} 
-\index{ebml@{ebml}!unpack$<$ std\+::wstring $>$@{unpack$<$ std\+::wstring $>$}}
-\index{unpack$<$ std\+::wstring $>$@{unpack$<$ std\+::wstring $>$}!ebml@{ebml}}
-\subsubsection{\texorpdfstring{unpack$<$ std\+::wstring $>$()}{unpack< std::wstring >()}\hspace{0.1cm}{\footnotesize\ttfamily [1/2]}}
-{\footnotesize\ttfamily template std\+::wstring \mbox{\hyperlink{namespaceebml_a55a0f9d0c93e80d488021fd03c4f3861}{ebml\+::unpack}}$<$ std\+::wstring $>$ (\begin{DoxyParamCaption}\item[{const std\+::string \&}]{ }\end{DoxyParamCaption})}
-
 \mbox{\Hypertarget{namespaceebml_afe61c84674c5ceeaf4d19fa2f994e37b}\label{namespaceebml_afe61c84674c5ceeaf4d19fa2f994e37b}} 
 \index{ebml@{ebml}!unpack$<$ std\+::wstring $>$@{unpack$<$ std\+::wstring $>$}}
 \index{unpack$<$ std\+::wstring $>$@{unpack$<$ std\+::wstring $>$}!ebml@{ebml}}
-\subsubsection{\texorpdfstring{unpack$<$ std\+::wstring $>$()}{unpack< std::wstring >()}\hspace{0.1cm}{\footnotesize\ttfamily [2/2]}}
+\subsubsection{\texorpdfstring{unpack$<$ std\+::wstring $>$()}{unpack< std::wstring >()}\hspace{0.1cm}{\footnotesize\ttfamily [1/2]}}
 {\footnotesize\ttfamily template$<$$>$ \\
 std\+::wstring \mbox{\hyperlink{namespaceebml_a55a0f9d0c93e80d488021fd03c4f3861}{ebml\+::unpack}}$<$ std\+::wstring $>$ (\begin{DoxyParamCaption}\item[{const char $\ast$}]{,  }\item[{size\+\_\+t}]{ }\end{DoxyParamCaption})}
 
-\mbox{\Hypertarget{namespaceebml_ac97339d25d5dab88390116547e0ef400}\label{namespaceebml_ac97339d25d5dab88390116547e0ef400}} 
-\index{ebml@{ebml}!unpack$<$ timepoint\+\_\+t $>$@{unpack$<$ timepoint\+\_\+t $>$}}
-\index{unpack$<$ timepoint\+\_\+t $>$@{unpack$<$ timepoint\+\_\+t $>$}!ebml@{ebml}}
-\subsubsection{\texorpdfstring{unpack$<$ timepoint\+\_\+t $>$()}{unpack< timepoint\_t >()}\hspace{0.1cm}{\footnotesize\ttfamily [1/2]}}
-{\footnotesize\ttfamily template \mbox{\hyperlink{namespaceebml_a7e667ec3fe8b51fb5b8f9690734d8638}{timepoint\+\_\+t}} \mbox{\hyperlink{namespaceebml_a55a0f9d0c93e80d488021fd03c4f3861}{ebml\+::unpack}}$<$ \mbox{\hyperlink{namespaceebml_a7e667ec3fe8b51fb5b8f9690734d8638}{timepoint\+\_\+t}} $>$ (\begin{DoxyParamCaption}\item[{const std\+::string \&}]{ }\end{DoxyParamCaption})}
+\mbox{\Hypertarget{namespaceebml_afaec55e41b1bac6c33abe9b8707d489b}\label{namespaceebml_afaec55e41b1bac6c33abe9b8707d489b}} 
+\index{ebml@{ebml}!unpack$<$ std\+::wstring $>$@{unpack$<$ std\+::wstring $>$}}
+\index{unpack$<$ std\+::wstring $>$@{unpack$<$ std\+::wstring $>$}!ebml@{ebml}}
+\subsubsection{\texorpdfstring{unpack$<$ std\+::wstring $>$()}{unpack< std::wstring >()}\hspace{0.1cm}{\footnotesize\ttfamily [2/2]}}
+{\footnotesize\ttfamily template std\+::wstring \mbox{\hyperlink{namespaceebml_a55a0f9d0c93e80d488021fd03c4f3861}{ebml\+::unpack}}$<$ std\+::wstring $>$ (\begin{DoxyParamCaption}\item[{const std\+::string \&}]{ }\end{DoxyParamCaption})}
 
 \mbox{\Hypertarget{namespaceebml_a939a46f36f4c7e9eaf14bc0ea612256c}\label{namespaceebml_a939a46f36f4c7e9eaf14bc0ea612256c}} 
 \index{ebml@{ebml}!unpack$<$ timepoint\+\_\+t $>$@{unpack$<$ timepoint\+\_\+t $>$}}
 \index{unpack$<$ timepoint\+\_\+t $>$@{unpack$<$ timepoint\+\_\+t $>$}!ebml@{ebml}}
-\subsubsection{\texorpdfstring{unpack$<$ timepoint\+\_\+t $>$()}{unpack< timepoint\_t >()}\hspace{0.1cm}{\footnotesize\ttfamily [2/2]}}
+\subsubsection{\texorpdfstring{unpack$<$ timepoint\+\_\+t $>$()}{unpack< timepoint\_t >()}\hspace{0.1cm}{\footnotesize\ttfamily [1/2]}}
 {\footnotesize\ttfamily template$<$$>$ \\
 \mbox{\hyperlink{namespaceebml_a7e667ec3fe8b51fb5b8f9690734d8638}{timepoint\+\_\+t}} \mbox{\hyperlink{namespaceebml_a55a0f9d0c93e80d488021fd03c4f3861}{ebml\+::unpack}}$<$ \mbox{\hyperlink{namespaceebml_a7e667ec3fe8b51fb5b8f9690734d8638}{timepoint\+\_\+t}} $>$ (\begin{DoxyParamCaption}\item[{const char $\ast$}]{,  }\item[{size\+\_\+t}]{ }\end{DoxyParamCaption})}
 
-\mbox{\Hypertarget{namespaceebml_a9631ff473950f82b6cb6302b2126d277}\label{namespaceebml_a9631ff473950f82b6cb6302b2126d277}} 
-\index{ebml@{ebml}!unpack$<$ unsigned long long $>$@{unpack$<$ unsigned long long $>$}}
-\index{unpack$<$ unsigned long long $>$@{unpack$<$ unsigned long long $>$}!ebml@{ebml}}
-\subsubsection{\texorpdfstring{unpack$<$ unsigned long long $>$()}{unpack< unsigned long long >()}\hspace{0.1cm}{\footnotesize\ttfamily [1/2]}}
-{\footnotesize\ttfamily template$<$$>$ \\
-unsigned long long \mbox{\hyperlink{namespaceebml_a55a0f9d0c93e80d488021fd03c4f3861}{ebml\+::unpack}}$<$ unsigned long long $>$ (\begin{DoxyParamCaption}\item[{const char $\ast$}]{,  }\item[{size\+\_\+t}]{ }\end{DoxyParamCaption})}
+\mbox{\Hypertarget{namespaceebml_ac97339d25d5dab88390116547e0ef400}\label{namespaceebml_ac97339d25d5dab88390116547e0ef400}} 
+\index{ebml@{ebml}!unpack$<$ timepoint\+\_\+t $>$@{unpack$<$ timepoint\+\_\+t $>$}}
+\index{unpack$<$ timepoint\+\_\+t $>$@{unpack$<$ timepoint\+\_\+t $>$}!ebml@{ebml}}
+\subsubsection{\texorpdfstring{unpack$<$ timepoint\+\_\+t $>$()}{unpack< timepoint\_t >()}\hspace{0.1cm}{\footnotesize\ttfamily [2/2]}}
+{\footnotesize\ttfamily template \mbox{\hyperlink{namespaceebml_a7e667ec3fe8b51fb5b8f9690734d8638}{timepoint\+\_\+t}} \mbox{\hyperlink{namespaceebml_a55a0f9d0c93e80d488021fd03c4f3861}{ebml\+::unpack}}$<$ \mbox{\hyperlink{namespaceebml_a7e667ec3fe8b51fb5b8f9690734d8638}{timepoint\+\_\+t}} $>$ (\begin{DoxyParamCaption}\item[{const std\+::string \&}]{ }\end{DoxyParamCaption})}
 
 \mbox{\Hypertarget{namespaceebml_a5ed4cbd5d003214f9e309b89ef17d630}\label{namespaceebml_a5ed4cbd5d003214f9e309b89ef17d630}} 
 \index{ebml@{ebml}!unpack$<$ unsigned long long $>$@{unpack$<$ unsigned long long $>$}}
 \index{unpack$<$ unsigned long long $>$@{unpack$<$ unsigned long long $>$}!ebml@{ebml}}
-\subsubsection{\texorpdfstring{unpack$<$ unsigned long long $>$()}{unpack< unsigned long long >()}\hspace{0.1cm}{\footnotesize\ttfamily [2/2]}}
+\subsubsection{\texorpdfstring{unpack$<$ unsigned long long $>$()}{unpack< unsigned long long >()}\hspace{0.1cm}{\footnotesize\ttfamily [1/2]}}
 {\footnotesize\ttfamily template unsigned long long \mbox{\hyperlink{namespaceebml_a55a0f9d0c93e80d488021fd03c4f3861}{ebml\+::unpack}}$<$ unsigned long long $>$ (\begin{DoxyParamCaption}\item[{const std\+::string \&}]{ }\end{DoxyParamCaption})}
+
+\mbox{\Hypertarget{namespaceebml_a9631ff473950f82b6cb6302b2126d277}\label{namespaceebml_a9631ff473950f82b6cb6302b2126d277}} 
+\index{ebml@{ebml}!unpack$<$ unsigned long long $>$@{unpack$<$ unsigned long long $>$}}
+\index{unpack$<$ unsigned long long $>$@{unpack$<$ unsigned long long $>$}!ebml@{ebml}}
+\subsubsection{\texorpdfstring{unpack$<$ unsigned long long $>$()}{unpack< unsigned long long >()}\hspace{0.1cm}{\footnotesize\ttfamily [2/2]}}
+{\footnotesize\ttfamily template$<$$>$ \\
+unsigned long long \mbox{\hyperlink{namespaceebml_a55a0f9d0c93e80d488021fd03c4f3861}{ebml\+::unpack}}$<$ unsigned long long $>$ (\begin{DoxyParamCaption}\item[{const char $\ast$}]{,  }\item[{size\+\_\+t}]{ }\end{DoxyParamCaption})}
 
 \mbox{\Hypertarget{namespaceebml_a7928e2829b2feaf2516b0b019b28bf65}\label{namespaceebml_a7928e2829b2feaf2516b0b019b28bf65}} 
 \index{ebml@{ebml}!unpack\+Vint@{unpack\+Vint}}
@@ -1035,6 +1132,12 @@ unsigned long long \mbox{\hyperlink{namespaceebml_a55a0f9d0c93e80d488021fd03c4f3
 \index{epoch@{epoch}!ebml@{ebml}}
 \subsubsection{\texorpdfstring{epoch}{epoch}}
 {\footnotesize\ttfamily const \mbox{\hyperlink{namespaceebml_a7e667ec3fe8b51fb5b8f9690734d8638}{timepoint\+\_\+t}} ebml\+::epoch}
+
+\mbox{\Hypertarget{namespaceebml_afdd26b7d8e8274b92f571969a325e52e}\label{namespaceebml_afdd26b7d8e8274b92f571969a325e52e}} 
+\index{ebml@{ebml}!U\+N\+K\+N\+O\+WN@{U\+N\+K\+N\+O\+WN}}
+\index{U\+N\+K\+N\+O\+WN@{U\+N\+K\+N\+O\+WN}!ebml@{ebml}}
+\subsubsection{\texorpdfstring{U\+N\+K\+N\+O\+WN}{UNKNOWN}}
+{\footnotesize\ttfamily const size\+\_\+t ebml\+::\+U\+N\+K\+N\+O\+WN}
 
 \mbox{\Hypertarget{namespaceebml_afbfd509d1cb71e416a07253746e886e9}\label{namespaceebml_afbfd509d1cb71e416a07253746e886e9}} 
 \index{ebml@{ebml}!Void@{Void}}

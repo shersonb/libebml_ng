@@ -4,12 +4,15 @@
 #include <mutex>
 #include <memory>
 #include <iostream>
+#include <sys/stat.h>
+
+#include "ptrs.h"
 
 namespace ebml {
     class ioBase {
     public:
         ioBase() : _pos(0), _mutex() {};
-        ~ioBase();
+        virtual ~ioBase();
         // Basic interface functions for file-like objects.
         size_t read(char*, size_t);
         size_t write(const char*, size_t);
@@ -23,9 +26,11 @@ namespace ebml {
         void close();
         bool closed() const;
 
+        virtual void truncate() = 0;
+        virtual void truncate(off_t) = 0;
+
+        virtual struct stat stat() = 0;
         // TODO
-        // virtual size_t truncate() = 0;
-        // virtual size_t truncate(off_t);
         // virtual bool readable() = 0;
         // virtual bool writable() = 0;
 
@@ -53,16 +58,14 @@ namespace ebml {
         std::recursive_mutex _mutex;
     };
 
-    typedef std::shared_ptr<ioBase> ioBase_sp;
+    // typedef std::shared_ptr<ioBase> ioBase_sp;
 
     template<typename T>
     class io : public ioBase {
     public:
-        io(T);
-        // io(T&);
-        // ~io();
-        static ioBase_sp wrap(T);
-        // static ioBase_sp wrap(T&);
+        io(const T&);
+
+        static ioBase_sp wrap(const T&);
         static ioBase_sp open(const std::string&, const std::ios_base::openmode&); // Static method for opening file from path, fstream-style.
         std::ios_base::openmode mode() const;
         bool seekable();
@@ -73,7 +76,11 @@ namespace ebml {
         // file descriptors.
         size_t read(char*, off_t, size_t);
         size_t write(const char*, off_t, size_t);
+        void truncate();
+        void truncate(off_t);
+        struct stat stat();
         void close();
+
     private:
         T _file;
         static T _open(const std::string&, const std::ios_base::openmode&);

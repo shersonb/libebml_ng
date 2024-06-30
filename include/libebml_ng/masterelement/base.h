@@ -1,7 +1,8 @@
 #ifndef EBML_NG_MASTERELEMENT_H
 #define EBML_NG_MASTERELEMENT_H
 
-#include "libebml_ng/base.h"
+#include "libebml_ng/elementcls.h"
+#include "libebml_ng/element.h"
 #include <unordered_map>
 #include <unordered_set>
 #include <deque>
@@ -9,41 +10,6 @@
 #include <vector>
 
 namespace ebml {
-    // Creates a shared_ptr<U> to a new T object. T must be a subclass of U.
-
-    // Used in the creation of objects in which a shared_ptr must be constructed in the constructor.
-    // In order for this to work, the constructor MUST catch all exceptions and assign an exception
-    // pointer to a reference.
-
-    // Destructors must also be written to anticipate failed construction of T objects.
-
-    // Any constructor used must be formatted as follows:
-    // T::T(Args... args, std::shared_ptr<U>& this_sp, std::exception_ptr& exc) : (initializers) {
-    //     auto ptr = std::shared_ptr<U>(this);
-    //
-    //     try {
-    //         // Place constructor code here;
-    //     } catch (...) {
-    //         ptr = nullptr;
-    //         exc = std::current_exception();
-    //         return;
-    //     }
-    //     this_sp = std::move(ptr);
-    // }
-
-    template<typename T, typename U, typename... Args>
-    std::shared_ptr<U> new_sp(Args... args) {
-        std::shared_ptr<U> sp;
-        std::exception_ptr exc;
-        new T(args..., sp, exc);
-
-        if (exc) {
-            std::rethrow_exception(exc);
-        }
-
-        return sp;
-    }
-
     // CHILD ELEMENT MANAGEMENT
 
     // Used in the initialization of a new ebmlMasterElementClass (and its c++ subclass) instances.
@@ -212,6 +178,7 @@ namespace ebml {
     // Base class for EBML Master Element Types.
 
     class ebmlMasterElementClass : public ebmlElementClass {
+        friend class ebmlMasterElement;
     protected:
         childClassSpec_t _childClasses;
 
@@ -219,12 +186,32 @@ namespace ebml {
         ebmlMasterElementClass(const char*, const std::wstring&);
         ebmlMasterElementClass(ebmlID_t, const std::wstring&);
 
+    protected:
+        ebmlElement_sp _decode(const parseString&) const override;
+        ebmlElement_sp _decode(const parseFile&) const override;
+        ebmlElement_sp _cdecode(const parseString&) const override;
+        ebmlElement_sp _cdecode(const parseFile&) const override;
+
+        // virtual void _decodeChildren(ebmlMasterElement* elem, parseString::iterator&) const;
+        virtual ebmlElement_sp _decodeChild(const parseString&) const;
+
+        // virtual void _cdecodeChildren(ebmlMasterElement* elem, parseString::iterator&) const;
+        virtual ebmlElement_sp _cdecodeChild(const parseString&) const;
+
+            // From file
+        // virtual void _scanChildren(ebmlMasterElement* elem, parseFile::iterator&) const; // Decode children from an iterParseFile instance created by _decode.
+        // void _handleSeekData(ebmlMasterElement* elem, const parseFile&) const; // Controls the handling of seek data pointing to a child element.
+        virtual ebmlElement_sp _decodeChild(const parseFile&) const;
+
+        // virtual void _cscanChildren(ebmlMasterElement* elem, parseFile::iterator&) const; // Decode children from an iterParseFile instance created by _decode.
+        // virtual void _chandleSeekData(ebmlMasterElement* elem, const parseFile&) const; // Controls the handling of seek data pointing to a child element.
+        virtual ebmlElement_sp _cdecodeChild(const parseFile&) const;
         // Abstract method inherited from ebml::ebmlElementClass
         // virtual ebmlElement_sp operator()() const = 0;
 
+    public:
         // Offers const accsss to _childClasses member.
         const childClassSpec_t& childClasses() const;
-        friend class ebmlMasterElement;
     };
 
     // Base class for EBML Master Element instances.
@@ -256,7 +243,6 @@ namespace ebml {
         // NEW in ebmlMasterElement. Protected _encode that makes use of a sizetree_t
         // to avoid redundant calls to outerSize() on all of its decendants.
         size_t _encode(char*, const sizetree_t&) const;
-
         size_t _encode(char*) const;
         // size_t _encode(char*, size_t) const;
 
@@ -269,28 +255,26 @@ namespace ebml {
     protected:
         virtual void _clear(); // Clear all children.
 
-        // Decode functions:
-            // From string
-        virtual void _decode(const parseString&);
+        // // Decode functions:
+        //     // From string
+        // virtual void _decode(const parseString&);
         virtual void _decodeChildren(parseString::iterator&);
-        virtual ebmlElement_sp _decodeChild(const parseString&);
-
-        virtual void _cdecode(const parseString&);
+        // virtual ebmlElement_sp _decodeChild(const parseString&);
+        //
+        // virtual void _cdecode(const parseString&);
         virtual void _cdecodeChildren(parseString::iterator&);
-        virtual ebmlElement_sp _cdecodeChild(const parseString&);
-
-            // From file
-        virtual void _decode(const parseFile&); // Decode from a file
+        // virtual ebmlElement_sp _cdecodeChild(const parseString&);
+        //
+        //     // From file
+        // virtual void _decode(const parseFile&); // Decode from a file
         virtual void _scanChildren(parseFile::iterator&); // Decode children from an iterParseFile instance created by _decode.
-        virtual void _handleSeekData(const parseFile&); // Controls the handling of seek data pointing to a child element.
-        // virtual void _scanChild(const parseFile&); // Implement in ebmlLazyLoadMasterElement
-        virtual ebmlElement_sp _decodeChild(const parseFile&);
-
-        virtual void _cdecode(const parseFile&); // Decode from a file
+        virtual void _handleParseFile(const parseFile&); // Controls the handling of seek data pointing to a child element.
+        // virtual ebmlElement_sp _decodeChild(const parseFile&);
+        //
+        // virtual void _cdecode(const parseFile&); // Decode from a file
         virtual void _cscanChildren(parseFile::iterator&); // Decode children from an iterParseFile instance created by _decode.
-        virtual void _chandleSeekData(const parseFile&); // Controls the handling of seek data pointing to a child element.
-        // virtual void _scanChild(const parseFile&); // Implement in ebmlLazyLoadMasterElement
-        virtual ebmlElement_sp _cdecodeChild(const parseFile&);
+        virtual void _chandleParseFile(const parseFile&); // Controls the handling of seek data pointing to a child element.
+        // virtual ebmlElement_sp _cdecodeChild(const parseFile&);
 
         // Add child element (whether decoded from string or from file)
         virtual void _addChild(const ebmlElement_sp&) = 0;
@@ -451,5 +435,7 @@ namespace ebml {
 
     typedef std::shared_ptr<ebmlMasterElement> ebmlMasterElement_sp;
     typedef std::shared_ptr<const ebmlMasterElement> c_ebmlMasterElement_sp;
+
+    EXTERN_AS_MEMBERS(ebmlMasterElementClass, ebmlMasterElement)
 }
 #endif

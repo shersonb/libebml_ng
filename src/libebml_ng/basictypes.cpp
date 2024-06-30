@@ -8,20 +8,21 @@
 #include "libebml_ng/struct/binary.h"
 #include "libebml_ng/struct/unicode.h"
 #include "libebml_ng/struct/datetime.h"
-#include "libebml_ng/template.tpp"
+#include "libebml_ng/ebmlDataElement.tpp"
+#include "libebml_ng/masterelement/ebmlPair.tpp"
+#include "libebml_ng/masterelement/ebmlMap.tpp"
 
-INST_EBML_CLS(unsigned long long, 0)
-INST_EBML_CLS(long long, 0)
-INST_EBML_CLS(double, 0.0)
-INST_EBML_CLS(std::string, "")
-INST_EBML_CLS(std::wstring, L"")
-INST_EBML_CLS(ebml::timepoint_t, ebml::epoch)
+#include "libebml_ng/ebmlElementClass.tpp"
+#include "libebml_ng/ebmlElement.tpp"
 
-INST_CONST_EBML_CLS(unsigned long long, 0)
-INST_CONST_EBML_CLS(long long, 0)
-INST_CONST_EBML_CLS(double, 0.0)
-INST_CONST_EBML_CLS(std::string, "")
-INST_CONST_EBML_CLS(std::wstring, L"")
-INST_CONST_EBML_CLS(ebml::timepoint_t, ebml::epoch)
+INST_DATAMAP_TYPE(unsigned long long, unsigned long long);
+INST_DATAMAP_TYPE(std::string, unsigned long long);
+INST_DATAMAP_TYPE(std::string, long long);
+INST_DATAMAP_TYPE(std::wstring, unsigned long long);
+INST_DATAMAP_TYPE(std::wstring, long long);
+INST_DATAMAP_TYPE(unsigned long long, std::string);
+INST_DATAMAP_TYPE(unsigned long long, std::wstring);
+INST_DATAMAP_TYPE(double, double);
+// INST_DATAMAP_TYPE(double, ebml::ebmlElement);
 
 #endif

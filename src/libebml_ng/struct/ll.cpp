@@ -38,7 +38,7 @@ namespace ebml {
 
         as_chars = (char*)&value;
 
-        if (_is_littleendian) {
+        if (std::endian::native == std::endian::little) {
             memcpy(dest, as_chars, size);
             _reverse(dest, 0, size - 1);
         } else {
@@ -68,7 +68,7 @@ namespace ebml {
             ret = 0;
         }
 
-        if (_is_littleendian) {
+        if (std::endian::native == std::endian::little) {
             memcpy(as_chars, src, size);
             _reverse(as_chars, 0, size - 1);
         } else {

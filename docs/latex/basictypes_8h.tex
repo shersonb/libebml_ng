@@ -1,7 +1,11 @@
 \hypertarget{basictypes_8h}{}\section{include/libebml\+\_\+ng/basictypes.h File Reference}
 \label{basictypes_8h}\index{include/libebml\+\_\+ng/basictypes.\+h@{include/libebml\+\_\+ng/basictypes.\+h}}
-{\ttfamily \#include \char`\"{}libebml\+\_\+ng/template.\+h\char`\"{}}\newline
+{\ttfamily \#include $<$string$>$}\newline
+{\ttfamily \#include \char`\"{}libebml\+\_\+ng/elementcls.\+h\char`\"{}}\newline
+{\ttfamily \#include \char`\"{}libebml\+\_\+ng/element.\+h\char`\"{}}\newline
+{\ttfamily \#include \char`\"{}libebml\+\_\+ng/dataelement.\+h\char`\"{}}\newline
 {\ttfamily \#include \char`\"{}libebml\+\_\+ng/struct/datetime.\+h\char`\"{}}\newline
+{\ttfamily \#include \char`\"{}libebml\+\_\+ng/masterelement/map.\+h\char`\"{}}\newline
 \subsection*{Namespaces}
 \begin{DoxyCompactItemize}
 \item 
@@ -9,8 +13,6 @@
 \end{DoxyCompactItemize}
 \subsection*{Macros}
 \begin{DoxyCompactItemize}
-\item 
-\#define \mbox{\hyperlink{basictypes_8h_a04d01fea6c31ddb4b4b90243898815f2}{D\+E\+C\+L\+\_\+\+E\+B\+M\+L\+\_\+\+C\+LS}}(T)
 \item 
 \#define \mbox{\hyperlink{basictypes_8h_a5ed837e62ab25ec444f4a263a8a84d3a}{D\+E\+C\+L\+\_\+\+E\+B\+M\+L\+\_\+\+A\+L\+I\+AS}}(T,  alias)
 \end{DoxyCompactItemize}
@@ -41,21 +43,6 @@ typedef \+::\mbox{\hyperlink{classebml_1_1ebmlDataElementClass}{ebml\+::ebml\+Da
 \item 
 typedef \+::\mbox{\hyperlink{classebml_1_1ebmlDataElement}{ebml\+::ebml\+Data\+Element}}$<$ timepoint\+\_\+t $>$ \mbox{\hyperlink{namespaceebml_a544c5c28e36511ffd20b5907e551754f}{ebml\+::ebml\+Date\+Time}}
 \end{DoxyCompactItemize}
-\subsection*{Functions}
-\begin{DoxyCompactItemize}
-\item 
-template std\+::string \& \mbox{\hyperlink{basictypes_8h_a788046c0c8a46dc9a4a09058207a0c7d}{ebml\+::data$<$ std\+::string $>$}} (const ebml\+Element\+\_\+sp \&)
-\item 
-template const std\+::string \& \mbox{\hyperlink{basictypes_8h_af6a36b3fcf97793a79307054680f8f99}{ebml\+::data$<$ std\+::string $>$}} (const c\+\_\+ebml\+Element\+\_\+sp \&)
-\item 
-template std\+::wstring \& \mbox{\hyperlink{basictypes_8h_a73482a0a9b59a94c3609ba1088763841}{ebml\+::data$<$ std\+::wstring $>$}} (const ebml\+Element\+\_\+sp \&)
-\item 
-template const std\+::wstring \& \mbox{\hyperlink{basictypes_8h_abfb55840338be40beeaa3955bc138c5f}{ebml\+::data$<$ std\+::wstring $>$}} (const c\+\_\+ebml\+Element\+\_\+sp \&)
-\item 
-template \mbox{\hyperlink{namespaceebml_a7e667ec3fe8b51fb5b8f9690734d8638}{ebml\+::timepoint\+\_\+t}} \& \mbox{\hyperlink{basictypes_8h_aa49e89a4a0b27b990b15e79b0f11f88b}{ebml\+::data$<$ ebml\+::timepoint\+\_\+t $>$}} (const ebml\+Element\+\_\+sp \&)
-\item 
-template const \mbox{\hyperlink{namespaceebml_a7e667ec3fe8b51fb5b8f9690734d8638}{ebml\+::timepoint\+\_\+t}} \& \mbox{\hyperlink{basictypes_8h_aa8f72fbfba4027da262a9912c73a301a}{ebml\+::data$<$ ebml\+::timepoint\+\_\+t $>$}} (const c\+\_\+ebml\+Element\+\_\+sp \&)
-\end{DoxyCompactItemize}
 
 
 \subsection{Macro Definition Documentation}
@@ -70,55 +57,3 @@ template const \mbox{\hyperlink{namespaceebml_a7e667ec3fe8b51fb5b8f9690734d8638}
 typedef ::ebml::ebmlDataElementClass<T> alias##Class; \(\backslash\)
     typedef ::ebml::ebmlDataElement<T> alias;
 \end{DoxyCode}
-\mbox{\Hypertarget{basictypes_8h_a04d01fea6c31ddb4b4b90243898815f2}\label{basictypes_8h_a04d01fea6c31ddb4b4b90243898815f2}} 
-\index{basictypes.\+h@{basictypes.\+h}!D\+E\+C\+L\+\_\+\+E\+B\+M\+L\+\_\+\+C\+LS@{D\+E\+C\+L\+\_\+\+E\+B\+M\+L\+\_\+\+C\+LS}}
-\index{D\+E\+C\+L\+\_\+\+E\+B\+M\+L\+\_\+\+C\+LS@{D\+E\+C\+L\+\_\+\+E\+B\+M\+L\+\_\+\+C\+LS}!basictypes.\+h@{basictypes.\+h}}
-\subsubsection{\texorpdfstring{D\+E\+C\+L\+\_\+\+E\+B\+M\+L\+\_\+\+C\+LS}{DECL\_EBML\_CLS}}
-{\footnotesize\ttfamily \#define D\+E\+C\+L\+\_\+\+E\+B\+M\+L\+\_\+\+C\+LS(\begin{DoxyParamCaption}\item[{}]{T }\end{DoxyParamCaption})}
-
-{\bfseries Value\+:}
-\begin{DoxyCode}
-\textcolor{keyword}{extern} \textcolor{keyword}{template} \textcolor{keyword}{class }\mbox{\hyperlink{classebml_1_1ebmlDataElementClass}{ebml::ebmlDataElementClass<T>}}; \(\backslash\)
-    extern \textcolor{keyword}{template} \textcolor{keyword}{class }\mbox{\hyperlink{classebml_1_1ebmlDataElement}{ebml::ebmlDataElement<T>}}; \(\backslash\)
-    extern \textcolor{keyword}{template} T& ebml::data<T>(\textcolor{keyword}{const} \mbox{\hyperlink{namespaceebml_adad533b7705a16bb360fe56380c5e7be}{ebmlElement\_sp}}&); \(\backslash\)
-    extern \textcolor{keyword}{template} \textcolor{keyword}{const} T& ebml::data<T>(\textcolor{keyword}{const} \mbox{\hyperlink{namespaceebml_a2deef4e8071531b32e3533f1bf978917}{c\_ebmlElement\_sp}}&);
-\end{DoxyCode}
-
-
-\subsection{Function Documentation}
-\mbox{\Hypertarget{basictypes_8h_aa49e89a4a0b27b990b15e79b0f11f88b}\label{basictypes_8h_aa49e89a4a0b27b990b15e79b0f11f88b}} 
-\index{basictypes.\+h@{basictypes.\+h}!ebml\+::data$<$ ebml\+::timepoint\+\_\+t $>$@{ebml\+::data$<$ ebml\+::timepoint\+\_\+t $>$}}
-\index{ebml\+::data$<$ ebml\+::timepoint\+\_\+t $>$@{ebml\+::data$<$ ebml\+::timepoint\+\_\+t $>$}!basictypes.\+h@{basictypes.\+h}}
-\subsubsection{\texorpdfstring{ebml\+::data$<$ ebml\+::timepoint\+\_\+t $>$()}{ebml::data< ebml::timepoint\_t >()}\hspace{0.1cm}{\footnotesize\ttfamily [1/2]}}
-{\footnotesize\ttfamily template \mbox{\hyperlink{namespaceebml_a7e667ec3fe8b51fb5b8f9690734d8638}{ebml\+::timepoint\+\_\+t}}\& \mbox{\hyperlink{namespaceebml_a6365629b3110a3c5d0cde94d08aac26c}{ebml\+::data}}$<$ \mbox{\hyperlink{namespaceebml_a7e667ec3fe8b51fb5b8f9690734d8638}{ebml\+::timepoint\+\_\+t}} $>$ (\begin{DoxyParamCaption}\item[{const ebml\+Element\+\_\+sp \&}]{ }\end{DoxyParamCaption})}
-
-\mbox{\Hypertarget{basictypes_8h_aa8f72fbfba4027da262a9912c73a301a}\label{basictypes_8h_aa8f72fbfba4027da262a9912c73a301a}} 
-\index{basictypes.\+h@{basictypes.\+h}!ebml\+::data$<$ ebml\+::timepoint\+\_\+t $>$@{ebml\+::data$<$ ebml\+::timepoint\+\_\+t $>$}}
-\index{ebml\+::data$<$ ebml\+::timepoint\+\_\+t $>$@{ebml\+::data$<$ ebml\+::timepoint\+\_\+t $>$}!basictypes.\+h@{basictypes.\+h}}
-\subsubsection{\texorpdfstring{ebml\+::data$<$ ebml\+::timepoint\+\_\+t $>$()}{ebml::data< ebml::timepoint\_t >()}\hspace{0.1cm}{\footnotesize\ttfamily [2/2]}}
-{\footnotesize\ttfamily template const \mbox{\hyperlink{namespaceebml_a7e667ec3fe8b51fb5b8f9690734d8638}{ebml\+::timepoint\+\_\+t}}\& \mbox{\hyperlink{namespaceebml_a6365629b3110a3c5d0cde94d08aac26c}{ebml\+::data}}$<$ \mbox{\hyperlink{namespaceebml_a7e667ec3fe8b51fb5b8f9690734d8638}{ebml\+::timepoint\+\_\+t}} $>$ (\begin{DoxyParamCaption}\item[{const c\+\_\+ebml\+Element\+\_\+sp \&}]{ }\end{DoxyParamCaption})}
-
-\mbox{\Hypertarget{basictypes_8h_af6a36b3fcf97793a79307054680f8f99}\label{basictypes_8h_af6a36b3fcf97793a79307054680f8f99}} 
-\index{basictypes.\+h@{basictypes.\+h}!ebml\+::data$<$ std\+::string $>$@{ebml\+::data$<$ std\+::string $>$}}
-\index{ebml\+::data$<$ std\+::string $>$@{ebml\+::data$<$ std\+::string $>$}!basictypes.\+h@{basictypes.\+h}}
-\subsubsection{\texorpdfstring{ebml\+::data$<$ std\+::string $>$()}{ebml::data< std::string >()}\hspace{0.1cm}{\footnotesize\ttfamily [1/2]}}
-{\footnotesize\ttfamily template const std\+::string\& \mbox{\hyperlink{namespaceebml_a6365629b3110a3c5d0cde94d08aac26c}{ebml\+::data}}$<$ std\+::string $>$ (\begin{DoxyParamCaption}\item[{const c\+\_\+ebml\+Element\+\_\+sp \&}]{ }\end{DoxyParamCaption})}
-
-\mbox{\Hypertarget{basictypes_8h_a788046c0c8a46dc9a4a09058207a0c7d}\label{basictypes_8h_a788046c0c8a46dc9a4a09058207a0c7d}} 
-\index{basictypes.\+h@{basictypes.\+h}!ebml\+::data$<$ std\+::string $>$@{ebml\+::data$<$ std\+::string $>$}}
-\index{ebml\+::data$<$ std\+::string $>$@{ebml\+::data$<$ std\+::string $>$}!basictypes.\+h@{basictypes.\+h}}
-\subsubsection{\texorpdfstring{ebml\+::data$<$ std\+::string $>$()}{ebml::data< std::string >()}\hspace{0.1cm}{\footnotesize\ttfamily [2/2]}}
-{\footnotesize\ttfamily template std\+::string\& \mbox{\hyperlink{namespaceebml_a6365629b3110a3c5d0cde94d08aac26c}{ebml\+::data}}$<$ std\+::string $>$ (\begin{DoxyParamCaption}\item[{const ebml\+Element\+\_\+sp \&}]{ }\end{DoxyParamCaption})}
-
-\mbox{\Hypertarget{basictypes_8h_a73482a0a9b59a94c3609ba1088763841}\label{basictypes_8h_a73482a0a9b59a94c3609ba1088763841}} 
-\index{basictypes.\+h@{basictypes.\+h}!ebml\+::data$<$ std\+::wstring $>$@{ebml\+::data$<$ std\+::wstring $>$}}
-\index{ebml\+::data$<$ std\+::wstring $>$@{ebml\+::data$<$ std\+::wstring $>$}!basictypes.\+h@{basictypes.\+h}}
-\subsubsection{\texorpdfstring{ebml\+::data$<$ std\+::wstring $>$()}{ebml::data< std::wstring >()}\hspace{0.1cm}{\footnotesize\ttfamily [1/2]}}
-{\footnotesize\ttfamily template std\+::wstring\& \mbox{\hyperlink{namespaceebml_a6365629b3110a3c5d0cde94d08aac26c}{ebml\+::data}}$<$ std\+::wstring $>$ (\begin{DoxyParamCaption}\item[{const ebml\+Element\+\_\+sp \&}]{ }\end{DoxyParamCaption})}
-
-\mbox{\Hypertarget{basictypes_8h_abfb55840338be40beeaa3955bc138c5f}\label{basictypes_8h_abfb55840338be40beeaa3955bc138c5f}} 
-\index{basictypes.\+h@{basictypes.\+h}!ebml\+::data$<$ std\+::wstring $>$@{ebml\+::data$<$ std\+::wstring $>$}}
-\index{ebml\+::data$<$ std\+::wstring $>$@{ebml\+::data$<$ std\+::wstring $>$}!basictypes.\+h@{basictypes.\+h}}
-\subsubsection{\texorpdfstring{ebml\+::data$<$ std\+::wstring $>$()}{ebml::data< std::wstring >()}\hspace{0.1cm}{\footnotesize\ttfamily [2/2]}}
-{\footnotesize\ttfamily template const std\+::wstring\& \mbox{\hyperlink{namespaceebml_a6365629b3110a3c5d0cde94d08aac26c}{ebml\+::data}}$<$ std\+::wstring $>$ (\begin{DoxyParamCaption}\item[{const c\+\_\+ebml\+Element\+\_\+sp \&}]{ }\end{DoxyParamCaption})}
-

@@ -110,6 +110,10 @@ Public Member Functions</h2></td></tr>
 <tr class="separator:a802fbbe754413842f45251daa8294965"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a9dea7dea0e8d87a537e652e7f40128e9"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classebml_1_1ioBase.html#a9dea7dea0e8d87a537e652e7f40128e9">closed</a> () const</td></tr>
 <tr class="separator:a9dea7dea0e8d87a537e652e7f40128e9"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a4cd6d91c2bb18a21c0fec425432b58c3"><td class="memItemLeft" align="right" valign="top">virtual void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classebml_1_1ioBase.html#a4cd6d91c2bb18a21c0fec425432b58c3">truncate</a> ()=0</td></tr>
+<tr class="separator:a4cd6d91c2bb18a21c0fec425432b58c3"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ae1a40372ba926becab957ae0b054492e"><td class="memItemLeft" align="right" valign="top">virtual void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classebml_1_1ioBase.html#ae1a40372ba926becab957ae0b054492e">truncate</a> (off_t)=0</td></tr>
+<tr class="separator:ae1a40372ba926becab957ae0b054492e"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a8414aaadabbfdc746e810527bc76a93d"><td class="memItemLeft" align="right" valign="top">std::unique_lock&lt; std::recursive_mutex &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classebml_1_1ioBase.html#a8414aaadabbfdc746e810527bc76a93d">acquireLock</a> ()</td></tr>
 <tr class="separator:a8414aaadabbfdc746e810527bc76a93d"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
@@ -593,6 +597,61 @@ Protected Attributes</h2></td></tr>
         </tr>
       </table>
 </div><div class="memdoc">
+
+</div>
+</div>
+<a id="a4cd6d91c2bb18a21c0fec425432b58c3"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a4cd6d91c2bb18a21c0fec425432b58c3">&#9670;&nbsp;</a></span>truncate() <span class="overload">[1/2]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">virtual void ebml::ioBase::truncate </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">pure virtual</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Implemented in <a class="el" href="classebml_1_1io.html#a6a5c0f2182844094c6b4432a15adccc8">ebml::io&lt; T &gt;</a>.</p>
+
+</div>
+</div>
+<a id="ae1a40372ba926becab957ae0b054492e"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ae1a40372ba926becab957ae0b054492e">&#9670;&nbsp;</a></span>truncate() <span class="overload">[2/2]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">virtual void ebml::ioBase::truncate </td>
+          <td>(</td>
+          <td class="paramtype">off_t&#160;</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">pure virtual</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Implemented in <a class="el" href="classebml_1_1io.html#a9a50a99136e7e9a4a404dc3087024a7f">ebml::io&lt; T &gt;</a>.</p>
 
 </div>
 </div>

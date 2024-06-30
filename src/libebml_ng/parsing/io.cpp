@@ -6,6 +6,11 @@
 #include "libebml_ng/parsing/io.h"
 #include "libebml_ng/vint.h"
 #include "libebml_ng/exceptions.h"
+#include "libebml_ng/struct/ull.h"
+#include "libebml_ng/struct/ll.h"
+#include "libebml_ng/struct/double.h"
+#include "libebml_ng/struct/binary.h"
+#include "libebml_ng/struct/unicode.h"
 
 namespace ebml {
     size_t parseFile::outerSize() const {
@@ -13,7 +18,7 @@ namespace ebml {
     }
 
     void _parseFile(
-            ioBase* file,
+            ioBase& file,
             ebmlID_t& ebmlID, unsigned char& ebmlIDWidth, size_t& dataSize, unsigned char& sizeWidth) {
         ebmlID = unpackVint(file, ebmlIDWidth);
 
@@ -26,21 +31,18 @@ namespace ebml {
         dataSize = unpackVint(file, sizeWidth);
 
         if (sizeWidth == 0) {
-            throw ebmlUnexpectedEndOfData("Unexpected end of data.", nullptr, file->tell() - ebmlIDWidth, 0, ebmlIDWidth);
+            throw ebmlUnexpectedEndOfData("Unexpected end of data.", nullptr, file.tell() - ebmlIDWidth, 0, ebmlIDWidth);
         }
     }
 
-    parseFile::parseFile(ioBase_sp& file) : parseFile(file.get()) {}
+    // parseFile::parseFile(const ioBase_sp& file) : parseFile(*file) {}
 
-    parseFile::parseFile(ioBase* file) {
-        this->_file = file;
-        this->offset = file->tell();
-
-        _parseFile(file, this->ebmlID, this->ebmlIDWidth, this->dataSize, this->sizeWidth);
+    parseFile::parseFile(ioBase& file) : offset(file.tell()), _file(&file) {
+        _parseFile(file, ebmlID, ebmlIDWidth, dataSize, sizeWidth);
     }
 
     void _parseFile(
-            ioBase* file, off_t offset,
+            ioBase& file, off_t offset,
             ebmlID_t& ebmlID, unsigned char& ebmlIDWidth, size_t& dataSize, unsigned char& sizeWidth) {
 
         ebmlID = unpackVint(file, offset, ebmlIDWidth);
@@ -58,47 +60,32 @@ namespace ebml {
         }
     }
 
-    parseFile::parseFile(ioBase_sp& file, off_t _offset) : parseFile(file.get(), _offset) {}
+    // parseFile::parseFile(const ioBase_sp& file, off_t _offset) : parseFile(*file, _offset) {}
 
-    parseFile::parseFile(ioBase* file, off_t _offset) {
-        this->_file = file;
-        this->offset = _offset;
-        _parseFile(file, _offset, this->ebmlID, this->ebmlIDWidth, this->dataSize, this->sizeWidth);
+    parseFile::parseFile(ioBase& file, off_t offset) : offset(offset), _file(&file) {
+        _parseFile(file, offset, ebmlID, ebmlIDWidth, dataSize, sizeWidth);
     }
 
-    parseFile::parseFile(ioBase* file, parseFile& _parent) : parseFile(file) {
-        this->parent = &_parent;
+    parseFile::parseFile(ioBase& file, parseFile& parent) : offset(0), parent(&parent), _file(&file) {
+        _parseFile(file, offset, ebmlID, ebmlIDWidth, dataSize, sizeWidth);
     }
 
-    parseFile::parseFile(ioBase_sp& file, parseFile& _parent) : parseFile(file) {
-        this->parent = &_parent;
+    // parseFile::parseFile(const ioBase_sp& file, parseFile& parent) : parseFile(*file, parent) {}
+
+    parseFile::parseFile(ioBase& file, off_t offset, parseFile& parent) : offset(offset), parent(&parent), _file(&file) {
+        _parseFile(file, offset, ebmlID, ebmlIDWidth, dataSize, sizeWidth);
     }
 
-    parseFile::parseFile(ioBase* file, off_t _offset, parseFile& _parent) : parseFile(file, _offset) {
-        this->parent = &_parent;
-    }
-
-    parseFile::parseFile(ioBase_sp& file, off_t _offset, parseFile& _parent) : parseFile(file, _offset) {
-        this->parent = &_parent;
-    }
+    // parseFile::parseFile(const ioBase_sp& file, off_t offset, parseFile& parent) : parseFile(*file, offset, parent) {}
 
     parseFile::parseFile(
-            ioBase* file, ebmlID_t _ebmlID, unsigned char _ebmlIDWidth, size_t _dataSize,
-            unsigned char _sizeWidth, off_t _offset) {
-        this->_file = file;
-        this->ebmlID = _ebmlID;
-        this->ebmlIDWidth = _ebmlIDWidth;
-        this->dataSize = _dataSize;
-        this->sizeWidth = _sizeWidth;
-        this->offset = _offset;
-    }
+            ioBase* file, ebmlID_t ebmlID, unsigned char ebmlIDWidth, size_t dataSize, unsigned char sizeWidth, off_t offset)
+    : ebmlID(ebmlID), ebmlIDWidth(ebmlIDWidth), dataSize(dataSize), sizeWidth(sizeWidth), offset(offset), _file(file) {}
 
     parseFile::parseFile(
-            ioBase* file, ebmlID_t _ebmlID, unsigned char _ebmlIDWidth, size_t _dataSize,
-            unsigned char _sizeWidth, off_t _offset, parseFile& _parent) :
-        parseFile(file, _ebmlID, _ebmlIDWidth, _dataSize, _sizeWidth, _offset) {
-            this->parent = &(_parent);
-        }
+            ioBase* file, ebmlID_t ebmlID, unsigned char ebmlIDWidth, size_t dataSize,
+            unsigned char sizeWidth, off_t offset, parseFile& parent)
+    : ebmlID(ebmlID), ebmlIDWidth(ebmlIDWidth), dataSize(dataSize), sizeWidth(sizeWidth), offset(offset), parent(&parent), _file(file) {}
 
     off_t parseFile::seek(off_t offset) const {
         if (offset < 0) {
@@ -172,7 +159,7 @@ namespace ebml {
         return this->offset + this->ebmlIDWidth + this->sizeWidth + this->dataSize;
     }
 
-    parseFile::iterator::iterator(ioBase_sp& file, off_t endoffset) : iterator(file.get(), endoffset) {}
+    // parseFile::iterator::iterator(ioBase_sp& file, off_t endoffset) : iterator(file.get(), endoffset) {}
 
     parseFile::iterator::iterator(ioBase* file, off_t endoffset) {
         this->_file = file;
@@ -180,19 +167,19 @@ namespace ebml {
         this->_endoffset = endoffset;
     }
 
-    parseFile::iterator::iterator(ioBase_sp& file) : iterator(file, 0xffffffffffffffff) {}
+    // parseFile::iterator::iterator(ioBase_sp& file) : iterator(file, 0xffffffffffffffff) {}
 
     parseFile::iterator::iterator(ioBase* file) : iterator(file, 0xffffffffffffffff) {}
 
-    parseFile::iterator::iterator(ioBase_sp& file, off_t endoffset, parseFile& parent) : iterator(file, endoffset) {
-        this->_parent = &parent;
-    }
+    // parseFile::iterator::iterator(ioBase_sp& file, off_t endoffset, parseFile& parent) : iterator(file, endoffset) {
+    //     this->_parent = &parent;
+    // }
 
     parseFile::iterator::iterator(ioBase* file, off_t endoffset, parseFile& parent) : iterator(file, endoffset) {
         this->_parent = &parent;
     }
 
-    parseFile::iterator::iterator(ioBase_sp& file, off_t startoffset, off_t endoffset) : iterator(file.get(), startoffset, endoffset) {}
+    // parseFile::iterator::iterator(ioBase_sp& file, off_t startoffset, off_t endoffset) : iterator(file.get(), startoffset, endoffset) {}
 
     parseFile::iterator::iterator(ioBase* file, off_t startoffset, off_t endoffset) {
         this->_file = file;
@@ -200,49 +187,52 @@ namespace ebml {
         this->_endoffset = endoffset;
     }
 
-    parseFile::iterator::iterator(ioBase_sp& file, off_t startoffset, off_t endoffset, parseFile& parent) : iterator(file, startoffset, endoffset) {
-        this->_parent = &parent;
-    }
+    // parseFile::iterator::iterator(ioBase_sp& file, off_t startoffset, off_t endoffset, parseFile& parent) : iterator(file, startoffset, endoffset) {
+    //     this->_parent = &parent;
+    // }
 
     parseFile parseFile::iterator::operator*() {
         if ((this->_endoffset >= 0) and (this->_offset >= this->_endoffset)) {
             throw stopIteration();
         }
         if (this->_ebmlIDWidth == 0) {
-            _parseFile(this->_file, this->_offset, this->_ebmlID, this->_ebmlIDWidth, this->_dataSize, this->_sizeWidth);
+            _parseFile(*_file, this->_offset, this->_ebmlID, this->_ebmlIDWidth, this->_dataSize, this->_sizeWidth);
 
-            return parseFile(
+            auto result = parseFile(
                 this->_file, this->_ebmlID, this->_ebmlIDWidth, this->_dataSize, this->_sizeWidth,
                 this->_offset, *this->_parent);
+            result.parentOffset = this->_startoffset;
+            return result;
         } else {
-            parseFile ret = parseFile(this->_file, this->_offset, *this->_parent);
+            parseFile result = parseFile(*_file, _offset, *_parent);
 
-            if ((this->_endoffset >= 0) and (ret.endOffset() > this->_endoffset)) {
+            if ((this->_endoffset >= 0) and (result.endOffset() > this->_endoffset)) {
                 // throw ebmlBoundError("Data extends past end of parent.", -1, this->_startoffset, this->_endoffset, ret.offset, ret.endOffset());
-                throw ebmlDecodeError("Data extends past end of parent.", nullptr, ret.offset, ret.ebmlIDWidth + ret.sizeWidth, ret.endOffset());
+                throw ebmlDecodeError("Data extends past end of parent.", nullptr, result.offset, result.ebmlIDWidth + result.sizeWidth, result.endOffset());
             }
 
-            this->_ebmlID = ret.ebmlID;
-            this->_ebmlIDWidth = ret.ebmlIDWidth;
-            this->_dataSize = ret.dataSize;
-            this->_sizeWidth = ret.sizeWidth;
-            return ret;
+            this->_ebmlID = result.ebmlID;
+            this->_ebmlIDWidth = result.ebmlIDWidth;
+            this->_dataSize = result.dataSize;
+            this->_sizeWidth = result.sizeWidth;
+            result.parentOffset = this->_startoffset;
+            return result;
         }
     }
 
     parseFile::iterator& parseFile::iterator::operator++() {
-        if ((this->_endoffset >= 0) and (this->_offset >= this->_endoffset)) {
+        if ((_endoffset >= 0) and (_offset >= _endoffset)) {
             throw stopIteration();
         }
 
-        if (this->_ebmlIDWidth == 0) {
-            _parseFile(this->_file, this->_offset, this->_ebmlID, this->_ebmlIDWidth, this->_dataSize, this->_sizeWidth);
+        if (_ebmlIDWidth == 0) {
+            _parseFile(*_file, _offset, _ebmlID, _ebmlIDWidth, _dataSize, _sizeWidth);
         }
 
-        this->_offset += this->_ebmlIDWidth + this->_sizeWidth + this->_dataSize;
-        this->_ebmlIDWidth = 0;
+        _offset += _ebmlIDWidth + _sizeWidth + _dataSize;
+        _ebmlIDWidth = 0;
 
-        if ((this->_endoffset >= 0) and (this->_offset > this->_endoffset)) {
+        if ((_endoffset >= 0) and (_offset > _endoffset)) {
             throw ebmlException("ebmlBoundError");
         }
 
@@ -250,16 +240,22 @@ namespace ebml {
     }
 
     bool parseFile::iterator::atEnd() {
-        if (this->_endoffset >= 0) {
-            return (this->_offset >= this->_endoffset);
+        if (_endoffset >= 0) {
+            return (_offset >= _endoffset);
         }
 
-        if (this->_ebmlIDWidth > 0) {
+        if (_ebmlIDWidth > 0) {
             return false;
         }
 
-        _parseFile(this->_file, this->_offset, this->_ebmlID, this->_ebmlIDWidth, this->_dataSize, this->_sizeWidth);
-        return this->_ebmlIDWidth == 0;
+        _parseFile(*_file, _offset, _ebmlID, _ebmlIDWidth, _dataSize, _sizeWidth);
+        return _ebmlIDWidth == 0;
     }
+
+    template unsigned long long parseFile::unpack<unsigned long long>() const;
+    template long long parseFile::unpack<long long>() const;
+    template double parseFile::unpack<double>() const;
+    template std::string parseFile::unpack<std::string>() const;
+    template std::wstring parseFile::unpack<std::wstring>() const;
 }
 #endif

@@ -21,16 +21,16 @@ namespace ebml {
     // extern template class ebmlDataElementClass<double>;
     // extern template class ebmlDataElementClass<std::string>;
     // extern template class ebmlDataElementClass<std::wstring>;
-    extern template class ebmlMapClass<unsigned long long>;
-    extern template class ebmlMapClass<long long>;
 
     // extern template class ebmlDataElement<unsigned long long>;
     // extern template class ebmlDataElement<long long>;
     // extern template class ebmlDataElement<double>;
     // extern template class ebmlDataElement<std::string>;
     // extern template class ebmlDataElement<std::wstring>;
-    extern template class ebmlMap<unsigned long long>;
-    extern template class ebmlMap<long long>;
+    // extern template class ebmlMapClass<unsigned long long>;
+    // extern template class ebmlMapClass<long long>;
+    // extern template class ebmlMap<unsigned long long>;
+    // extern template class ebmlMap<long long>;
 
     // typedef ebmlDataElementClass<unsigned long long> ebmlUnsignedIntegerClass;
     // typedef ebmlDataElementClass<long long> ebmlSignedIntegerClass;
