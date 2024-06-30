@@ -47,13 +47,13 @@ namespace ebml {
     //     _occurspec(other._occurspec) {}
 
     void childClassSpec_t::add(ebml::childClassSpecArg_t const& spec) {
-        if (this->_cls_by_ebmlID.count(spec.cls->ebmlID)) {
+        if (_cls_by_ebmlID.count(spec.cls->ebmlID)) {
             throw ebmlException("Cannot specify multiple ebml::ebmlElementClass* instances managing the same ebmlID.");
         }
 
-        this->_cls_by_ebmlID[spec.cls->ebmlID] = spec.cls;
-        this->_clss.insert(spec.cls);
-        this->_occurspec[spec.cls->ebmlID] = {spec.min, spec.max};
+        _cls_by_ebmlID[spec.cls->ebmlID] = spec.cls;
+        _clss.insert(spec.cls);
+        _occurspec[spec.cls->ebmlID] = {spec.min, spec.max};
     }
 
     const occurSpec_d& childClassSpec_t::occurSpec() const {
@@ -96,6 +96,26 @@ namespace ebml {
 
     ebmlElementClass_d::const_iterator childClassSpec_t::end() const {
         return this->_cls_by_ebmlID.cend();
+    }
+
+    childClassSpec_t& childClassSpec_t::operator=(childClassSpecArg_init_l items) {
+        _clear();
+
+        for (const auto& item : items) {
+            this->add(item);
+        }
+
+        return *this;
+    }
+
+    childClassSpec_t& childClassSpec_t::operator=(const childClassSpecArg_l& items) {
+        _clear();
+
+        for (const auto& item : items) {
+            this->add(item);
+        }
+
+        return *this;
     }
 }
 #endif
