@@ -34,7 +34,7 @@ namespace ebml {
 
         template<typename T>
         ebml::ptr<T> root() const {
-            return std::dynamic_pointer_cast<T>(this->_root);
+            return ebml_dynamic_pointer_cast<T>(this->_root);
         }
 
         const ebmlElement_sp& head() const;

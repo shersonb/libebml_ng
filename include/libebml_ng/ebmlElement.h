@@ -262,6 +262,50 @@ namespace ebml {
         auto ptr = ebml_static_pointer_cast<const ebmlElement>(this->_self);
         return ebml_dynamic_pointer_cast<T>(std::move(ptr));
     }
+
+    inline off_t ebmlElement::offsetInParent() const {
+        return _offsetInParent;
+    }
+
+    inline void ebmlElement::_validate() {
+        auto lock = std::unique_lock(_self.mutex);
+
+        if (_self.ctl == nullptr) {
+            _self.ctl = new control_block;
+            _self.ctl->weakcount = 1;
+            _self.ptr = this;
+        }
+
+        _self.ctl->valid = true;
+    }
+
+    inline size_t ebmlElement::encode(char* dest) const {
+        size_t dataSize = this->dataSize();
+        return ebmlElement::encode(dest, dataSize);
+    }
+
+    inline std::string ebmlElement::encode() const {
+        std::string result;
+        size_t dataSize = this->dataSize();
+        result.resize(dataSize+16);
+        size_t outerSize = this->encode(&result[0], dataSize);
+        result.resize(outerSize);
+        return result;
+    }
+
+    inline size_t ebmlElement::encode(ioBase& dest) const {
+        size_t _dataSize = dataSize();
+        auto buffer = std::make_unique<char[]>(_dataSize + 16);
+        auto outerSize = encode(buffer.get(), _dataSize);
+        return dest.write(buffer.get(), outerSize);
+    }
+
+    inline size_t ebmlElement::encode(ioBase& dest, off_t offset) const {
+        size_t _dataSize = dataSize();
+        auto buffer = std::make_unique<char[]>(_dataSize + 16);
+        auto outerSize = encode(buffer.get(), _dataSize);
+        return dest.write(buffer.get(), offset, outerSize);
+    }
 }
 
 #endif

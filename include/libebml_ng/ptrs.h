@@ -227,6 +227,7 @@ namespace ebml {
             using l = std::unique_lock<std::mutex>;
             using p = std::pair<l, l>;
             p lockpair = (&mutex < &other.mutex) ? p({l(mutex), l(other.mutex)}) : p({l(other.mutex), l(mutex)});
+            std::cout << "F " << (other.ctl == nullptr) << " " << (other.ptr == nullptr) << std::endl;
 
             if (other.ctl == ctl) {
                 return *this;
@@ -238,9 +239,10 @@ namespace ebml {
                 }
             }
 
-            if (other.ctl != nullptr) {
-                this->ctl = other.ctl;
-                this->ptr = other.ptr;
+            ctl = other.ctl;
+            ptr = other.ptr;
+
+            if (ctl != nullptr) {
                 _incref(*ctl);
             }
 
@@ -272,10 +274,8 @@ namespace ebml {
                 }
             }
 
-            if (other.ctl != nullptr) {
-                this->ctl = std::exchange(other.ctl, nullptr);
-                this->ptr = std::exchange(other.ptr, nullptr);
-            }
+            ctl = std::exchange(other.ctl, nullptr);
+            ptr = std::exchange(other.ptr, nullptr);
 
             return *this;
         }
@@ -339,10 +339,16 @@ namespace ebml {
 
             if (other.ctl != nullptr) {
                 if (auto recast = dynamic_cast<T*>(other.ptr)) {
-                    this->ctl = other.ctl;
-                    this->ptr = recast;
+                    ctl = other.ctl;
+                    ptr = recast;
                     _incref(*ctl);
+                } else {
+                    ctl = nullptr;
+                    ptr = nullptr;
                 }
+            } else {
+                ctl = nullptr;
+                ptr = nullptr;
             }
 
             return *this;
