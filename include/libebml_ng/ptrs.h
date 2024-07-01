@@ -227,7 +227,6 @@ namespace ebml {
             using l = std::unique_lock<std::mutex>;
             using p = std::pair<l, l>;
             p lockpair = (&mutex < &other.mutex) ? p({l(mutex), l(other.mutex)}) : p({l(other.mutex), l(mutex)});
-            std::cout << "F " << (other.ctl == nullptr) << " " << (other.ptr == nullptr) << std::endl;
 
             if (other.ctl == ctl) {
                 return *this;

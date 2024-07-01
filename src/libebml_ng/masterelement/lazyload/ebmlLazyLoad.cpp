@@ -106,7 +106,6 @@ namespace ebml {
     }
 
     ioBase& ebmlLazyLoad::file() const {
-        std::cout << "document(" << pack(repr()) << ")" << std::endl;
         auto doc = document();
 
         if (doc != nullptr) {
@@ -226,7 +225,6 @@ namespace ebml {
     }
 
     writeLock_t ebmlLazyLoad::getWLock() const {
-        std::cout << "* " << pack(repr()) << std::endl;
         std::vector<std::shared_lock<std::shared_mutex>> rlocks;
 
         const ebmlLazyLoad* child = this;
@@ -237,10 +235,6 @@ namespace ebml {
             {
                 auto lock = std::shared_lock<std::shared_mutex>(parent._mutex);
 
-                std::cout << "---" << std::endl;
-                std::cout << pack(recast->repr()) << std::endl;
-                std::cout << pack(child->repr()) << std::endl;
-                std::cout << pack(child->c_parent()->repr()) << std::endl;
                 if (child->c_parent().get() != recast) {
                     throw std::runtime_error("Child orphaned while attempting to acquire lock");
                 }
@@ -250,8 +244,6 @@ namespace ebml {
 
             child = recast;
             parent_p = parent.c_parent();
-            std::cout << "A" << (parent.c_parent() == nullptr) << std::endl;
-            std::cout << "B" << (parent_p == nullptr) << std::endl;
 
             if (parent_p == nullptr) {
                 break;
@@ -613,41 +605,20 @@ namespace ebml {
         return seekData;
     }
 
-    // Insert from const char*
+    // Insert from std::string
 
-    status_t<prepared_insert_t> ebmlLazyLoad::canInsert(off_t offset, const char* data, const writeLock_t& lock) {
-        _verifyLock(lock);
-        return _canInsert(offset, data);
-    }
+    status_t<prepared_insert_t> ebmlLazyLoad::_canInsert(off_t offset, const std::string& data) {
+        auto parsed = parseString(data.data(), data.size());
 
-    status_t<prepared_insert_t> ebmlLazyLoad::_canInsert(off_t offset, const char* data) {
-        auto parsed = parseString(data, UNKNOWN);
+        if (parsed.outerSize() < data.size()) {
+            throw ebmlDataContinues("_canInsert(): Data continues past expected end.", 0);
+        }
+
         auto sizetree = sizetree_t(parsed.ebmlIDWidth, parsed.sizeWidth, parsed.dataSize);
         return _canInsert(offset, std::move(sizetree));
     }
 
-    seekData_t* ebmlLazyLoad::insert(off_t offset, const char* data) {
-        auto lock = getWLock();
-        auto prepared = _canInsert(offset, data);
-        return _insert(offset, data, prepared);
-    }
-
-    seekData_t* ebmlLazyLoad::insert(off_t offset, const char* data, const readLock_t& lock) {
-        auto _lock = getWLock(lock);
-        auto prepared = _canInsert(offset, data);
-        return _insert(offset, data, prepared);
-    }
-
-    seekData_t* ebmlLazyLoad::insert(off_t offset, const char* data, const writeLock_t& lock) {
-        _verifyLock(lock);
-        auto prepared = _canInsert(offset, data);
-        return _insert(offset, data, prepared);
-    }
-
-    seekData_t* ebmlLazyLoad::insert(off_t offset, const char* data, const writeLock_t& lock, const status_t<prepared_insert_t>& status) {
-        _verifyLock(lock);
-        return _insert(offset, data, status );
-    }
+    // Insert from const char*
 
     seekData_t* ebmlLazyLoad::_insert(off_t offset, const char* data, const status_t<prepared_insert_t>& status) {
         if (!status) {

@@ -19,8 +19,9 @@
 #include "prepared_fallocate_t.h"
 #include "locks.h"
 #include "../../ebmlVoid.h"
+#include "../../repr.h"
 
-#define EN_IF_INST(T, R) std::enable_if_t<std::is_base_of<ebmlElement, std::decay_t<T>>::value, R>
+#define EN_IF_INST(T, R) std::enable_if_t<!std::is_same<ebmlElement, T>::value && std::is_base_of<ebmlElement, std::decay_t<T>>::value, R>
 #define EN_IF_CLS(T, R) std::enable_if_t<std::is_base_of<ebmlElementClass, std::decay_t<T>>::value, R>
 #define EN_IFN_INST(T, R) std::enable_if_t<!std::is_base_of<ebmlElement, std::decay_t<T>>::value, R>
 #define EN_IFN_CLS(T, R) std::enable_if_t<!std::is_base_of<ebmlElementClass, std::decay_t<T>>::value, R>
@@ -45,31 +46,6 @@ namespace ebml {
         ebmlLazyLoadClass(const char*, const std::wstring&, const childClassSpecArg_l&, const seekHelper_t*, const childElemHelper_t*);
         ebmlLazyLoadClass(ebmlID_t, const std::wstring&, const childClassSpecArg_l&, const seekHelper_t*, const childElemHelper_t*);
 
-    protected:
-        // // Read existing element in file
-        // ebmlLazyLoad_sp operator()(ioBase*) const;
-        // ebmlLazyLoad_sp operator()(ioBase*, off_t) const;
-        //
-        // // Create new element in file
-        // ebmlLazyLoad_sp operator()(ioBase*, vintWidth_t, size_t) const;
-        // ebmlLazyLoad_sp operator()(ioBase*, off_t, vintWidth_t, size_t) const;
-        // // ebmlLazyLoad_sp operator()(ioBase*, vintWidth_t, size_t, const ebmlElement_l&) const;
-        // ebmlLazyLoad_sp operator()(ioBase*, off_t, vintWidth_t, size_t, const ebmlElement_l&) const;
-        //
-        // ebmlLazyLoad_sp operator()(ebmlLazyLoad*, off_t, vintWidth_t, size_t) const;
-        // // ebmlLazyLoad_sp operator()(ebmlLazyLoad*, vintWidth_t, size_t, const ebmlElement_l&) const;
-        // ebmlLazyLoad_sp operator()(ebmlLazyLoad*, off_t, vintWidth_t, size_t, const ebmlElement_l&) const;
-        //
-        // ebmlElement* _new() const override;
-        // ebmlElement_sp _decode(const parseFile&) const override;
-        // ebmlElement_sp _cdecode(const parseFile&) const override;
-
-    public:
-
-        // Create new element in parent element
-        // ebmlElement_sp operator()(const ebmlElement_sp&, vintWidth_t, size_t) const;
-        // ebmlElement_sp operator()(ebmlElement_sp&&, vintWidth_t, size_t) const;
-        // ebmlElement_sp operator()(ebmlElement_sp&&, off_t, vintWidth_t, size_t) const;
         friend class ebmlSchema;
         friend class ebmlLazyLoad;
     };
@@ -280,19 +256,19 @@ namespace ebml {
 
     private:
         status_t<prepared_insert_t> _canInsert(off_t, const std::string&);
-        seekData_t* _insert(off_t, const std::string&, const status_t<prepared_insert_t>&);
+        inline seekData_t* _insert(off_t, const std::string&, const status_t<prepared_insert_t>&);
 
         // Insert data from const char* (WARNING: The only validation check is to check the ebmlID and data size. Use responsibly!)
     public:
-        status_t<prepared_insert_t> canInsert(off_t, const char*, const writeLock_t&);
+        inline status_t<prepared_insert_t> canInsert(off_t, const char*, const writeLock_t&);
 
-        seekData_t* insert(off_t, const char* data);
-        seekData_t* insert(off_t, const char* data, const readLock_t&);
-        seekData_t* insert(off_t, const char* data, const writeLock_t&);
-        seekData_t* insert(off_t, const char* data, const writeLock_t&, const status_t<prepared_insert_t>&);
+        inline seekData_t* insert(off_t, const char* data);
+        inline seekData_t* insert(off_t, const char* data, const readLock_t&);
+        inline seekData_t* insert(off_t, const char* data, const writeLock_t&);
+        inline seekData_t* insert(off_t, const char* data, const writeLock_t&, const status_t<prepared_insert_t>&);
 
     private:
-        status_t<prepared_insert_t> _canInsert(off_t, const char*);
+        inline status_t<prepared_insert_t> _canInsert(off_t, const char*);
         seekData_t* _insert(off_t, const char* data, const status_t<prepared_insert_t>&);
 
     public:
@@ -530,7 +506,6 @@ namespace ebml {
         return ebml_dynamic_pointer_cast<T>(_get(offset));
     }
 
-
     inline ebml::ptr<ebmlElement> ebmlLazyLoad::get(ebmlID_t ebmlID, size_t index) {
         auto lock = getRLock();
         return _get(ebmlID, index);
@@ -561,6 +536,25 @@ namespace ebml {
         return _cget(offset);
     }
 
+    template<typename T> inline ebml::ptr<T> ebmlLazyLoad::cget(off_t offset) const {
+        auto lock = getRLock();
+        return _cget<T>(offset);
+    }
+
+    template<typename T> inline ebml::ptr<T> ebmlLazyLoad::cget(off_t offset, const readLock_t& lock) const {
+        auto newlocks = getRLock(lock);
+        return _cget<T>(offset);
+    }
+
+    template<typename T> inline ebml::ptr<T> ebmlLazyLoad::cget(off_t offset, const writeLock_t& lock) const {
+        _verifyLock(lock);
+        return _cget<T>(offset);
+    }
+
+    template<typename T> inline ebml::ptr<T> ebmlLazyLoad::_cget(off_t offset) const {
+        return ebml_dynamic_pointer_cast<T>(_cget(offset));
+    }
+
     inline ebml::ptr<const ebmlElement> ebmlLazyLoad::cget(ebmlID_t ebmlID, size_t index) const {
         auto lock = getRLock();
         return _cget(ebmlID, index);
@@ -574,6 +568,60 @@ namespace ebml {
     inline ebml::ptr<const ebmlElement> ebmlLazyLoad::cget(ebmlID_t ebmlID, size_t index, const writeLock_t& lock) const {
         _verifyLock(lock);
         return _cget(ebmlID, index);
+    }
+
+    template<typename K, typename H, typename E>
+    inline EN_IFN_INST(K, ebml::ptr<ebmlElement>) ebmlLazyLoad::getByKey(ebmlID_t ebmlID, const K& key) {
+        auto lock = getRLock();
+        return _getByKey<K, H, E>(ebmlID, key);
+    }
+
+    template<typename K, typename H, typename E>
+    inline EN_IFN_INST(K, ebml::ptr<ebmlElement>) ebmlLazyLoad::getByKey(ebmlID_t ebmlID, const K& key, const readLock_t& rlock) {
+        auto lock = getRLock(rlock);
+        return _getByKey<K, H, E>(ebmlID, key);
+    }
+
+    template<typename K, typename H, typename E>
+    inline EN_IFN_INST(K, ebml::ptr<ebmlElement>) ebmlLazyLoad::getByKey(ebmlID_t ebmlID, const K& key, const writeLock_t& wlock) {
+        _verifyLock(wlock);
+        return _getByKey<K, H, E>(ebmlID, key);
+    }
+
+    template<typename K, typename H, typename E>
+    EN_IFN_INST(K, ebml::ptr<ebmlElement>) ebmlLazyLoad::_getByKey(ebmlID_t ebmlID, const K& key) {
+        if (this->_children_by_key.count(ebmlID) == 0) {
+            std::string errmsg = "element not found with ebmlID ";
+            errmsg += std::to_string(ebmlID);
+            errmsg += " and key ";
+            errmsg += pack(ebml::repr(key));
+            throw ebmlDecodeError(errmsg, DECODE_ERR_DEFAULT, -1);
+        }
+
+        auto& seekmap = this->_children_by_key.at(ebmlID)->withKeyType<K, H, E>();
+
+        if (seekmap.count(key) == 0) {
+            std::string errmsg = "element not found with ebmlID ";
+            errmsg += std::to_string(ebmlID);
+            errmsg += " and key ";
+            errmsg += pack(ebml::repr(key));
+            throw ebmlDecodeError(errmsg, DECODE_ERR_DEFAULT, -1);
+        }
+
+        auto seekData = seekmap.at(key);
+
+        return seekData->get();
+    }
+
+    template<typename T, typename K, typename H, typename E>
+    inline EN_IF_INST(T, ebml::ptr<T>) ebmlLazyLoad::getByKey(ebmlID_t ebmlID, const K& key) {
+        auto lock = getRLock();
+        return _getByKey<T, K, H, E>(ebmlID, key);
+    }
+
+    template<typename T, typename K, typename H, typename E>
+    inline EN_IF_INST(T, ebml::ptr<T>)ebmlLazyLoad::_getByKey(ebmlID_t ebmlID, const K& key) {
+        return ebml_dynamic_pointer_cast<T>(this->_getByKey<K, H, E>(ebmlID, key));
     }
 
     inline status_t<prepared_insert_t> ebmlLazyLoad::canInsert(off_t offset, const ebml::ptr<ebmlElement>& elem_p, const writeLock_t& lock) {
@@ -604,6 +652,76 @@ namespace ebml {
     inline seekData_t* ebmlLazyLoad::_insert(off_t offset, const ebml::ptr<ebmlElement>& elem_p) {
         auto prepared = _canInsert(offset, elem_p);
         return _insert(offset, elem_p, prepared);
+    }
+
+    // Insert from std::string
+
+    inline status_t<prepared_insert_t> ebmlLazyLoad::canInsert(off_t offset, const std::string& data, const writeLock_t& lock) {
+        _verifyLock(lock);
+        return _canInsert(offset, data);
+    }
+
+    inline seekData_t* ebmlLazyLoad::insert(off_t offset, const std::string& data) {
+        auto lock = getWLock();
+        auto prepared = _canInsert(offset, data);
+        return _insert(offset, data, prepared);
+    }
+
+    inline seekData_t* ebmlLazyLoad::insert(off_t offset, const std::string& data, const readLock_t& lock) {
+        auto _lock = getWLock(lock);
+        auto prepared = _canInsert(offset, data);
+        return _insert(offset, data, prepared);
+    }
+
+    inline seekData_t* ebmlLazyLoad::insert(off_t offset, const std::string& data, const writeLock_t& lock) {
+        _verifyLock(lock);
+        auto prepared = _canInsert(offset, data);
+        return _insert(offset, data, prepared);
+    }
+
+    inline seekData_t* ebmlLazyLoad::insert(off_t offset, const std::string& data, const writeLock_t& lock, const status_t<prepared_insert_t>& status) {
+        _verifyLock(lock);
+        return _insert(offset, data, status );
+    }
+
+    inline seekData_t* ebmlLazyLoad::_insert(off_t offset, const std::string& data, const status_t<prepared_insert_t>& status) {
+        return _insert(offset, data.data(), status);
+    }
+
+    // Insert from const char*
+
+    inline status_t<prepared_insert_t> ebmlLazyLoad::canInsert(off_t offset, const char* data, const writeLock_t& lock) {
+        _verifyLock(lock);
+        return _canInsert(offset, data);
+    }
+
+    inline status_t<prepared_insert_t> ebmlLazyLoad::_canInsert(off_t offset, const char* data) {
+        auto parsed = parseString(data, UNKNOWN);
+        auto sizetree = sizetree_t(parsed.ebmlIDWidth, parsed.sizeWidth, parsed.dataSize);
+        return _canInsert(offset, std::move(sizetree));
+    }
+
+    inline seekData_t* ebmlLazyLoad::insert(off_t offset, const char* data) {
+        auto lock = getWLock();
+        auto prepared = _canInsert(offset, data);
+        return _insert(offset, data, prepared);
+    }
+
+    inline seekData_t* ebmlLazyLoad::insert(off_t offset, const char* data, const readLock_t& lock) {
+        auto _lock = getWLock(lock);
+        auto prepared = _canInsert(offset, data);
+        return _insert(offset, data, prepared);
+    }
+
+    inline seekData_t* ebmlLazyLoad::insert(off_t offset, const char* data, const writeLock_t& lock) {
+        _verifyLock(lock);
+        auto prepared = _canInsert(offset, data);
+        return _insert(offset, data, prepared);
+    }
+
+    inline seekData_t* ebmlLazyLoad::insert(off_t offset, const char* data, const writeLock_t& lock, const status_t<prepared_insert_t>& status) {
+        _verifyLock(lock);
+        return _insert(offset, data, status );
     }
 
     inline status_t<prepared_remove_t> ebmlLazyLoad::canRemove(off_t offset, const writeLock_t& wlock) {
@@ -666,8 +784,20 @@ namespace ebml {
 
     template<typename T, typename... Args>
     inline EN_IF_CLS(T, elem_seek_pair) ebmlLazyLoad::insert(off_t offset, const T& cls, Args&&... args) {
-        auto lock = this->getWLock();
-        return this->_insert(offset, cls, args...);
+        auto lock = getWLock();
+        return _insert(offset, cls, args...);
+    }
+
+    template<typename T, typename... Args>
+    inline EN_IF_CLS(T, elem_seek_pair) ebmlLazyLoad::insert(off_t offset, const readLock_t& rlock, const T& cls, Args&&... args) {
+        auto lock = getWLock(rlock);
+        return _insert(offset, cls, args...);
+    }
+
+    template<typename T, typename... Args>
+    inline EN_IF_CLS(T, elem_seek_pair) ebmlLazyLoad::insert(off_t offset, const writeLock_t& wlock, const T& cls, Args&&... args) {
+        _verifyLock(wlock);
+        return _insert(offset, cls, args...);
     }
 
     template<typename T, typename... Args>

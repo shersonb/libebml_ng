@@ -252,6 +252,7 @@ namespace ebml {
 
     template<typename ebmltype_t, typename ebmlinst_t, typename typebase_t=ebmlElementClass>
     class ClsMixin : public typebase_t {
+        using inst_t = ebmlinst_t;
     protected:
         using typebase_t::_decode;
         ebmlElement* _new() const;

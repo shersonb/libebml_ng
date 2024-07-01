@@ -918,7 +918,6 @@ namespace ebml {
     }
 
     ebmlMultiSlot::ebmlMultiSlot(const ebmlMultiSlot& orig) : ebmlMultiSlot(&orig.cls()) {
-        std::cout << "ebmlMultiSlot::ebmlMultiSlot(const ebmlMultiSlot& orig)" << std::endl;
         auto iter1 = orig._slots.cbegin();
         auto iter1end = orig._slots.cend();
         auto iter2 = _slots.begin();
@@ -931,7 +930,6 @@ namespace ebml {
                 ebmlElement_l& elems = *iter2;
 
                 for (auto& origelem : origelems) {
-                    std::cout << ebml::pack(origelem->repr()) << std::endl;
                     auto newelem = origelem->clone();
                     _attachChild(newelem);
                     elems.push_back(std::move(newelem));
