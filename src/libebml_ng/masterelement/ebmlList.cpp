@@ -2,64 +2,65 @@
 #define EBML_NG_MASTERELEMENT_LIST_CPP
 #include <mutex>
 
-#include "libebml_ng/masterelement/ebmlList.h"
-#include "libebml_ng/masterelement/base/childSlot_t.tpp"
-#include "libebml_ng/vint.h"
-#include "libebml_ng/ebmlElementClass.tpp"
-#include "libebml_ng/ebmlElement.tpp"
+#include "ebmlList.h"
+#include "base/childSlot_t.tpp"
+#include "../vint.h"
+#include "../ebmlElementType.tpp"
+#include "../ebmlElement.tpp"
 
 namespace ebml {
-    ebmlListClass::ebmlListClass(const char* ebmlID, const std::wstring& name, const occurSpec_t& recursive)
-    : ebmlListClass(unpackVint(ebmlID), name, recursive) {}
+    ebmlListType::ebmlListType(const char* ebmlID, const std::wstring& name, const occurSpec_t& recursive)
+    : ebmlListType(unpackVint(ebmlID), name, recursive) {}
 
-    ebmlListClass::ebmlListClass(const char* ebmlID, const std::wstring& name, const childClassSpecArg_l& childSpec, const occurSpec_t& recursive)
-    : ebmlListClass(unpackVint(ebmlID), name, childSpec, recursive) {}
+    ebmlListType::ebmlListType(const char* ebmlID, const std::wstring& name, const childTypeSpecArg_l& childSpec, const occurSpec_t& recursive)
+    : ebmlListType(unpackVint(ebmlID), name, childSpec, recursive) {}
 
-    ebmlListClass::ebmlListClass(const char* ebmlID, const std::wstring& name, childClassSpecArg_init_l childSpec, const occurSpec_t& recursive)
-    : ebmlListClass(unpackVint(ebmlID), name, childSpec, recursive) {}
+    ebmlListType::ebmlListType(const char* ebmlID, const std::wstring& name, childClassSpecArg_init_l childSpec, const occurSpec_t& recursive)
+    : ebmlListType(unpackVint(ebmlID), name, childSpec, recursive) {}
 
-    ebmlListClass::ebmlListClass(ebmlID_t ebmlID, const std::wstring& name, const occurSpec_t& recursive) : ClsMixin<ebmlListClass, ebmlList, ebmlMasterElementClass>(ebmlID, name) {
+    ebmlListType::ebmlListType(ebmlID_t ebmlID, const std::wstring& name, const occurSpec_t& recursive)
+      : ebmlTypeCRTP<ebmlListType, ebmlList, ebmlMasterElementType>(ebmlID, name) {
         if (recursive.max != 0) {
-            this->_childClasses.add({this, recursive.min, recursive.max});
+            _childTypes.add({this, recursive.min, recursive.max});
         }
     }
 
-    ebmlListClass::ebmlListClass(ebmlID_t ebmlID, const std::wstring& name, const childClassSpecArg_l& childSpec, const occurSpec_t& recursive) : ebmlListClass(ebmlID, name) {
-        this->_childClasses = childSpec;
+    ebmlListType::ebmlListType(ebmlID_t ebmlID, const std::wstring& name, const childTypeSpecArg_l& childSpec, const occurSpec_t& recursive) : ebmlListType(ebmlID, name) {
+        _childTypes = childSpec;
 
         if (recursive.max != 0) {
-            this->_childClasses.add({this, recursive.min, recursive.max});
+            _childTypes.add({this, recursive.min, recursive.max});
         }
     }
 
-    ebmlListClass::ebmlListClass(ebmlID_t ebmlID, const std::wstring& name, childClassSpecArg_init_l childSpec, const occurSpec_t& recursive) : ebmlListClass(ebmlID, name) {
-        this->_childClasses = childSpec;
+    ebmlListType::ebmlListType(ebmlID_t ebmlID, const std::wstring& name, childClassSpecArg_init_l childSpec, const occurSpec_t& recursive) : ebmlListType(ebmlID, name) {
+        this->_childTypes = childSpec;
 
         if (recursive.max != 0) {
-            this->_childClasses.add({this, recursive.min, recursive.max});
+            this->_childTypes.add({this, recursive.min, recursive.max});
         }
     }
 
-    // ebmlElement_sp ebmlListClass::operator()() const {
+    // ebmlElement_sp ebmlListType::operator()() const {
     //     auto elem = new ebmlList(this);
     //     return std::shared_ptr<ebmlElement>(elem);
     // }
 
-    // ebmlElement* ebmlListClass::_new() const {
+    // ebmlElement* ebmlListType::_new() const {
     //     return new ebmlList(this);
     // }
     //
-    // ebmlList_sp ebmlListClass::operator()() const {
+    // ebmlList_sp ebmlListType::operator()() const {
     //     auto elem = new ebmlList(this);
     //     auto elem_sp = ebmlList_sp(elem);
     //     return elem_sp;
     // }
 
-    ebmlList::ebmlList(const ebmlListClass* cls, const ebmlElement_l& items) : ebmlList(cls) {
+    ebmlList::ebmlList(const ebmlListType* cls, const ebmlElement_l& items) : ebmlList(cls) {
         setData(items);
     }
 
-    ebmlList::ebmlList(const ebmlListClass* cls, ebmlElement_l&& items) : ebmlList(cls) {
+    ebmlList::ebmlList(const ebmlListType* cls, ebmlElement_l&& items) : ebmlList(cls) {
         setData(std::move(items));
     }
 
@@ -73,7 +74,8 @@ namespace ebml {
         }
     }
 
-    ebmlList::ebmlList(const ebmlListClass* cls) : InstMixin<ebmlListClass, ebmlList, ebmlMasterElement>(cls) {}
+    ebmlList::ebmlList(const ebmlListType* cls)
+      : ebmlElementCRTP<ebmlListType, ebmlList, ebmlMasterElement>(cls) {}
 
     void ebmlList::_validateData(const ebmlElement_l& items) {
         auto start = items.cbegin();
@@ -161,7 +163,7 @@ namespace ebml {
     }
 
     childSlot_t<> ebmlList::operator[](off_t offset) {
-        return {this, cls().childClasses(), _data[offset]};
+        return {this, cls().childTypes(), _data[offset]};
     }
 
     template<typename T>
@@ -170,7 +172,7 @@ namespace ebml {
             throw std::out_of_range("list index out of range");
         }
 
-        return {this, cls().childClasses(), _data.at(offset)};
+        return {this, cls().childTypes(), _data.at(offset)};
     }
 
     const ebmlElement& ebmlList::operator[](off_t offset) const {
@@ -191,12 +193,12 @@ namespace ebml {
 
     template<typename T>
     childSlot_t<T> ebmlList::front() {
-        return {this, cls().childClasses(), _data.front()};
+        return {this, cls().childTypes(), _data.front()};
     }
 
     template<typename T>
     childSlot_t<T> ebmlList::back() {
-        return {this, cls().childClasses(), _data.back()};
+        return {this, cls().childTypes(), _data.back()};
     }
 
     void ebmlList::insert(off_t offset, const ebmlElement_sp& elem) {

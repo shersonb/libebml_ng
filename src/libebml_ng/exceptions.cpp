@@ -1,8 +1,8 @@
 #ifndef EBML_NG_EXCEPTIONS_CPP
 #define EBML_NG_EXCEPTIONS_CPP
 
-#include "libebml_ng/exceptions.h"
-#include "libebml_ng/ebmlElement.h"
+#include "exceptions.h"
+#include "ebmlElement.h"
 
 namespace ebml {
     std::string make_exc_msg(const char* msg, unsigned int lineno, const char* file) {
@@ -20,7 +20,7 @@ namespace ebml {
         return this->_message.c_str();
     }
 
-    ebmlNotImplementedError::ebmlNotImplementedError(const std::string& message, const ebmlElementClass* cls) : ebmlException(message) {
+    ebmlNotImplementedError::ebmlNotImplementedError(const std::string& message, const ebmlElementType* cls) : ebmlException(message) {
         this->cls = cls;
     }
 
@@ -45,7 +45,7 @@ namespace ebml {
     // ebmlBoundError::ebmlBoundError(
     //         const std::string& message, off_t offset,
     //         off_t parentstart, off_t parentend, off_t childstart, off_t childend,
-    //         const ebmlElementClass* cls) : ebmlDecodeError(message, offset, cls) {
+    //         const ebmlElementType* cls) : ebmlDecodeError(message, offset, cls) {
     //     this->parentstart = parentstart;
     //     this->parentend = parentend;
     //     this->childstart = childstart;

@@ -5,24 +5,15 @@
 #include <sstream>
 #include <iomanip>
 
-#include "libebml_ng/ebmlVoid.h"
-#include "libebml_ng/vint.h"
-#include "libebml_ng/ebmlElementClass.tpp"
-#include "libebml_ng/ebmlElement.tpp"
+#include "ebmlVoid.h"
+#include "vint.h"
+#include "ebmlElementType.tpp"
+#include "ebmlElement.tpp"
 
 namespace ebml {
-    ebmlVoidClass::ebmlVoidClass() : ClsMixin<ebmlVoidClass, ebmlVoid>("\xec", L"EBMLVoid") {}
+    ebmlVoidType::ebmlVoidType() : ebmlTypeCRTP<ebmlVoidType, ebmlVoid>("\xec", L"EBMLVoid") {}
 
-    // ebmlElement* ebmlVoidClass::_new() const {
-    //     return new ebmlVoid(this);
-    // }
-
-    // ebmlElement_sp ebmlVoidClass::operator()(size_t size) const {
-    //     auto elem = new ebmlVoid(this, size);
-    //     return ebml::ptr<ebmlVoid>(elem);
-    // }
-
-    unsigned char ebmlVoidClass::writeVoid(char* dest, size_t outerSize) const {
+    unsigned char ebmlVoidType::writeVoid(char* dest, size_t outerSize) const {
         if (outerSize < 2) {
             throw std::invalid_argument("cannot write void with outerSize < 2");
         }
@@ -47,24 +38,23 @@ namespace ebml {
         throw std::runtime_error("unable to write Void element for unknown reason");
     }
 
-    // unsigned char ebmlVoidClass::writeVoid(const ioBase_sp& file, off_t offset, size_t outerSize) const {
-    //     return this->writeVoid(file.get(), offset, outerSize);
-    // }
-
-    unsigned char ebmlVoidClass::writeVoid(ioBase& file, off_t offset, size_t outerSize) const {
+    unsigned char ebmlVoidType::writeVoid(ioBase& file, off_t offset, size_t outerSize) const {
         char buffer[9];
         auto size = writeVoid(buffer, outerSize);
         file.write(buffer, offset, size);
         return size;
     }
 
-    ebmlVoid::ebmlVoid(const ebmlVoidClass* cls) : InstMixin<ebmlVoidClass, ebmlVoid>(cls), voidsize(0) {}
-    ebmlVoid::ebmlVoid(const ebmlVoidClass* cls, const parseString& parsed) : ebmlVoid(cls, parsed.dataSize) {}
-    ebmlVoid::ebmlVoid(const ebmlVoidClass* cls, const parseFile& parsed) : ebmlVoid(cls, parsed.dataSize) {
+    ebmlVoid::ebmlVoid(const ebmlVoidType* cls)
+      : ebmlElementCRTP<ebmlVoidType, ebmlVoid>(cls), voidsize(0) {}
+    ebmlVoid::ebmlVoid(const ebmlVoidType* cls, const parseString& parsed) : ebmlVoid(cls, parsed.dataSize) {}
+    ebmlVoid::ebmlVoid(const ebmlVoidType* cls, const parseFile& parsed) : ebmlVoid(cls, parsed.dataSize) {
         parsed.seek(parsed.dataSize);
     }
-    ebmlVoid::ebmlVoid(const ebmlVoidClass* cls, size_t size) : InstMixin<ebmlVoidClass, ebmlVoid>(cls), voidsize(size) {}
-    ebmlVoid::ebmlVoid(const ebmlVoid& orig) : InstMixin<ebmlVoidClass, ebmlVoid>(&orig.cls()), voidsize(orig.voidsize) {}
+    ebmlVoid::ebmlVoid(const ebmlVoidType* cls, size_t size)
+      : ebmlElementCRTP<ebmlVoidType, ebmlVoid>(cls), voidsize(size) {}
+    ebmlVoid::ebmlVoid(const ebmlVoid& orig)
+      : ebmlElementCRTP<ebmlVoidType, ebmlVoid>(&orig.cls()), voidsize(orig.voidsize) {}
 
     size_t ebmlVoid::dataSize() const {
         return this->voidsize;
@@ -95,23 +85,6 @@ namespace ebml {
         return this->voidsize;
     }
 
-    // ebmlElement_sp ebmlVoidClass::_decode(const parseString& parsed) const {
-    //     return ebmlElement_sp(new ebmlVoid(this, parsed.dataSize));
-    // }
-    //
-    // ebmlElement_sp  ebmlVoidClass::_decode(const parseFile& parsed) const {
-    //     parsed.seek(parsed.dataSize);
-    //     return ebmlElement_sp(new ebmlVoid(this, parsed.dataSize));
-    // }
-
-    // void ebmlVoid::_decode(const parseString& parsed) {
-    //     this->voidsize = parsed.dataSize;
-    // }
-    // void ebmlVoid::_decode(const parseFile& parsed) {
-    //     this->voidsize = parsed.dataSize;
-    //     parsed.seek(parsed.dataSize);
-    // }
-
     void ebmlVoid::_clonedata(const ebmlElement* orig) {
         const ebmlVoid* orig_typed = dynamic_cast<const ebmlVoid*>(orig);
         if (orig_typed) {
@@ -136,7 +109,6 @@ namespace ebml {
         ss << this->cls().name;
 
         ss << L" object: ebmlID=0x";
-        // ret += ebml::repr(this->ebmlID());
 
         for (unsigned char k = 0; k < ebmlIDWidth; k++) {
             ss << std::hex << std::setw(2) << std::setfill(L'0') << static_cast<unsigned char>(ebmlID_chars[k]);
@@ -151,7 +123,7 @@ namespace ebml {
         return ss.str();
     }
 
-    // ebmlVoidClass Void = ebmlVoidClass();
-    ebmlVoidClass Void;
+    // ebmlVoidType Void = ebmlVoidType();
+    ebmlVoidType Void;
 }
 #endif

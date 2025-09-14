@@ -8,19 +8,8 @@
 
 namespace ebml {
     static const unsigned long long sizes[4] = {1LL << 7, 1LL << 11, 1LL << 16, 1LL << 21};
-
-    // static const unsigned char fcp[4] = {0b00000000, 0b11000000, 0b11100000, 0b11110000};
-    // static const unsigned char fcm[4] = {0b10000000, 0b11100000, 0b11110000, 0b11111000};
-    // static unsigned char overlong[4][3] = {
-    //     {0},
-    //     {0b00011110, 0},
-    //     {0b00001111, 0b00100000, 0},
-    //     {0b00000111, 0b00110000, 0},
-    // };
-
     static const unsigned char fcp[4] = {0x00, 0xC0, 0xE0, 0xF0};
     static const unsigned char fcm[4] = {0x80, 0xE0, 0xF0, 0xF8};
-
     static const unsigned char overlong[4][3] = {
         {0x00},
         {0x1E, 0x00},
@@ -28,7 +17,8 @@ namespace ebml {
         {0x07, 0x30, 0x00},
     };
 
-    DEF_SIZE(std::wstring) {
+    // DEF_SIZE(std::wstring)
+    size_t _size_utf8(const std::wstring& value) {
         const wchar_t* data = value.c_str();
         size_t usize = value.size();
         off_t uk = 0;
@@ -65,7 +55,8 @@ namespace ebml {
         return dsize;
     }
 
-    DEF_PACK(std::wstring) {
+    // DEF_PACK(std::wstring)
+    size_t _pack_utf8(const std::wstring& value, size_t size, char* dest) {
         const wchar_t* data = value.c_str();
         size_t usize = value.size();
         size_t uk = 0;
@@ -122,7 +113,7 @@ namespace ebml {
         return dk;
     }
 
-    unsigned char utf8_char_width(unsigned char d) {
+    inline unsigned char utf8_char_width(unsigned char d) {
         unsigned char k = 0;
 
         while (k < 4) {
@@ -136,7 +127,7 @@ namespace ebml {
         return 0;
     }
 
-    bool detect_overlong_encode(const char* src, const unsigned char* masks) {
+    inline bool detect_overlong_encode(const char* src, const unsigned char* masks) {
         if (masks[0] == 0) {
             return false;
         }
@@ -151,7 +142,8 @@ namespace ebml {
         return true;
     }
 
-    DEF_UNPACK(std::wstring) {
+    // DEF_UNPACK(std::wstring) {
+    std::wstring _unpack_utf8(const char* src, size_t size) {
         std::wstring str;
         size_t uk = 0;
         size_t dk = 0;
@@ -215,6 +207,6 @@ namespace ebml {
         return str;
     }
 
-    INST_TEMPLATES(std::wstring)
+    // INST_TEMPLATES(std::wstring)
 }
 #endif

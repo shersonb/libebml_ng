@@ -4,9 +4,9 @@
 #include <stdexcept>
 #include <unistd.h>
 
-#include "libebml_ng/io.h"
-#include "libebml_ng/io/_stdio.h"
-#include "libebml_ng/io.tpp"
+#include "../io.h"
+#include "stdio.h"
+#include "../io.tpp"
 
 namespace ebml {
     template<>

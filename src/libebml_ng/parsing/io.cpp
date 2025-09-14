@@ -98,6 +98,7 @@ namespace ebml {
     }
 
     size_t parseFile::read(char* dest) const {
+        // auto _dataOffset = this->dataOffset()
         auto _endOffset = this->endOffset();
         auto _tell = this->_file->tell();
 

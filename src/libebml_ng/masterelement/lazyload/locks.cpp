@@ -32,8 +32,8 @@ namespace ebml {
         other.rlocks.clear();
         wlock = std::move(other.wlock);
         elem = std::exchange(other.elem, nullptr);
-        cache = std::move(cache);
-        order = std::move(order);
+        cache = std::move(other.cache);
+        order = std::move(other.order);
         return *this;
     }
 

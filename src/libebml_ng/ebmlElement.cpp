@@ -7,19 +7,19 @@
 #include <sstream>
 #include <iomanip>
 
-#include "libebml_ng/ebmlElementClass.h"
-#include "libebml_ng/ebmlElement.h"
-#include "libebml_ng/ebmlDocument.h"
-#include "libebml_ng/exceptions.h"
-#include "libebml_ng/struct.h"
-#include "libebml_ng/vint.h"
-#include "libebml_ng/seekdata.h"
-#include "libebml_ng/masterelement/base/ebmlMasterElement.h"
-// #include "libebml_ng/masterelement/lazyload.h"
-// #include "libebml_ng/seekdata.h"
+#include "ebmlElementType.h"
+#include "ebmlElement.h"
+#include "ebmlDocument.h"
+#include "exceptions.h"
+#include "struct.h"
+#include "vint.h"
+#include "seekdata.h"
+#include "masterelement/base/ebmlMasterElement.h"
+// #include "masterelement/lazyload.h"
+// #include "seekdata.h"
 
 namespace ebml {
-    ebmlElement::ebmlElement(const ebmlElementClass* cls) : _cls(cls), _self(new control_block(), this) {}
+    ebmlElement::ebmlElement(const ebmlElementType * cls) : _cls(cls), _self(new control_block(), this) {}
 
     bool ebmlElement::parent_is_const() const {
         return _parent.is_const();
@@ -261,7 +261,7 @@ namespace ebml {
         return headSize + dataSize;
     }
 
-    const ebmlElementClass& ebmlElement::cls() const {
+    const ebmlElementType & ebmlElement::cls() const {
         return *_cls;
     }
 

@@ -9,7 +9,7 @@
 #include "libebml_ng/masterelement/ebmlPair.tpp"
 
 namespace ebml {
-    template class ebmlPairClass<std::string, unsigned long long>;
+    template class ebmlPairType<std::string, unsigned long long>;
     template class ebmlPair<std::string, unsigned long long>;
     // template class childSlot_t<ebmlList>;
     // template class ebmlPairClass<std::string, ebmlList>;

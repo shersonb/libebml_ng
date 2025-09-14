@@ -1,64 +1,65 @@
 #ifndef EBML_NG_LAZYLOAD_BASE_CPP
 #define EBML_NG_LAZYLOAD_BASE_CPP
 
-#include "libebml_ng/masterelement/lazyload/ebmlLazyLoad.h"
-#include "libebml_ng/ebmlVoid.h"
-#include "libebml_ng/ebmlElementClass.tpp"
-#include "libebml_ng/ebmlElement.tpp"
-#include "libebml_ng/ebmlDocument.h"
+#include "ebmlLazyLoad.h"
+#include "../../ebmlVoid.h"
+#include "../../ebmlElementType.tpp"
+#include "../../ebmlElement.tpp"
+#include "../../ebmlDocument.h"
 
 namespace ebml {
-    template class ClsMixin<ebmlLazyLoadClass, ebmlLazyLoad, ebmlMasterElementClass>;
-    template class InstMixin<ebmlLazyLoadClass, ebmlLazyLoad, ebmlMasterElement>;
+    template class ebmlTypeCRTP<ebmlLazyLoadType, ebmlLazyLoad, ebmlMasterElementType>;
+    template class ebmlElementCRTP<ebmlLazyLoadType, ebmlLazyLoad, ebmlMasterElement>;
 
-    // ebmlLazyLoadClass::ebmlLazyLoadClass(const char* ebmlID, const std::wstring& name, const occurSpec_t& recursive) : ebmlLazyLoadClass(unpackVint(ebmlID), name, recursive) {}
+    // ebmlLazyLoadType::ebmlLazyLoadType(const char* ebmlID, const std::wstring& name, const occurSpec_t& recursive) : ebmlLazyLoadType(unpackVint(ebmlID), name, recursive) {}
 
-    ebmlLazyLoadClass::ebmlLazyLoadClass(ebmlID_t ebmlID, const std::wstring& name, const childClassSpecArg_l& childClasses)
-    : ClsMixin<ebmlLazyLoadClass, ebmlLazyLoad, ebmlMasterElementClass>(ebmlID, name, childClasses) {}
+    ebmlLazyLoadType::ebmlLazyLoadType(ebmlID_t ebmlID, const std::wstring& name, const childTypeSpecArg_l & childClasses)
+      : ebmlTypeCRTP<ebmlLazyLoadType, ebmlLazyLoad, ebmlMasterElementType>(ebmlID, name, childClasses) {}
 
-    ebmlLazyLoadClass::ebmlLazyLoadClass(ebmlID_t ebmlID, const std::wstring& name, const childClassSpecArg_l& childClasses, const seekHelper_t* seekHelper)
-    : ClsMixin<ebmlLazyLoadClass, ebmlLazyLoad, ebmlMasterElementClass>(ebmlID, name, childClasses, seekHelper) {}
+    ebmlLazyLoadType::ebmlLazyLoadType(ebmlID_t ebmlID, const std::wstring& name, const childTypeSpecArg_l & childClasses, const seekHelper_t* seekHelper)
+      : ebmlTypeCRTP<ebmlLazyLoadType, ebmlLazyLoad, ebmlMasterElementType>(ebmlID, name, childClasses, seekHelper) {}
 
-    ebmlLazyLoadClass::ebmlLazyLoadClass(const char* ebmlID, const std::wstring& name, const childClassSpecArg_l& childClasses)
-    : ClsMixin<ebmlLazyLoadClass, ebmlLazyLoad, ebmlMasterElementClass>(ebmlID, name, childClasses) {}
+    ebmlLazyLoadType::ebmlLazyLoadType(const char* ebmlID, const std::wstring& name, const childTypeSpecArg_l & childClasses)
+      : ebmlTypeCRTP<ebmlLazyLoadType, ebmlLazyLoad, ebmlMasterElementType>(ebmlID, name, childClasses) {}
 
-    ebmlLazyLoadClass::ebmlLazyLoadClass(const char* ebmlID, const std::wstring& name, const childClassSpecArg_l& childClasses, const seekHelper_t* seekHelper)
-    : ClsMixin<ebmlLazyLoadClass, ebmlLazyLoad, ebmlMasterElementClass>(ebmlID, name, childClasses, seekHelper) {}
+    ebmlLazyLoadType::ebmlLazyLoadType(const char* ebmlID, const std::wstring& name, const childTypeSpecArg_l & childClasses, const seekHelper_t* seekHelper)
+      : ebmlTypeCRTP<ebmlLazyLoadType, ebmlLazyLoad, ebmlMasterElementType>(ebmlID, name, childClasses, seekHelper) {}
 
-    ebmlLazyLoadClass::ebmlLazyLoadClass(ebmlID_t ebmlID, const std::wstring& name, const childClassSpecArg_l& childClasses, const childElemHelper_t* childElemHelper)
-    : ClsMixin<ebmlLazyLoadClass, ebmlLazyLoad, ebmlMasterElementClass>(ebmlID, name, childClasses), _childHelper(childElemHelper) {}
+    ebmlLazyLoadType::ebmlLazyLoadType(ebmlID_t ebmlID, const std::wstring& name, const childTypeSpecArg_l & childClasses, const childElemHelper_t* childElemHelper)
+      : ebmlTypeCRTP<ebmlLazyLoadType, ebmlLazyLoad, ebmlMasterElementType>(ebmlID, name, childClasses), _childHelper(childElemHelper) {}
 
-    ebmlLazyLoadClass::ebmlLazyLoadClass(ebmlID_t ebmlID, const std::wstring& name, const childClassSpecArg_l& childClasses, const seekHelper_t* seekHelper, const childElemHelper_t* childElemHelper)
-    : ClsMixin<ebmlLazyLoadClass, ebmlLazyLoad, ebmlMasterElementClass>(ebmlID, name, childClasses, seekHelper), _childHelper(childElemHelper) {}
+    ebmlLazyLoadType::ebmlLazyLoadType(ebmlID_t ebmlID, const std::wstring& name, const childTypeSpecArg_l & childClasses, const seekHelper_t* seekHelper, const childElemHelper_t* childElemHelper)
+      : ebmlTypeCRTP<ebmlLazyLoadType, ebmlLazyLoad, ebmlMasterElementType>(ebmlID, name, childClasses, seekHelper), _childHelper(childElemHelper) {}
 
-    ebmlLazyLoadClass::ebmlLazyLoadClass(const char* ebmlID, const std::wstring& name, const childClassSpecArg_l& childClasses, const childElemHelper_t* childElemHelper)
-    : ClsMixin<ebmlLazyLoadClass, ebmlLazyLoad, ebmlMasterElementClass>(ebmlID, name, childClasses), _childHelper(childElemHelper) {}
+    ebmlLazyLoadType::ebmlLazyLoadType(const char* ebmlID, const std::wstring& name, const childTypeSpecArg_l & childClasses, const childElemHelper_t* childElemHelper)
+      : ebmlTypeCRTP<ebmlLazyLoadType, ebmlLazyLoad, ebmlMasterElementType>(ebmlID, name, childClasses), _childHelper(childElemHelper) {}
 
-    ebmlLazyLoadClass::ebmlLazyLoadClass(const char* ebmlID, const std::wstring& name, const childClassSpecArg_l& childClasses, const seekHelper_t* seekHelper, const childElemHelper_t* childElemHelper)
-    : ClsMixin<ebmlLazyLoadClass, ebmlLazyLoad, ebmlMasterElementClass>(ebmlID, name, childClasses, seekHelper), _childHelper(childElemHelper) {}
+    ebmlLazyLoadType::ebmlLazyLoadType(const char* ebmlID, const std::wstring& name, const childTypeSpecArg_l & childClasses, const seekHelper_t* seekHelper, const childElemHelper_t* childElemHelper)
+      : ebmlTypeCRTP<ebmlLazyLoadType, ebmlLazyLoad, ebmlMasterElementType>(ebmlID, name, childClasses, seekHelper), _childHelper(childElemHelper) {}
 
-    // ebmlLazyLoadClass::ebmlLazyLoadClass(ebmlID_t ebmlID, const std::wstring& name, childClassSpecArg_init_l childClasses, const seekHelper_t* seekHelper)
+    // ebmlLazyLoadType::ebmlLazyLoadType(ebmlID_t ebmlID, const std::wstring& name, childClassSpecArg_init_l childClasses, const seekHelper_t* seekHelper)
     // : ebmlMasterElementClass(ebmlID, name, seekHelper), _childClasses(childClasses) {}
     //
-    // ebmlLazyLoadClass::ebmlLazyLoadClass(const char* ebmlID, const std::wstring& name, childClassSpecArg_init_l childClasses)
-    // : ebmlLazyLoadClass(unpackVint(ebmlID), name, childClasses) {}
+    // ebmlLazyLoadType::ebmlLazyLoadType(const char* ebmlID, const std::wstring& name, childClassSpecArg_init_l childClasses)
+    // : ebmlLazyLoadType(unpackVint(ebmlID), name, childClasses) {}
 
 
-    ebmlLazyLoad::ebmlLazyLoad(const ebmlLazyLoadClass* cls) : InstMixin<ebmlLazyLoadClass, ebmlLazyLoad, ebmlMasterElement>(cls) {
-        for (auto& pair : cls->childClasses()) {
+    ebmlLazyLoad::ebmlLazyLoad(const ebmlLazyLoadType * cls)
+      : ebmlElementCRTP<ebmlLazyLoadType, ebmlLazyLoad, ebmlMasterElement>(cls) {
+        for (auto& pair : cls->childTypes()) {
             if (auto keymap = pair.second->initSeekMap()) {
                 _children_by_key.insert({pair.first, std::unique_ptr<seekMapBase>(keymap)});
             }
         }
     }
 
-    ebmlLazyLoad::ebmlLazyLoad(const ebmlLazyLoadClass* cls, ioBase& file, off_t offset, vintWidth_t sizeWidth, size_t dataSize) : ebmlLazyLoad(cls) {
+    ebmlLazyLoad::ebmlLazyLoad(const ebmlLazyLoadType * cls, ioBase& file, off_t offset, vintWidth_t sizeWidth, size_t dataSize) : ebmlLazyLoad(cls) {
         size_t trunc_offset = _initNew(file, offset, sizeWidth, dataSize);
         _offsetInParent = offset;
         file.truncate(offset + trunc_offset);
     }
 
-    ebmlLazyLoad::ebmlLazyLoad(const ebmlLazyLoadClass* cls, ebmlLazyLoad& parent, off_t offset, vintWidth_t sizeWidth, size_t dataSize) : ebmlLazyLoad(cls) {
+    ebmlLazyLoad::ebmlLazyLoad(const ebmlLazyLoadType * cls, ebmlLazyLoad& parent, off_t offset, vintWidth_t sizeWidth, size_t dataSize) : ebmlLazyLoad(cls) {
         _setParent(parent.sp<ebmlMasterElement>(), true);
         auto& f = parent.file();
         _initNew(f, parent.dataOffsetInFile() + offset, sizeWidth, dataSize);
@@ -124,8 +125,8 @@ namespace ebml {
             return;
         }
 
-        auto childClasses = cls().childClasses();
-        const ebmlElementClass* childClass;
+        auto childClasses = cls().childTypes();
+        const ebmlElementType * childClass;
         seekData_t* seekData;
         auto _wp = wp<ebmlMasterElement>();
 
@@ -630,8 +631,8 @@ namespace ebml {
         size_t size = prepared_insert.extent.endOffset - prepared_insert.extent.offset;
         auto parsed = parseString(data, size, offset);
         auto& c = cls();
-        const childClassSpec_t& subclss = c.childClasses();
-        const ebmlElementClass* subcls = subclss[parsed.ebmlID];
+        const childTypeSpec_t& subclss = c.childTypes();
+        const ebmlElementType * subcls = subclss[parsed.ebmlID];
 
         // TODO
         // cls._childHelper->_onBeforeInsert(*this, parsed);

@@ -1,5 +1,0 @@
-var searchData=
-[
-  ['_5fconst_5fiterator',['_const_iterator',['../classebml_1_1ebmlMasterElement_1_1__const__iterator.html',1,'ebml::ebmlMasterElement::_const_iterator'],['../classebml_1_1ebmlList_1_1__const__iterator.html',1,'ebml::ebmlList::_const_iterator'],['../classebml_1_1ebmlPair_1_1__const__iterator.html',1,'ebml::ebmlPair&lt; T &gt;::_const_iterator'],['../classebml_1_1ebmlMap_1_1__const__iterator.html',1,'ebml::ebmlMap&lt; K, H, E, A &gt;::_const_iterator'],['../classebml_1_1ebmlMultiSlot_1_1__const__iterator.html',1,'ebml::ebmlMultiSlot::_const_iterator']]],
-  ['_5fiterator',['_iterator',['../classebml_1_1ebmlMasterElement_1_1__iterator.html',1,'ebml::ebmlMasterElement::_iterator'],['../classebml_1_1ebmlList_1_1__iterator.html',1,'ebml::ebmlList::_iterator'],['../classebml_1_1ebmlPair_1_1__iterator.html',1,'ebml::ebmlPair&lt; T &gt;::_iterator'],['../classebml_1_1ebmlMap_1_1__iterator.html',1,'ebml::ebmlMap&lt; K, H, E, A &gt;::_iterator'],['../classebml_1_1ebmlMultiSlot_1_1__iterator.html',1,'ebml::ebmlMultiSlot::_iterator']]]
-];

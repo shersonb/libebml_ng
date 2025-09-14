@@ -9,6 +9,7 @@
 #include "libebml_ng/struct/double.h"
 #include "libebml_ng/struct/binary.h"
 #include "libebml_ng/struct/unicode.h"
+#include "libebml_ng/struct.tpp"
 #include <utility>
 
 namespace ebml {
@@ -211,7 +212,7 @@ namespace ebml {
     }
 
     parseString::parseString(const parseFile& parsed, char* buffer) {
-        parsed.read(buffer);
+        parsed.read(buffer, 0, parsed.dataSize);
         this->ebmlID = parsed.ebmlID;
         this->ebmlIDWidth = parsed.ebmlIDWidth;
         this->dataSize = parsed.dataSize;
@@ -219,11 +220,5 @@ namespace ebml {
         this->offset = parsed.offset;
         this->data = buffer;
     }
-
-    template unsigned long long parseString::unpack<unsigned long long>() const;
-    template long long parseString::unpack<long long>() const;
-    template double parseString::unpack<double>() const;
-    template std::string parseString::unpack<std::string>() const;
-    template std::wstring parseString::unpack<std::wstring>() const;
 }
 #endif

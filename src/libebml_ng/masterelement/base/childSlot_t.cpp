@@ -1,10 +1,10 @@
 #ifndef EBML_NG_MASTERELEMENT_CHILDSLOT_CPP
 #define EBML_NG_MASTERELEMENT_CHILDSLOT_CPP
 
-#include "libebml_ng/masterelement/base/childSlot_t.tpp"
+#include "childSlot_t.tpp"
 
 namespace ebml {
-    childSlot_t<ebmlElement>::childSlot_t(ebmlMasterElement* parent, const childClassSpec_t& spec, ebmlElement_sp& childslot, bool allownull) {
+    childSlot_t<ebmlElement>::childSlot_t(ebmlMasterElement* parent, const childTypeSpec_t& spec, ebmlElement_sp& childslot, bool allownull) {
         this->_parent = parent;
         this->_spec = &spec;
         this->_childslot = &childslot;

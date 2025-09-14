@@ -1,12 +1,15 @@
 #ifndef EBML_NG_MASTERELEMENT_CHILDCLASSSPEC_CPP
 #define EBML_NG_MASTERELEMENT_CHILDCLASSSPEC_CPP
 
-#include "libebml_ng/masterelement/base/ebmlMasterElement.h"
-#include "libebml_ng/exceptions.h"
-#include "libebml_ng/ebmlElementClass.tpp"
-#include "libebml_ng/ebmlElement.tpp"
-#include "libebml_ng/ptrs.h"
-#include "libebml_ng/ebmlVoid.h"
+#include "ebmlMasterElement.h"
+#include "../../exceptions.h"
+#include "../../ebmlElementType.h"
+#include "../../ebmlElement.tpp"
+#include "../../ptrs.h"
+#include "../../ebmlVoid.h"
+#include "../../typeof.h"
+#include "../../struct/unicode.h"
+#include "../../struct.tpp"
 
 // #include "base/childmgmt.cpp"
 // #include "base/decoding.cpp"
@@ -16,11 +19,12 @@
 // #include "base/size.cpp"
 
 namespace ebml {
-    template class InstMixin<ebmlMasterElementClass, ebmlMasterElement, ebmlElement>;
+    template class ebmlElementCRTP<ebmlMasterElementType, ebmlMasterElement, ebmlElement>;
     template class ebml_shared_ptr<ebmlMasterElement>;
     template class ebml_weak_ptr<ebmlMasterElement>;
 
-    ebmlMasterElement::ebmlMasterElement(const ebmlMasterElementClass* cls) : InstMixin<ebmlMasterElementClass, ebmlMasterElement>(cls) {}
+    ebmlMasterElement::ebmlMasterElement(const ebmlMasterElementType * cls)
+      : ebmlElementCRTP<ebmlMasterElementType, ebmlMasterElement>(cls) {}
 
     void ebmlMasterElement::_init(const parseString& parsed) {
         try {
@@ -37,6 +41,7 @@ namespace ebml {
     }
 
     void ebmlMasterElement::_init(const parseFile& parsed) {
+        std::cout << typeof(this) << "::_init(const parseFile&)" << std::endl;
         try {
             if (parsed.dataSize > 0) {
                 parseFile::iterator iter = parsed.begin();
@@ -199,8 +204,10 @@ namespace ebml {
     }
 
     void ebmlMasterElement::_scanChildren(parseFile::iterator& iter) {
+        std::cout << typeof(this) << "::_scanChildren(parseFile::iterator&)" << std::endl;
         while (!iter.atEnd()) {
             parseFile parsed = *iter;
+            // std::cout << "D " << parsed.offset << " " << parsed.dataOffset() << " " << parsed.dataSize << std::endl;
             this->_handleParseFile(parsed);
             ++iter;
         }
@@ -215,7 +222,9 @@ namespace ebml {
     }
 
     void ebmlMasterElement::_handleParseFile(const parseFile& parsed) {
+        std::cout << typeof(this) << "::_handleParseFile(const parseFile&)" << std::endl;
         auto elem = cls()._decodeChild(parsed);
+        std::cout << pack(elem->repr()) << std::endl;
         _addChild(elem->sp());
     }
 
@@ -311,7 +320,7 @@ namespace ebml {
     void ebmlMasterElement::_attachChild(const ebmlElement_sp& child, bool weak) {
         if (child.get() == this) {
             throw ebmlException("cannot attach element to itself");
-        } else if (cls().childClasses().count(child->ebmlID()) == 0) {
+        } else if (cls().childTypes().count(child->ebmlID()) == 0) {
             std::string errmsg = "cannot add '";
             errmsg += pack(child->cls().name);
             errmsg += "' object to parent";
@@ -325,7 +334,7 @@ namespace ebml {
     void ebmlMasterElement::_attachChild(const ebmlElement_sp& child, bool weak) const {
         if (child.get() == this) {
             throw ebmlException("cannot attach element to itself");
-        } else if (cls().childClasses().count(child->ebmlID()) == 0) {
+        } else if (cls().childTypes().count(child->ebmlID()) == 0) {
             std::string errmsg = "cannot add '";
             errmsg += pack(child->cls().name);
             errmsg += "' object to parent";
@@ -339,7 +348,7 @@ namespace ebml {
     void ebmlMasterElement::_attachChild(ebmlElement& child, bool weak) {
         if (&child == this) {
             throw ebmlException("cannot attach element to itself");
-        } else if (cls().childClasses().count(child.ebmlID()) == 0) {
+        } else if (cls().childTypes().count(child.ebmlID()) == 0) {
             std::string errmsg = "cannot add '";
             errmsg += pack(child.cls().name);
             errmsg += "' object to parent";
@@ -353,7 +362,7 @@ namespace ebml {
     void ebmlMasterElement::_attachChild(ebmlElement& child, bool weak) const {
         if (&child == this) {
             throw ebmlException("cannot attach element to itself");
-        } else if (cls().childClasses().count(child.ebmlID()) == 0) {
+        } else if (cls().childTypes().count(child.ebmlID()) == 0) {
             std::string errmsg = "cannot add '";
             errmsg += pack(child.cls().name);
             errmsg += "' object to parent";

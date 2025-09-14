@@ -10,29 +10,35 @@ LIBNAME = libebml_ng
 
 # Source files
 SRCDIR = src
-INCDIR = include
+INCDIR = src
 
 SRCFILES = libebml_ng/io/stdio.cpp \
     libebml_ng/io/fd.cpp \
     libebml_ng/repr.cpp \
     libebml_ng/io.cpp \
     libebml_ng/exceptions.cpp \
-    libebml_ng/ebmlElementClass.cpp \
+    libebml_ng/ebmlElementType.cpp \
     libebml_ng/ebmlElement.cpp \
     libebml_ng/struct.cpp \
     libebml_ng/ebmlVoid.cpp \
     libebml_ng/ebmlSchema.cpp \
     libebml_ng/ebmlDocument.cpp \
-    libebml_ng/masterelement/base/ebmlMasterElementClass.cpp \
+    libebml_ng/masterelement/base/ebmlMasterElementType.cpp \
     libebml_ng/masterelement/base/ebmlMasterElement.cpp \
-    libebml_ng/masterelement/base/childClassSpec.cpp \
+    libebml_ng/masterelement/base/childTypeSpec.cpp \
     libebml_ng/masterelement/base/sizetree_t.cpp \
     libebml_ng/masterelement/base/childSlot_t.cpp \
+    libebml_ng/masterelement/base/c_ebmlElement_l.cpp \
     libebml_ng/masterelement/ebmlMultiSlot.cpp \
     libebml_ng/masterelement/ebmlList.cpp \
     libebml_ng/masterelement/ebmlPair.cpp \
     libebml_ng/masterelement/lazyload/ebmlLazyLoad.cpp \
+    libebml_ng/masterelement/lazyload/childElemHelper_t.cpp \
+    libebml_ng/masterelement/lazyload/locks.cpp \
     libebml_ng/masterelement/lazyload/prepared_insert_t.cpp \
+    libebml_ng/masterelement/lazyload/prepared_multiinsert_t.cpp \
+    libebml_ng/masterelement/lazyload/prepared_remove_t.cpp \
+    libebml_ng/masterelement/lazyload/prepared_resize_t.cpp \
     libebml_ng/masterelement/lazyload/extent_t.cpp \
     libebml_ng/vint.cpp \
     libebml_ng/parsing/io.cpp \
@@ -43,7 +49,7 @@ SRCFILES = libebml_ng/io/stdio.cpp \
     libebml_ng/struct/binary.cpp \
     libebml_ng/struct/unicode.cpp \
     libebml_ng/struct/datetime.cpp \
-    libebml_ng/dataelement.cpp \
+    libebml_ng/ebmlDataElement.cpp \
     libebml_ng/basictypes.cpp \
     libebml_ng/ebmlHead.cpp \
     libebml_ng/seekdata.cpp

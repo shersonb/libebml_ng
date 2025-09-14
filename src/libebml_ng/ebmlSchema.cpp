@@ -1,20 +1,23 @@
 #ifndef EBML_NG_SCHEMA_CPP
 #define EBML_NG_SCHEMA_CPP
 
-#include "libebml_ng/ebmlSchema.h"
-#include "libebml_ng/ebmlHead.h"
-#include "libebml_ng/exceptions.h"
-#include "libebml_ng/ebmlDocument.h"
-#include "libebml_ng/masterelement/ebmlList.h"
-#include "libebml_ng/masterelement/lazyload/ebmlLazyLoad.h"
-#include "libebml_ng/ebmlElementClass.tpp"
+#include "ebmlSchema.h"
+#include "ebmlHead.h"
+#include "exceptions.h"
+#include "ebmlDocument.h"
+#include "masterelement/ebmlList.h"
+#include "masterelement/lazyload/ebmlLazyLoad.h"
+#include "ebmlElementType.h"
+#include "struct/unicode.h"
+#include "struct/binary.h"
+#include "struct.tpp"
 
 namespace ebml {
     range_t::range_t(unsigned long min) : min(min), max(min), def(min) {}
     range_t::range_t(unsigned long min, long max) : min(min), max(max), def(max) {}
     range_t::range_t(unsigned long min, long max, unsigned long def) : min(min), max(max), def(def) {}
 
-    ebmlSchema::ebmlSchema(const std::string& docType, unsigned long docTypeVersion, const ebmlElementClass* rootcls, const range_t& maxIDLength, const range_t& maxSizeLength)
+    ebmlSchema::ebmlSchema(const std::string& docType, unsigned long docTypeVersion, const ebmlElementType * rootcls, const range_t& maxIDLength, const range_t& maxSizeLength)
     : _doctype(docType), _doctypeversion(docTypeVersion), _maxIDLength(maxIDLength), _maxSizeLength(maxSizeLength), _rootcls(rootcls) {}
 
     ebmlDocument* ebmlSchema::_new(const ioBase_sp& file) const {
@@ -38,8 +41,7 @@ namespace ebml {
 
         off_t offset = 0;
         auto head = EBMLHead.decode(file, offset);
-        const ebmlElement_sp& doctype = head->as<ebmlMultiSlot>()["docType"];
-        // auto& doctype = data<std::string>(doctype);
+        const ebmlElement_sp doctype = (*head)["docType"];
 
         if (data<std::string>(doctype) != this->_doctype) {
             std::string errmsg = "expected ";
@@ -78,7 +80,7 @@ namespace ebml {
         }));
 
         auto ebmlheadsize = head->encode(file, 0);
-        auto root = this->_rootcls->as<const ebmlLazyLoadClass>()(file, static_cast<off_t>(ebmlheadsize), static_cast<vintWidth_t>(8), static_cast<size_t>(initSize));
+        auto root = this->_rootcls->as<const ebmlLazyLoadType>()(file, static_cast<off_t>(ebmlheadsize), static_cast<vintWidth_t>(8), static_cast<size_t>(initSize));
 
         ebmlDocument* doc = _new(std::move(file_sp));
         ebmlDocument_sp doc_sp = ebmlDocument_sp(doc);
