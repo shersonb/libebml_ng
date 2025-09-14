@@ -3,18 +3,9 @@
 
 #include "../../ebmlElementType.h"
 #include "../../ebmlElementType.tpp"
-// #include "../element.h"
-// #include "../exceptions.h"
 #include "childTypeSpec.h"
 #include "sizetree_t.h"
-
-// #include <unordered_map>
-// #include <unordered_set>
-// #include <deque>
-// #include <list>
 #include <vector>
-// #include "../void.h"
-// #include <optional>
 
 namespace ebml {
     class ebmlMasterElement;
