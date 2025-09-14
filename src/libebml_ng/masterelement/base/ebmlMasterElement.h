@@ -55,7 +55,7 @@ namespace ebml {
          * @param parsed The parsed EBML string.
          * @return A pointer to the decoded EBML element.
          */
-        ebmlElement* _decodeChild(const parseString&) const;
+        inline ebmlElement* _decodeChild(const parseString&) const;
 
         /**
          * @brief Decodes a child element from parsed file data.
@@ -63,7 +63,7 @@ namespace ebml {
          * @param parsed The parsed file data.
          * @return A pointer to the decoded EBML element.
          */
-        ebmlElement* _decodeChild(const parseFile&) const;
+        inline ebmlElement* _decodeChild(const parseFile&) const;
 
         /**
          * @brief Const version: Decodes a child element from a parsed string.
@@ -71,7 +71,7 @@ namespace ebml {
          * @param parsed The parsed EBML string.
          * @return A pointer to the decoded EBML element.
          */
-        ebmlElement* _cdecodeChild(const parseString&) const;
+        inline ebmlElement* _cdecodeChild(const parseString&) const;
 
         /**
          * @brief Const version: Decodes a child element from parsed file data.
@@ -79,7 +79,7 @@ namespace ebml {
          * @param parsed The parsed file data.
          * @return A pointer to the decoded EBML element.
          */
-        ebmlElement* _cdecodeChild(const parseFile&) const;
+        inline ebmlElement* _cdecodeChild(const parseFile&) const;
 
     public:
         size_t dataSize() const;
@@ -383,6 +383,22 @@ namespace ebml {
         friend std::shared_ptr<ebmlMasterElement::_iterator> std::make_shared<ebmlMasterElement::_iterator>();
         friend std::shared_ptr<ebmlMasterElement::_const_iterator> std::make_shared<ebmlMasterElement::_const_iterator>();
     };
+
+    inline ebmlElement* ebmlMasterElement::_decodeChild(const parseString& parsed) const {
+        return cls()._decodeChild(parsed);
+    }
+
+    inline ebmlElement* ebmlMasterElement::_cdecodeChild(const parseString& parsed) const {
+        return cls()._cdecodeChild(parsed);
+    }
+
+    inline ebmlElement* ebmlMasterElement::_decodeChild(const parseFile& parsed) const {
+        return cls()._decodeChild(parsed);
+    }
+
+    inline ebmlElement* ebmlMasterElement::_cdecodeChild(const parseFile& parsed) const {
+        return cls()._cdecodeChild(parsed);
+    }
 
     extern template class ebmlElementCRTP<ebmlMasterElementType, ebmlMasterElement, ebmlElement>;
     extern template class ebml_shared_ptr<ebmlMasterElement>;

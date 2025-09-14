@@ -83,22 +83,6 @@ namespace ebml {
         }
     }
 
-    ebmlElement* ebmlMasterElement::_decodeChild(const parseString& parsed) const {
-        return cls()._decodeChild(parsed);
-    }
-
-    ebmlElement* ebmlMasterElement::_cdecodeChild(const parseString& parsed) const {
-        return cls()._cdecodeChild(parsed);
-    }
-
-    ebmlElement* ebmlMasterElement::_decodeChild(const parseFile& parsed) const {
-        return cls()._decodeChild(parsed);
-    }
-
-    ebmlElement* ebmlMasterElement::_cdecodeChild(const parseFile& parsed) const {
-        return cls()._cdecodeChild(parsed);
-    }
-
     size_t ebmlMasterElement::dataSize() const {
         return sizetree().dataSize;
     }
