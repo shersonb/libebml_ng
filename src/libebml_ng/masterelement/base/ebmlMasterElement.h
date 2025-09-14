@@ -5,63 +5,130 @@
 #include "ebmlMasterElementType.h"
 #include "../../ebmlElement.h"
 #include "c_ebmlElement_l.h"
-// #include "../exceptions.h"
-
-// #include <unordered_map>
-// #include <unordered_set>
-// #include <deque>
-// #include <list>
-// #include <vector>
-// #include <optional>
 
 namespace ebml {
+    /**
+     * @brief Abstract base class for EBML master element instances.
+     * @ingroup inst_definitions
+     * @ingroup master_element_type_definitions
+     *
+     * This class provides the functionality to manage child elements, perform encoding/decoding,
+     * and traverse child elements through iterators. It uses CRTP to enable type safety.
+     *
+     * @see ebml::ebmlMasterElementType
+     */
     class ebmlMasterElement : public ebmlElementCRTP<ebmlMasterElementType, ebmlMasterElement> {
         // Constructors
     protected:
         ebmlMasterElement(const ebmlMasterElementType*);
+
+        /**
+         * @brief Initializes the element from a parsed EBML string.
+         *
+         * @param parsed The parsed EBML string.
+         */
         void _init(const parseString&);
+
+        /**
+         * @brief Initializes the element from parsed file data.
+         *
+         * @param parsed The parsed file data.
+         */
         void _init(const parseFile&);
+
+        /**
+         * @brief Const initialization from a parsed EBML string.
+         *
+         * @param parsed The parsed EBML string.
+         */
         void _cinit(const parseString&);
+
+        /**
+         * @brief Const initialization from parsed file data.
+         *
+         * @param parsed The parsed file data.
+         */
         void _cinit(const parseFile&);
 
+        /**
+         * @brief Decodes a child element from a parsed string.
+         *
+         * @param parsed The parsed EBML string.
+         * @return A pointer to the decoded EBML element.
+         */
         ebmlElement* _decodeChild(const parseString&) const;
+
+        /**
+         * @brief Decodes a child element from parsed file data.
+         *
+         * @param parsed The parsed file data.
+         * @return A pointer to the decoded EBML element.
+         */
         ebmlElement* _decodeChild(const parseFile&) const;
 
+        /**
+         * @brief Const version: Decodes a child element from a parsed string.
+         *
+         * @param parsed The parsed EBML string.
+         * @return A pointer to the decoded EBML element.
+         */
         ebmlElement* _cdecodeChild(const parseString&) const;
+
+        /**
+         * @brief Const version: Decodes a child element from parsed file data.
+         *
+         * @param parsed The parsed file data.
+         * @return A pointer to the decoded EBML element.
+         */
         ebmlElement* _cdecodeChild(const parseFile&) const;
 
-        // Reminder: This method should be overriden in every subclass
     public:
-        // virtual const ebmlMasterElementType* cls() const;
-
-        // dataSize override
         size_t dataSize() const;
 
-        // Size Tree methods
     public:
+        /**
+         * @brief Generates the size tree for the element hierarchy.
+         *
+         * @return A sizetree_t representing the size breakdown of the element and its descendants.
+         */
         sizetree_t sizetree() const;
 
-    // protected:
-    //     sizetree_t _build_sizetree() const;
-    //     void _build_sizetree(sizetree_t&) const;
-
-        // Encode functions.
     protected:
+        size_t _encode(char*) const;
+
         // NEW in ebmlMasterElement. Protected _encode that makes use of a sizetree_t
         // to avoid redundant calls to outerSize() on all of its decendants.
+        /**
+         * @brief Encodes the element using a precomputed size tree.
+         *
+         * @param dest Pointer to the destination buffer.
+         * @param _sizetree A precomputed sizetree_t for the element.
+         * @return The number of bytes encoded.
+         */
         size_t _encode(char*, const sizetree_t&) const;
-        size_t _encode(char*) const;
-        // size_t _encode(char*, size_t) const;
 
     public:
-        // Override the default encode to make use of _encode(char*, const sizetree_t&) instead of _encode(char*);
-        std::string encode() const;
+        /**
+         * @name Element Encoding Overloads
+         * @brief Provides a set of overloaded methods for encoding an EBML master element.
+         * The default implementations of `encode()` functions makes a call to the
+         * `dataSize()` function, determining the entire size of the element without any
+         * information on the size of its descendants. This results in redundant calls to
+         * `dataSize()` on each of its descendants, with greater redundancy at higher depths.
+         * This implementation instead computes a `sizetree_t` containing size information
+         * for all the master element's descendants, thereby mitigating the redundancy.
+         * @{
+         */
+
         size_t encode(char*) const;
-        size_t encode(char*, const sizetree_t&) const;
+        std::string encode() const;
         size_t encode(ioBase&) const;
-        // size_t encode(ioBase&, const sizetree_t&) const;
         size_t encode(ioBase&, off_t) const;
-        // size_t encode(ioBase&, off_t, const sizetree_t&) const;
+        /**
+         * @}
+         */
+
+        size_t encode(char*, const sizetree_t&) const;
 
     protected:
         virtual void _clear(); // Clear all children.

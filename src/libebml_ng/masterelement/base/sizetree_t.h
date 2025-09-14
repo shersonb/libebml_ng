@@ -6,6 +6,12 @@
 #include <optional>
 
 namespace ebml {
+    /**
+     * @brief Structure representing the size tree for an EBML master element.
+     *
+     * The size tree captures the widths for the EBML ID and size fields as well as
+     * the overall data size. It may also include a list of child size trees.
+     */
     struct sizetree_t {
         vintWidth_t ebmlIDWidth;
         vintWidth_t sizeWidth;

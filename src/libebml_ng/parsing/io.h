@@ -9,17 +9,32 @@
 #include "libebml_ng/struct/unicode.h"
 
 namespace ebml {
+    /**
+     * @brief Represents a parsed EBML file segment.
+     *
+     * The parseFile class encapsulates the data read from an IO interface (ioBase)
+     * for an EBML element. It stores the EBML ID, widths, data size, file offset,
+     * and parent relations. Underlying IO operations (such as seek, read, write,
+     * or truncate) may throw exceptions derived from std::ios_base::failure (or
+     * other exceptions such as ebmlUnexpectedEndOfData and ebmlDecodeError) if
+     * errors occur in the IO operations.
+     *
+     * @throws std::ios_base::failure Thrown if seeking, reading, writing, or truncating
+     *    fails due to an underlying IO error.
+     * @throws std::invalid_argument Thrown by the specialized IO implementations (such as
+     *    when no read, write, or append flag is specified).
+     * @throws ebml::ebmlUnexpectedEndOfData Thrown if a parsed element header indicates more data
+     *    than available.
+     * @throws ebml::ebmlDecodeError Thrown if there is an error in decoding the EBML header fields.
+     *
+     * @ingroup Parsing
+     */
     class parseFile {
     public:
         parseFile(ioBase&);
         parseFile(ioBase&, parseFile&);
         parseFile(ioBase&, off_t);
         parseFile(ioBase&, off_t, parseFile&);
-
-        // parseFile(const ioBase_sp&);
-        // parseFile(const ioBase_sp&, parseFile&);
-        // parseFile(const ioBase_sp&, off_t);
-        // parseFile(const ioBase_sp&, off_t, parseFile&);
 
         ebmlID_t ebmlID;
         unsigned char ebmlIDWidth;
@@ -38,6 +53,16 @@ namespace ebml {
         off_t tell() const;
         size_t outerSize() const;
 
+        /**
+         * @brief Template method to unpack data from the element read from file.
+         *
+         * This method reads the element's data into a temporary buffer and then converts it
+         * to a value of the requested type using ebml::unpack.
+         *
+         * @tparam T The target type.
+         * @return The unpacked value of type T.
+         * @throws std::ios_base::failure if an IO error occurs during the read.
+         */
         template<typename T>
         inline T unpack() const {
             auto buffer_sp = std::make_unique<char[]>(this->dataSize);
@@ -52,6 +77,15 @@ namespace ebml {
         parseFile(ioBase*, ebmlID_t, unsigned char, size_t, unsigned char, off_t, parseFile&);
 
     public:
+        /**
+         * @brief Iterator class for parseFile.
+         *
+         * Provides sequential access to the EBML elements contained within the file segment.
+         * IO exceptions (such as std::ios_base::failure or ebmlDecodeError) may be thrown
+         * by dereferencing or incrementing the iterator if underlying IO errors occur.
+         *
+         * @ingroup Parsing
+         */
         class iterator {
         public:
             iterator(ioBase* file);
@@ -60,16 +94,11 @@ namespace ebml {
             iterator(ioBase* file, off_t end, parseFile&);
             iterator(ioBase* file, off_t start, off_t end, parseFile&);
 
-            // iterator(ioBase_sp& file);
-            // iterator(ioBase_sp& file, off_t end);
-            // iterator(ioBase_sp& file, off_t start, off_t end);
-            // iterator(ioBase_sp& file, off_t end, parseFile&);
-            // iterator(ioBase_sp& file, off_t start, off_t end, parseFile&);
-
             parseFile operator*();
             parseFile::iterator& operator++();
             // parseFile::iterator operator++(int); Postincrement not supported
             bool atEnd();
+
         private:
             // ioBase_sp _file;
             ioBase* _file;
@@ -77,7 +106,6 @@ namespace ebml {
             off_t _startoffset;
             off_t _endoffset;
 
-            // Necessary information to dereference/construct parseFile object.
             ebmlID_t _ebmlID;
             unsigned char _ebmlIDWidth;
             size_t _dataSize;
@@ -92,11 +120,5 @@ namespace ebml {
 
         friend class parseFile::iterator;
     };
-
-    // extern template unsigned long long parseFile::unpack<unsigned long long>() const;
-    // extern template long long parseFile::unpack<long long>() const;
-    // extern template double parseFile::unpack<double>() const;
-    // extern template std::string parseFile::unpack<std::string>() const;
-    // extern template std::wstring parseFile::unpack<std::wstring>() const;
 }
 #endif

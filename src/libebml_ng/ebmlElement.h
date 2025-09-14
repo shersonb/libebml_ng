@@ -73,8 +73,8 @@ namespace ebml {
      * @ingroup inst_definitions
      *
      * @see type_definitions
-     * @see `ebml::ebmlElementCRTP<ebmltype_t, ebmlinst_t, instbase_t>`.
-     * @see `ebml::ebmlElementType`
+     * @see `ebml::ebmlElementCRTP<ebmltype_t, ebmlinst_t, instbase_t>`
+     * @see ebml::ebmlElementType
      */
     class ebmlElement {
         friend class ebmlDocument;
@@ -200,7 +200,8 @@ namespace ebml {
         void _setParent(ebml::ptr<const ebmlMasterElement>&& parent, bool weak = true);
 
         void _setParent(ebmlMasterElement& parent, bool weak = true);
-        void _setParent(const ebmlMasterElement& parent, bool weak = true);
+        void _setParent(const ebmlMasterElement& parent, bool weak = true);     *
+
 
         void _detach();
 
@@ -246,13 +247,38 @@ namespace ebml {
         virtual size_t _encode(char*) const = 0;
 
     public:
-        inline std::string encode() const;
-        inline size_t encode(char*) const;
-        // size_t encode(const ioBase_sp&) const;
-        // size_t encode(const ioBase_sp&, off_t) const;
-        inline size_t encode(ioBase&) const;
-        inline size_t encode(ioBase&, off_t) const;
+        /**
+         * @name Encode Functions
+         * @brief Provides a set of overloaded methods for encoding an EBML element.
+         *
+         * This group of methods converts an EBML element instance into a raw byte
+         * representation according to the EBML specification.
+         *
+         * @throws ebml::ebmlEncodeError if an internal encoding error occurs.
+         * @throws std::ios_base::failure if an I/O error occurs when writing to a file or stream.
+         * @{
+         */
+        inline std::string encode() const;      ///< @brief Encodes the element and returns it as a `std::string`.
+        inline size_t encode(char*) const;      ///< @brief Encodes the element into a pre-allocated buffer.
+        inline size_t encode(ioBase&) const;    ///< @brief Encodes the element and writes it to a generic I/O stream.
+        inline size_t encode(ioBase&, off_t) const; ///< @brief Encodes the element and writes it to a specific offset in a stream.
+
+        /**
+         * @brief Encodes the element using a pre-computed size.
+         *
+         * This specialized overload takes a pre-computed size as an argument, which
+         * avoids redundant `dataSize()` calls for master elements and their descendants,
+         * significantly improving performance for deep trees.
+         *
+         * @param dest A pointer to the destination buffer where the encoded element will be written.
+         * @param dataSize The pre-computed size of the element's data payload.
+         * @return The total size, in bytes, of the encoded element, including its header.
+         */
         size_t encode(char*, size_t) const;
+
+        /**
+         * @}
+         */
 
         // Cloning functions:
     protected:
@@ -288,6 +314,7 @@ namespace ebml {
      *
      * @see @ref crtp_usage "Using the CRTP Mixins" for detailed usage instructions.
      * @see `ebml::ebmlTypeCRTP<ebmltype_t, ebmlinst_t, typebase_t>`
+     * @see ebml::ebmlElement
      */
     template<typename ebmltype_t, typename ebmlinst_t, typename instbase_t=ebmlElement>
     class ebmlElementCRTP : public instbase_t {

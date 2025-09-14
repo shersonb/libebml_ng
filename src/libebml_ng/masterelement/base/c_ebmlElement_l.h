@@ -8,6 +8,11 @@
 namespace ebml {
     typedef std::vector<ebmlElement_sp> ebmlElement_l;
 
+    /**
+     * @brief Read-only list wrapper for EBML element shared pointers.
+     *
+     * This class provides constant (read-only) access to a list of EBML elements.
+     */
     class c_ebmlElement_l {
     private:
         const ebmlElement_l* _items;

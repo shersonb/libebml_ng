@@ -99,8 +99,8 @@ namespace ebml {
      * `ebml::ebmlTypeCRTP<ebmltype_t, ebmlinst_t, typebase_t>` and
      * `ebml::ebmlElementCRTP<ebmltype_t, ebmlinst_t, instbase_t>`.
      *
-     * See also: `ebml::ebmlElement`.
-     *
+     * @see `ebml::ebmlTypeCRTP<ebmltype_t, ebmlinst_t, typebase_t>`
+     * @see ebml::ebmlElement
      * @ingroup type_definitions
      */
     class ebmlElementType {
@@ -148,8 +148,7 @@ namespace ebml {
         virtual ebmlElement* _new() const = 0;
 
         /**
-         * @defgroup DecodeVGroup Virtual Decode Functions
-         * @ingroup type_definitions
+         * @name Decode Functions (virtual)
          * These functions perform the decoding assuming
          * preliminary EBML ID checks have passed.
          * @param parsed The parsed EBML string (`ebml::parseString`)
@@ -161,14 +160,15 @@ namespace ebml {
 
         virtual ebmlElement* _decode_v(const parseString&) const = 0;
         virtual ebmlElement* _decode_v(const parseFile&) const = 0;
+        virtual ebmlElement* _cdecode_v(const parseString&) const = 0;
+        virtual ebmlElement* _cdecode_v(const parseFile&) const = 0;
 
         /**
          * @}
          */
 
         /**
-         * @defgroup DecodeNoCheckGroup Decode Functions (No Check)
-         * @ingroup type_definitions
+         * @name Decode Functions (No Check)
          * These functions wrap around the virtual `_decode_v` functions,
          * modifying and rethrowing any `ebml::ebmlDecodeError` exception
          * thrown with EBML type and offset data set.
@@ -177,58 +177,117 @@ namespace ebml {
          * check is performed before decoding (as is done with
          * `ebml::ebmlMasterElementType`).
          *
-         * @param parsed The parsed EBML string (`ebml::parseString`)
-         *     or file data (`ebml::parseFile`).
-         * @return Raw pointer to a new ebmlElement instance.
          * @{
          */
+
+        /**
+         * @brief Decode element from `ebml::parseString` instance.
+         * @param parsed The parsed EBML string.
+         *
+         * @return Raw pointer to a new ebmlElement instance.
+         */
         inline ebmlElement* _decode_nocheck(const parseString& parsed) const;
+
+        /**
+         * @brief Decode element from `ebml::parseFile` instance.
+         * @param parsed The parsed file data.
+         *
+         * @return Raw pointer to a new ebmlElement instance.
+         */
         inline ebmlElement* _decode_nocheck(const parseFile& parsed) const;
+
+        inline ebmlElement* _cdecode_nocheck(const parseString& parsed) const;
+        inline ebmlElement* _cdecode_nocheck(const parseFile& parsed) const;
         /**
          * @}
          */
 
         /**
-         * @defgroup DecodeProtectedGroup Decode Functions (Returning raw pointers)
-         * @ingroup type_definitions
+         * @name Protected Decode Functions
+         * @brief Decode functions for various input types.
+         *
          * These functions perform EBML type checks and call `_decode_nocheck`.
+         * @return Raw pointer to a new `ebml::ebmlElement` instance.
          * @{
          */
-        inline ebmlElement* _decode(const parseString&) const;
-        inline ebmlElement* _decode(const parseFile&) const;
+
         /**
-         * @brief Decode from a raw character buffer.
-         * @return Pointer to a new ebmlElement instance.
+         * @brief Decode element from `ebml::parseString` instance.
+         * @param parsed The parsed EBML string.
+         *
+         * @return Raw pointer to a new `ebml::ebmlElement` instance.
+         */
+        inline ebmlElement* _decode(const parseString&) const;
+
+        /**
+         * @brief Decode and create a new EBML element instance from `ebml::parseFile` instance.
+         * @param parsed Parsing information parsed from an IO file.
+         *
+         * @return Raw pointer to a new `ebml::ebmlElement` instance.
+         */
+        inline ebmlElement* _decode(const parseFile&) const;
+
+        /**
+         * @brief Decode from a raw data buffer.
+         * @param data Pointer to the data buffer.
+         * @param size Number of bytes in the data buffer..
+         *
+         * @return Pointer to a new `ebml::ebmlElement` instance.
          */
         inline ebmlElement* _decode(const char*, size_t) const;
+
         /**
          * @brief Decode from `std::string`.
-         * @return Pointer to a new ebmlElement instance.
+         * @param data String data.
+         *
+         * @return Pointer to a new `ebml::ebmlElement` instance.
          */
         inline ebmlElement* _decode(const std::string&) const;
+
         /**
-         * @brief Decode from `ebml::ioBase` instance at the current file position.
-         * @return Pointer to a new ebmlElement instance.
+         * @brief Decode and create a new EBML element instance from
+         *  `ebml::ioBase` instance at the current file position.
+         * @param file File object.
+         *
+         * @return Pointer to a new `ebml::ebmlElement` instance.
          */
         inline ebmlElement* _decode(ioBase&) const;
+
         /**
-         * @brief Decode from `ebml::ioBase` instance with a specified offset.
-         * @return Pointer to a new ebmlElement instance.
+         * @brief Decode and create a new EBML element instance from
+         *  `ebml::ioBase` instance with a specified offset.
+         * @param file File object.
+         * @param offset Location of start of data in file.
+         *
+         * @return Pointer to a new `ebml::ebmlElement` instance.
          */
         inline ebmlElement* _decode(ioBase&, off_t&) const;
+
         /**
          * @brief Decode from `ebml::ioBase` instance with a specified offset and store the end offset.
-         * @return Pointer to a new ebmlElement instance.
+         * @param file File object.
+         * @param offset Location of start of data in file.
+         * @param endOffset Reference to variable to set end offset.
+         *
+         * @return Pointer to a new `ebml::ebmlElement` instance.
          */
         inline ebmlElement* _decode(ioBase&, off_t, off_t&) const;
+
+        inline ebmlElement* _cdecode(const parseString&) const;
+        inline ebmlElement* _cdecode(const parseFile&) const;
+        inline ebmlElement* _cdecode(const char*, size_t) const;
+        inline ebmlElement* _cdecode(const std::string&) const;
+        inline ebmlElement* _cdecode(ioBase&) const;
+        inline ebmlElement* _cdecode(ioBase&, off_t& offset) const;
+        inline ebmlElement* _cdecode(ioBase&, off_t offset, off_t& end) const;
+
         /**
          * @}
          */
 
     public:
         /**
-         * @defgroup DecodeGroup Decode Functions
-         * @ingroup type_definitions
+         * @name Decode Functions
          * @brief Decode functions for various input types.
          * @return A shared pointer to the new `ebml::ebmlElement` instance.
          * @throws ebml::ebmlDecodeError If there was an error decoding the data (may be subclass).
@@ -240,45 +299,67 @@ namespace ebml {
          */
 
         /**
-         * @brief Decode and create a new EBML element instance from `ebml::parseString` instance.
+         * @brief Decode element from `ebml::parseString` instance.
          * @param parsed The parsed EBML string.
+         *
+         * @return Shared pointer to a new `ebml::ebmlElement` instance.
          */
         inline ebml::ptr<ebmlElement> decode(const parseString&) const;
+
         /**
          * @brief Decode and create a new EBML element instance from `ebml::parseFile` instance.
          * @param parsed Parsing information parsed from an IO file.
+         *
+         * @return Shared pointer to a new `ebml::ebmlElement` instance.
          */
         inline ebml::ptr<ebmlElement> decode(const parseFile&) const;
-        /**
-         * @brief Decode from a raw data buffer.
-         * @param data Pointer to the data buffer.
-         * @param size Number of bytes in the data buffer.
-         */
-        inline ebml::ptr<ebmlElement> decode(const char*, size_t) const;
-        /**
-         * @brief Decode from a `std::string` instance.
-         * @param data String data.
-         */
-        inline ebml::ptr<ebmlElement> decode(const std::string&) const;
-        inline ebml::ptr<ebmlElement> decode(ioBase&) const;
-        inline ebml::ptr<ebmlElement> decode(ioBase&, off_t&) const;
-        inline ebml::ptr<ebmlElement> decode(ioBase&, off_t, off_t&) const;
-        /**
-         * @}
-         */
 
         /**
-         * @defgroup CDecodeGroup Const Decode Functions
-         * @ingroup type_definitions
-         * @brief Const Decode functions for various input types.
-         * @return A shared pointer to the new `const ebml::ebmlElement` instance.
-         * @throws ebml::ebmlDecodeError If there was an error decoding the data (may be subclass).
-         * @throws ebml::ebmlNoMatch If the EBML ID does not match.
-         * @throws ebml::ebmlUnexpectedEndOfData If the data terminates before end of data (in either).
-         * @throws ebml::ebmlDataContinues If the data continues past expected end.
-         * @throws std::ios_base::failure If an IO error occurs while attempting to read from a file.
-         * @{
+         * @brief Decode and create a new EBML element instance from a raw data buffer.
+         * @param data Pointer to the data buffer.
+         * @param size Number of bytes in the data buffer.
+         *
+         * @return Shared pointer to a new `ebml::ebmlElement` instance.
          */
+        inline ebml::ptr<ebmlElement> decode(const char*, size_t) const;
+
+        /**
+         * @brief Decode and create a new EBML element instance from a `std::string` instance.
+         * @param data String data.
+         *
+         * @return Shared pointer to a new `ebml::ebmlElement` instance.
+         */
+        inline ebml::ptr<ebmlElement> decode(const std::string&) const;
+
+        /**
+         * @brief Decode and create a new EBML element instance from
+         *  `ebml::ioBase` instance at the current file position.
+         * @param file File object.
+         *
+         * @return Shared pointer to a new `ebml::ebmlElement` instance.
+         */
+        inline ebml::ptr<ebmlElement> decode(ioBase&) const;
+
+        /**
+         * @brief Decode and create a new EBML element instance from
+         *  `ebml::ioBase` instance with a specified offset.
+         * @param file File object.
+         * @param offset Location of start of data in file.
+         *
+         * @return Shared pointer to a new `ebml::ebmlElement` instance.
+         */
+        inline ebml::ptr<ebmlElement> decode(ioBase&, off_t&) const;
+
+        /**
+         * @brief Decode from `ebml::ioBase` instance with a specified offset and store the end offset.
+         * @param file File object.
+         * @param offset Location of start of data in file.
+         * @param endOffset Reference to variable to set end offset.
+         *
+         * @return Shared pointer to a new `ebml::ebmlElement` instance.
+         */
+        inline ebml::ptr<ebmlElement> decode(ioBase&, off_t, off_t&) const;
+
         inline ebml::ptr<const ebmlElement> cdecode(const parseString&) const;
         inline ebml::ptr<const ebmlElement> cdecode(const parseFile&) const;
         inline ebml::ptr<const ebmlElement> cdecode(const char*, size_t) const;
@@ -290,15 +371,6 @@ namespace ebml {
          * @}
          */
 
-    protected:
-        inline ebmlElement* _cdecode(const parseString&) const;
-        inline ebmlElement* _cdecode(const parseFile&) const;
-        inline ebmlElement* _cdecode(const char*, size_t) const;
-        inline ebmlElement* _cdecode(const std::string&) const;
-        inline ebmlElement* _cdecode(ioBase&) const;
-        inline ebmlElement* _cdecode(ioBase&, off_t& offset) const;
-        inline ebmlElement* _cdecode(ioBase&, off_t offset, off_t& end) const;
-
         const seekHelper_t* _seekHelper = &seekHelper;
 
     public:
@@ -309,12 +381,6 @@ namespace ebml {
         seekData_t* makeSeekData(const parseFile&) const;
         seekData_t* makeSeekData(const parseFile&, const ebmlMasterElement_wp&) const;
         seekData_t* makeSeekData(const parseFile&, ebmlMasterElement_wp&&) const;
-
-    protected:
-        virtual ebmlElement* _cdecode_v(const parseString&) const = 0;
-        virtual ebmlElement* _cdecode_v(const parseFile&) const = 0;
-        inline ebmlElement* _cdecode_nocheck(const parseString& parsed) const;
-        inline ebmlElement* _cdecode_nocheck(const parseFile& parsed) const;
 
     public:
         /**
@@ -372,6 +438,8 @@ namespace ebml {
      * - `ebml::ptr<const ebmlinst_t>` for const instances
      *
      * @see @ref crtp_usage "Using the CRTP Mixins" for detailed usage instructions.
+     * @see `ebml::ebmlElementCRTP<ebmltype_t, ebmlinst_t, instbase_t>`
+     * @see ebml::ebmlElementType
      *
      * @tparam ebmltype_t The concrete element type class using this CRTP mixin.
      * @tparam ebmlinst_t The associated concrete element instance class.
@@ -556,7 +624,7 @@ namespace ebml {
         auto elem = _decode(parsed);
         endOffset = parsed.endOffset();
         return elem;
-    }
+    }eb
 
     ebml::ptr<ebmlElement> ebmlElementType::decode(ioBase& file, off_t offset, off_t& endOffset) const {
         return _decode(file, offset, endOffset)->sp();
@@ -621,7 +689,7 @@ namespace ebml {
     }
 
     ebmlElement* ebmlElementType::_cdecode(const std::string& data) const {
-        return _cdecode(data.data(), data.size());
+        return _cdecode(data.data(), data.size());eb
     }
 
     ebml::ptr<const ebmlElement> ebmlElementType::cdecode(const std::string& data) const {
@@ -639,7 +707,7 @@ namespace ebml {
 
     // ebml::ptr<const ebmlElement> ebmlElementType::cdecode(const ioBase_sp& file) const {
     //     const auto elem = _cdecode(file);
-    //     return elem->sp();
+    //     return elem->sp();eb
     // }
 
     ebmlElement* ebmlElementType::_cdecode(ioBase& file) const {
@@ -681,7 +749,7 @@ namespace ebml {
     }
 
     // ebmlElement* ebmlElementType::_cdecode(const ioBase_sp& file, off_t offset, off_t& endOffset) const {
-    //     if (file == nullptr) {
+    //     if (file == nullptr) {eb
     //         throw std::runtime_error("ebmlElementType::decode(const ioBase_sp&, off_t&): nullptr detected.");
     //     }
     //
@@ -776,7 +844,7 @@ namespace ebml {
         } catch (ebmlDecodeError& e) {
             if (e.cls == nullptr) {
                 e.cls = this;
-                e.headSize = parsed.ebmlIDWidth + parsed.sizeWidth;
+                e.headSize = parsed.ebmlIDWidth + parsed.sizeWidth;eb
             }
 
             throw;
@@ -859,7 +927,7 @@ namespace ebml {
 
     // template<typename ebmltype_t, typename ebmlinst_t, typename typebase_t>
     // inline ebml::ptr<ebmlinst_t> ebmlTypeCRTP<ebmltype_t, ebmlinst_t, typebase_t>::decode(const ioBase_sp& file) const {
-    //     return static_cast<ebmlinst_t*>(this->_decode(file))->sp();
+    //     return static_cast<ebmlinst_t*>(this->_decode(file))->sp();eb
     // }
 
     template<typename ebmltype_t, typename ebmlinst_t, typename typebase_t>
