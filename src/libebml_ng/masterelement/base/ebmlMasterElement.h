@@ -1,7 +1,6 @@
 #ifndef EBML_NG_MASTERELEMENT_H
 #define EBML_NG_MASTERELEMENT_H
 
-// #include "../ebmlElementType.h"
 #include "ebmlMasterElementType.h"
 #include "../../ebmlElement.h"
 #include "c_ebmlElement_l.h"
@@ -18,8 +17,8 @@ namespace ebml {
      * @see ebml::ebmlMasterElementType
      */
     class ebmlMasterElement : public ebmlElementCRTP<ebmlMasterElementType, ebmlMasterElement> {
-        // Constructors
     protected:
+        occur_d ebmlIDCount;
         ebmlMasterElement(const ebmlMasterElementType*);
 
         /**
@@ -111,7 +110,7 @@ namespace ebml {
         /**
          * @name Element Encoding Overloads
          * @brief Provides a set of overloaded methods for encoding an EBML master element.
-         * The default implementations of `encode()` functions makes a call to the
+         * The default implementations of `ebml::ebmlElement::encode()` functions makes a call to the
          * `dataSize()` function, determining the entire size of the element without any
          * information on the size of its descendants. This results in redundant calls to
          * `dataSize()` on each of its descendants, with greater redundancy at higher depths.
@@ -128,23 +127,144 @@ namespace ebml {
          * @}
          */
 
+        /**
+         * @brief Encodes the element using a precomputed size tree.
+         *
+         * @param dest Pointer to the destination buffer.
+         * @param _sizetree A precomputed sizetree_t for the element.
+         * @return The number of bytes encoded.
+         */
         size_t encode(char*, const sizetree_t&) const;
 
     protected:
-        virtual void _clear(); // Clear all children.
+        /**
+         * @brief Clears all child elements.
+         *
+         * Removes all currently attached child elements from the master element.
+         */
+        virtual void _clear();
+
+        /**
+         * @brief Decodes child elements from a parseString iterator.
+         *
+         * Default implementation terates through the given parseString iterator to decode and attach child elements.
+         *
+         * @param iter Iterator over the parseString.
+         */
         virtual void _decodeChildren(parseString::iterator&);
+
+        /**
+         * @brief Const version of _decodeChildren.
+         *
+         * Default implementation iterates through the given parseString iterator to decode and attach child elements
+         * in decoding to a const `ebml::ebmlMasterElement` instance.
+         *
+         * @param iter Iterator over the parseString.
+         */
         virtual void _cdecodeChildren(parseString::iterator&);
-        virtual void _scanChildren(parseFile::iterator&); // Decode children from an iterParseFile instance created by _decode.
-        virtual void _handleParseFile(const parseFile&); // Controls the handling of seek data pointing to a child element.
-        virtual void _cscanChildren(parseFile::iterator&); // Decode children from an iterParseFile instance created by _decode.
-        virtual void _chandleParseFile(const parseFile&); // Controls the handling of seek data pointing to a child element.
+
+        /**
+         * @brief Scans for child elements from a parseFile iterator.
+         *
+         * Default implementation iterates over the `ebml::parseFile::iterator` and passes each dereferenced `ebml::parseFile` to
+         * `_handleParseFile` in decoding to an `ebml::ebmlMasterElement` instance.
+         *
+         * @param iter Iterator over the parseFile.
+         */
+        virtual void _scanChildren(parseFile::iterator&);
+
+        /**
+         * @brief Scans for child elements from a parseFile iterator. (const version)
+         *
+         * Default implementation iterates over the `ebml::parseFile::iterator` and passes each dereferenced `ebml::parseFile` to
+         * `_chandleParseFile` in decoding to a const `ebml::ebmlMasterElement` instance.
+         *
+         * @param iter Iterator over the parseFile.
+         */
+        virtual void _cscanChildren(parseFile::iterator&);
+
+        /**
+         * @brief Handles the parsing of seek data for a child element.
+         *
+         * Processes the parsed file data corresponding to a child element. Default implementation decodes child and attaches it
+         * through _addChild.
+         *
+         * @param parsed Parsed file data for a child element.
+         */
+        virtual void _handleParseFile(const parseFile&);
+
+        /**
+         * @brief Handles the parsing of seek data for a child element. (const version)
+         *
+         * Processes the parsed file data corresponding to a child element. Default implementation decodes child and attaches it
+         * through _addChild.
+         *
+         * @param parsed Parsed file data for a child element.
+         */
+        virtual void _chandleParseFile(const parseFile&);
+
+        /**
+         * @brief Attaches a child element (rvalue version).
+         *
+         * Implements the mechanism for attaching a child element to the parent element.
+         *
+         * @param child Shared pointer to the child element.
+         */
         virtual void _addChild(const ebmlElement_sp&) = 0;
+
+        /**
+         * @brief Attaches a child element (move version).
+         *
+         * Implements the mechanism for moving a child element to the parent element.
+         *
+         * @param child Rvalue reference to a shared pointer for the child element.
+         */
         virtual void _addChild(ebmlElement_sp&&) = 0;
+
+        /**
+         * @brief Attaches a child element to the master element.
+         *
+         * Manages the parent-child relationship by attaching the provided child element,
+         * with an option for a weak reference.
+         *
+         * @param child Shared pointer to the child element.
+         * @param weak If true, attaches the child as a weak reference.
+         */
+        void _attachChild(const ebmlElement_sp& child, bool weak = true) const;
+
+        /**
+        * @brief Detaches a child element.
+        *
+        * Removes the association between the master element and the specified child element.
+        *
+        * @param child Shared pointer to the child element to detach.
+        */
+        void _detachChild(const ebmlElement_sp& child) const;
+
+        /**
+        * @brief Const version of _attachChildren.
+        *
+        * Attaches multiple child elements in a const context.
+        *
+        * @param elems List of child elements.
+        * @param weak If true, attaches children as weak references.
+        */
+        void _attachChildren(const ebmlElement_l& elems, bool weak=true) const;
+
+        /**
+        * @brief Detaches multiple child elements.
+        *
+        * Iterates through the provided list and detaches each child element from the master element.
+        *
+        * @param elems List of child elements to detach.
+        */
+        void _detachChildren(const ebmlElement_l& elems) const;
 
         // Iteration
     public:
         class iterator;
 
+        // Abstract base iterator class to be implemented for each different subclass of ebmlMasterElement.
     protected:
         class _iterator {
         public:
@@ -167,12 +287,10 @@ namespace ebml {
         virtual ebmlMasterElement::_iterator* _begin() = 0;
         virtual ebmlMasterElement::_iterator* _end() = 0;
 
+        // Public-facing ebml::ebmlMasterElement::iterator that wraps around a pointer to ebml::ebmlMasterElement::_iterator
     public:
         class iterator {
         private:
-            // std::shared_ptr<_iterator> _iter;
-            // iterator(const std::shared_ptr<_iterator>&);
-
             _iterator* _iter;
 
         protected:
@@ -253,20 +371,6 @@ namespace ebml {
         // Cloning functions:
     protected:
         void _clonedata(const ebmlElement*);
-
-    protected:
-        occur_d ebmlIDCount;
-        void _attachChild(const ebmlElement_sp& child, bool weak = true);
-        void _attachChild(const ebmlElement_sp& child, bool weak = true) const;
-        void _detachChild(const ebmlElement_sp& child) const;
-
-        void _attachChild(ebmlElement& child, bool weak = true);
-        void _attachChild(ebmlElement& child, bool weak = true) const;
-        void _detachChild(ebmlElement& child) const;
-
-        void _attachChildren(const ebmlElement_l& elems, bool weak=true);
-        void _attachChildren(const ebmlElement_l& elems, bool weak=true) const;
-        void _detachChildren(const ebmlElement_l& elems) const;
 
     public:
         friend class ebmlMasterElementType;

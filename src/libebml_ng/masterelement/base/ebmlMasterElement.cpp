@@ -165,7 +165,7 @@ namespace ebml {
                 throw;
             }
 
-            this->_attachChild(*elem);
+            this->_attachChild(elem_sp);
             this->_addChild(std::move(elem_sp));
         }
     }
@@ -198,16 +198,14 @@ namespace ebml {
             }
 
             auto elem_sp = elem->sp();
-            this->_attachChild(*elem);
+            this->_attachChild(elem_sp);
             this->_addChild(std::move(elem_sp));
         }
     }
 
     void ebmlMasterElement::_scanChildren(parseFile::iterator& iter) {
-        std::cout << typeof(this) << "::_scanChildren(parseFile::iterator&)" << std::endl;
         while (!iter.atEnd()) {
             parseFile parsed = *iter;
-            // std::cout << "D " << parsed.offset << " " << parsed.dataOffset() << " " << parsed.dataSize << std::endl;
             this->_handleParseFile(parsed);
             ++iter;
         }
@@ -222,9 +220,7 @@ namespace ebml {
     }
 
     void ebmlMasterElement::_handleParseFile(const parseFile& parsed) {
-        std::cout << typeof(this) << "::_handleParseFile(const parseFile&)" << std::endl;
         auto elem = cls()._decodeChild(parsed);
-        std::cout << pack(elem->repr()) << std::endl;
         _addChild(elem->sp());
     }
 
@@ -317,96 +313,40 @@ namespace ebml {
         throw ebmlNotImplementedError("_clear() not implemented.");
     }
 
-    void ebmlMasterElement::_attachChild(const ebmlElement_sp& child, bool weak) {
-        if (child.get() == this) {
-            throw ebmlException("cannot attach element to itself");
-        } else if (cls().childTypes().count(child->ebmlID()) == 0) {
-            std::string errmsg = "cannot add '";
-            errmsg += pack(child->cls().name);
-            errmsg += "' object to parent";
-            // throw ebmlException(pack<std::wstring>(errmsg));
-            throw ebmlException(errmsg);
-        }
-
-        child->_setParent(sp(), weak);
-    }
-
     void ebmlMasterElement::_attachChild(const ebmlElement_sp& child, bool weak) const {
         if (child.get() == this) {
             throw ebmlException("cannot attach element to itself");
-        } else if (cls().childTypes().count(child->ebmlID()) == 0) {
+        }
+
+        if (child == nullptr) {
+            throw std::runtime_error("child is nullptr");
+        }
+
+        auto& child_ref = *child;
+
+        if (cls().childTypes().count(child_ref.ebmlID()) == 0) {
             std::string errmsg = "cannot add '";
-            errmsg += pack(child->cls().name);
+            errmsg += pack(child_ref.cls().name);
             errmsg += "' object to parent";
-            // throw ebmlException(pack<std::wstring>(errmsg));
             throw ebmlException(errmsg);
         }
 
-        child->_setParent(sp(), weak);
-    }
-
-    void ebmlMasterElement::_attachChild(ebmlElement& child, bool weak) {
-        if (&child == this) {
-            throw ebmlException("cannot attach element to itself");
-        } else if (cls().childTypes().count(child.ebmlID()) == 0) {
-            std::string errmsg = "cannot add '";
-            errmsg += pack(child.cls().name);
-            errmsg += "' object to parent";
-            // throw ebmlException(pack<std::wstring>(errmsg));
-            throw ebmlException(errmsg);
-        }
-
-        child._setParent(*this, weak);
-    }
-
-    void ebmlMasterElement::_attachChild(ebmlElement& child, bool weak) const {
-        if (&child == this) {
-            throw ebmlException("cannot attach element to itself");
-        } else if (cls().childTypes().count(child.ebmlID()) == 0) {
-            std::string errmsg = "cannot add '";
-            errmsg += pack(child.cls().name);
-            errmsg += "' object to parent";
-            // throw ebmlException(pack<std::wstring>(errmsg));
-            throw ebmlException(errmsg);
-        }
-
-        child._setParent(*this, weak);
+        child_ref._setParent(sp(), weak);
     }
 
     void ebmlMasterElement::_detachChild(const ebmlElement_sp& child) const {
-        auto p = child->c_parent();
+        if (child == nullptr) {
+            throw std::runtime_error("child is nullptr");
+        }
+
+        auto& child_ref = *child;
+        auto p = child_ref.c_parent();
 
         if (p.get() != this) {
             throw ebmlException("_detachChild(): Element is not child of this.");
         }
 
-        child->_detach();
-    }
-
-    void ebmlMasterElement::_attachChildren(const ebmlElement_l& elems, bool weak) {
-        auto start = elems.cbegin();
-        auto end = elems.cend();
-        auto iter = start;
-
-        while (iter != end) {
-            try {
-                const auto& elem = *iter;
-
-                if (elem.get() == this) {
-                    throw ebmlException("cannot attach element to itself");
-                }
-
-                elem->_setParent(sp(), weak);
-                // ebmlElement::_attachChild(elem, weak);
-                ++iter;
-            } catch (...) {
-                while (iter != start) {
-                    --iter;
-                    this->_detachChild(*iter);
-                }
-                throw;
-            }
-        }
+        child_ref._detach();
     }
 
     void ebmlMasterElement::_attachChildren(const ebmlElement_l& elems, bool weak) const {
