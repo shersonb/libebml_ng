@@ -466,6 +466,20 @@ namespace ebml {
         template<typename... Args>
         inline ebmlTypeCRTP(Args&&... args) : typebase_t(std::forward<Args>(args)...) {}
 
+        /**
+         * @brief Creates a new instance of an EBML element.
+         *
+         * This operator wraps around the constructor of `ebmlinst_t` of the form
+         * `ebmlinst_t(const ebmltype_t*, Args&&...)`, forwarding the provided arguments,
+         * validating the created instance, and returning a shared pointer to the new element.
+         *
+         * @tparam ebmltype_t The concrete EBML element type class.
+         * @tparam ebmlinst_t The concrete EBML element instance class.
+         * @tparam typebase_t The base element type class.
+         * @tparam Args Arguments to be forwarded to the constructor of ebmlinst_t.
+         * @param args The arguments to forward.
+         * @return ebml::ptr<ebmlinst_t> A shared pointer to the created EBML element instance.
+         */
         template<typename... Args>
         inline ebml::ptr<ebmlinst_t> operator()(Args&&... args) const;
 
@@ -624,7 +638,7 @@ namespace ebml {
         auto elem = _decode(parsed);
         endOffset = parsed.endOffset();
         return elem;
-    }eb
+    }
 
     ebml::ptr<ebmlElement> ebmlElementType::decode(ioBase& file, off_t offset, off_t& endOffset) const {
         return _decode(file, offset, endOffset)->sp();
@@ -689,7 +703,7 @@ namespace ebml {
     }
 
     ebmlElement* ebmlElementType::_cdecode(const std::string& data) const {
-        return _cdecode(data.data(), data.size());eb
+        return _cdecode(data.data(), data.size());
     }
 
     ebml::ptr<const ebmlElement> ebmlElementType::cdecode(const std::string& data) const {
@@ -799,13 +813,9 @@ namespace ebml {
 
     inline ebmlElement* ebmlElementType::_decode_nocheck(const parseFile& parsed) const {
         ebmlElement* elem;
-        std::cout << typeof(this) << "::_decode_nocheck(const parseFile&) const" << std::endl;
-        std::cout << "F " << parsed.offset << " " << parsed.dataOffset() << " " << parsed.dataSize << std::endl;
 
         try {
-            std::cout << "A" << std::endl;
             elem = _decode_v(parsed);
-            std::cout << "B" << std::endl;
 
         } catch (ebmlDecodeError& e) {
             if (e.cls == nullptr) {
@@ -817,7 +827,6 @@ namespace ebml {
         }
 
         elem->_offsetInParent = parsed.offset - parsed.parentOffset;
-        // file->seek(parsed.endOffset());
         return elem;
     }
 
@@ -844,14 +853,13 @@ namespace ebml {
         } catch (ebmlDecodeError& e) {
             if (e.cls == nullptr) {
                 e.cls = this;
-                e.headSize = parsed.ebmlIDWidth + parsed.sizeWidth;eb
+                e.headSize = parsed.ebmlIDWidth + parsed.sizeWidth;
             }
 
             throw;
         }
 
         elem->_offsetInParent = parsed.offset - parsed.parentOffset;
-        // file->seek(parsed.endOffset());
         return elem;
     }
 

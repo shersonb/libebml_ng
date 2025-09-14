@@ -200,7 +200,7 @@ namespace ebml {
         void _setParent(ebml::ptr<const ebmlMasterElement>&& parent, bool weak = true);
 
         void _setParent(ebmlMasterElement& parent, bool weak = true);
-        void _setParent(const ebmlMasterElement& parent, bool weak = true);     *
+        void _setParent(const ebmlMasterElement& parent, bool weak = true);
 
 
         void _detach();
