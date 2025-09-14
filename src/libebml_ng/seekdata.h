@@ -25,6 +25,17 @@ namespace ebml {
     template<SEEKMAPDEFAULTS>
     class seekMap;
 
+    /**
+     * @brief Represents parsed seek data extracted from an EBML element.
+     *
+     * Stores identifying fields:
+     * * EBML ID
+     * * Header metrics
+     * * Parent and location information
+     * * flexible_ptrs to both parent and element.
+     *
+     * and methods to return the associated EBML element.
+     */
     class seekData_t {
     public:
         ebmlID_t ebmlID;
@@ -75,15 +86,15 @@ namespace ebml {
         virtual ~seekData_t();
     };
 
-    // template<typename K, typename H, typename E>
-
+    /**
+     * @brief A templated subclass of seekData_t that stores a key of type K.
+     *
+     * @tparam K The type of the key.
+     */
     template<typename K>
     class seekDataWithKey_t : public seekData_t {
     public:
         K key;
-        // void add(std::unordered_map<ebmlID_t, std::unique_ptr<seekMapBase>>&);
-        // void rm(std::unordered_map<ebmlID_t, std::unique_ptr<seekMapBase>>&);
-
         seekDataWithKey_t(const parseString&);
         seekDataWithKey_t(const parseString&, const K&);
         seekDataWithKey_t(const parseString&, K&&);
@@ -107,6 +118,11 @@ namespace ebml {
         std::wstring repr() const;
     };
 
+    /**
+     * @brief Base class for seek map containers.
+     *
+     * Provides a virtual interface for mapping keys to seek data objects.
+     */
     class seekMapBase {
     public:
         seekMapBase();
@@ -139,6 +155,16 @@ namespace ebml {
         virtual void rm(seekData_t*) = 0;
     };
 
+    /**
+     * @brief Container mapping keys to seek data objects with keys.
+     *
+     * Templated on the key type used for searching.
+     *
+     * @tparam K The key type.
+     * @tparam H Hash functor for keys.
+     * @tparam E Equality comparison functor for keys.
+     * @tparam A Allocator for key-data pairs.
+     */
     template<typename K, typename H, typename E, typename A>
     class seekMap : public seekMapBase {
     protected:
@@ -161,6 +187,11 @@ namespace ebml {
         void rm(seekData_t*) override;
     };
 
+    /**
+     * @brief Helper class for creating and initializing seek data.
+     *
+     * Provides factory functions to create seekData_t objects from various input types.
+     */
     class seekHelper_t {
     public:
         seekHelper_t();
@@ -173,6 +204,18 @@ namespace ebml {
 
     extern seekHelper_t seekHelper;
 
+    /**
+     * @brief Templated helper class for EBML elements that search for key data within child elements.
+     *
+     * Specializes the seekHelper_t by focusing on a child element with a specific EBML ID.
+     * When parsing, it iterates over child elements to find one with the matching EBML ID, unpacks
+     * the key (of type K), and returns a seekDataWithKey_t<K> instance.
+     *
+     * @tparam K The key type.
+     * @tparam H Hash functor for key.
+     * @tparam E Equality comparison functor for key.
+     * @tparam A Allocator for key-data pairs.
+     */
     template<SEEKMAPDEFAULTS>
     class seekHelperByEBMLID : public seekHelper_t {
     public:
