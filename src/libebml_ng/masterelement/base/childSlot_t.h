@@ -5,11 +5,19 @@
 #include "../../ptrs.h"
 #include "../../struct/datetime.h"
 #include "../../ebmlDataElement.h"
-// #include "base.h"
 
 namespace ebml {
     class childTypeSpec_t;
 
+    /**
+     * @brief A templated helper class managing a child slot within an EBML master element.
+     *
+     * This class provides methods to assign, compare, and access a child element
+     * using smart pointers. It ensures that the child being attached is valid
+     * according to the parent's type specification and updates parent pointers.
+     *
+     * @tparam T The type of the EBML element stored in the slot. Defaults to ebmlElement.
+     */
     template<typename T=ebmlElement>
     class childSlot_t {
     private:
