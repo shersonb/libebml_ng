@@ -5,34 +5,6 @@
 #include "masterelement/base/ebmlMasterElement.h"
 
 namespace ebml {
-    // template<typename T>
-    // inline T& ebmlElement::as() {
-    //     if (auto recast = dynamic_cast<T*>(this)) {
-    //         return *recast;
-    //     }
-    //
-    //     throw std::bad_cast();
-    // }
-    //
-    // template<typename T>
-    // inline T& ebmlElement::as() const {
-    //     if (auto recast = dynamic_cast<T*>(this)) {
-    //         return *recast;
-    //     }
-    //
-    //     throw std::bad_cast();
-    // }
-
-    // template<typename T>
-    // T* ebmlElement::ptr() {
-    //     return dynamic_cast<T*>(this);
-    // }
-    //
-    // template<typename T>
-    // const T* ebmlElement::ptr() const {
-    //     return dynamic_cast<const T*>(this);
-    // }
-
     template<typename T>
     inline ebml::ptr<T> ebmlElement::sp() {
         return _self.lock<T>();
@@ -42,11 +14,6 @@ namespace ebml {
     inline ebml::ptr<T> ebmlElement::sp() const {
         return _self.c_lock<T>();
     }
-
-    // template<typename ebmlinst_t, typename... Args>
-    // concept has_constructor = requires(Args... args) {
-    //     { ebmlinst_t(args...) };
-    // };
 
     template<typename ebmltype_t, typename ebmlinst_t, typename instbase_t>
     const ebmltype_t& ebmlElementCRTP<ebmltype_t, ebmlinst_t, instbase_t>::cls() const {
@@ -100,24 +67,5 @@ namespace ebml {
         auto clone = _clone();
         return static_cast<ebmlinst_t*>(clone)->sp();
     }
-
-    // template<typename ebmltype_t, typename ebmlinst_t, typename instbase_t>
-    // std::enable_if_t<std::is_base_of<ebmlElement, instbase_t>::value, ebml::ptr<ebmlinst_t>>
-    // ebmlElementCRTP<ebmltype_t, ebmlinst_t, instbase_t>::sp() {
-    //     return _self.lock<ebmlinst_t>();
-    // }
-    //
-    // template<typename ebmltype_t, typename ebmlinst_t, typename instbase_t>
-    // std::enable_if_t<std::is_base_of<ebmlElement, instbase_t>::value, ebml::ptr<const ebmlinst_t>>
-    // ebmlElementCRTP<ebmltype_t, ebmlinst_t, instbase_t>::sp() const {
-    //     return _self.lock<const ebmlinst_t>();
-    // }
-    // template<typename ebmltype_t, typename ebmlinst_t>
-    // ebmlElement_ALT<ebmltype_t, ebmlinst_t>::ebmlElement_ALT(const ebmltype_t* cls) : ebmlElementBase(cls) {}
-    //
-    // template<typename ebmltype_t, typename ebmlinst_t>
-    // const ebmltype_t* ebmlElement_ALT<ebmltype_t, ebmlinst_t>::cls() const {
-    //     return reinterpret_cast<const ebmltype_t*>(this->_cls);
-    // }
 }
 #endif

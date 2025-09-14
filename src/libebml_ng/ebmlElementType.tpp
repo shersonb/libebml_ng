@@ -5,54 +5,13 @@
 #include "ebmlElement.h"
 #include "exceptions.h"
 #include "typeof.h"
-// #include <exception>
-// #include <typeinfo>
-// #include <cxxabi.h>
-// #include <string>
-// #include <memory>
 
 namespace ebml {
-    // /**
-    // * Convenience member function that dynamically casts
-    // * ebmlElementClass to a subclass.
-    // *
-    // * @return Reference to instance as a T object.
-    // *
-    // * Example:
-    // * @code
-    // * const ebmlElementClass cls = ebmlVoidClass();
-    // * const ebmlVoidClass& Void = cls.as<ebmlVoidClass>();
-    // * @endcode
-    // * @throws std::bad_cast If instance is not an instance of T.
-    // */
-
-    /**
-    * Convenience member function that dynamically casts
-    * const ebmlElementClass to a subclass.
-    *
-    * @return Const reference to instance as a T object.
-    *
-    * Example:
-    * @code
-    * const ebmlElementClass cls = ebmlVoidClass();
-    * const ebmlVoidClass& Void = cls.as<ebmlVoidClass>();
-    * @endcode
-    * @throws std::bad_cast If instance is not an instance of T.
-    */
-
-    // template<typename ebmltype_t, typename ebmlinst_t, typename typebase_t>
-    // ebmlElement* ClsMixin<ebmltype_t, ebmlinst_t, typebase_t>::_decode(const parseString& parsed) const {
-    //     auto elem = new ebmlinst_t(static_cast<const ebmltype_t*>(this), parsed);
-    //     elem->_validate();
-    //     return elem;
-    // }
-
     template<typename ebmltype_t, typename ebmlinst_t, typename typebase_t>
     ebmlElement* ebmlTypeCRTP<ebmltype_t, ebmlinst_t, typebase_t>::_decode_v(const parseString& parsed) const {
         if constexpr (!std::is_abstract<ebmlinst_t>::value) {
             ebmlinst_t* elem_p;
 
-            // if constexpr (std::is_constructible<ebmlinst_t, const ebmltype_t*, const parseString&>::value) {
             if constexpr (has_constructor<ebmlinst_t, const ebmltype_t*, const parseString&>) {
                 elem_p = new ebmlinst_t(static_cast<const ebmltype_t*>(this), parsed);
                 elem_p->_validate();
@@ -83,7 +42,6 @@ namespace ebml {
         if constexpr (!std::is_abstract<ebmlinst_t>::value) {
             ebmlinst_t* elem_p;
 
-            // if constexpr (std::is_constructible<ebmlinst_t, const ebmltype_t*, const parseString&>::value) {
             if constexpr (has_constructor<ebmlinst_t, const ebmltype_t*, const parseString&>) {
                 elem_p = new ebmlinst_t(static_cast<const ebmltype_t*>(this), parsed);
             } else {
@@ -226,123 +184,5 @@ namespace ebml {
             return nullptr;
         }
     }
-
-    // template<typename ebmltype_t, typename ebmlinst_t, typename typebase_t>
-    // ebmlElement* ClsMixin<ebmltype_t, ebmlinst_t>::_cdecode(const parseFile& parsed) const {
-    //     auto elem = new ebmlinst_t(parsed);
-    //     elem->_validate();
-    //     return elem;
-    // }
-
-    // template<typename ebmltype_t, typename ebmlinst_t, typename typebase_t>
-    // template<typename... Args>
-    // inline ebml::ptr<ebmlinst_t> ClsMixin<ebmltype_t, ebmlinst_t, typebase_t>::operator()(Args... args) const {
-    //     auto elem = new ebmlinst_t(static_cast<const ebmltype_t*>(this), args...);
-    //     elem->_validate();
-    //     return elem->sp();
-    // }
-    //
-    // template<typename ebmltype_t, typename ebmlinst_t, typename typebase_t>
-    // inline ebml::ptr<ebmlinst_t> ClsMixin<ebmltype_t, ebmlinst_t, typebase_t>::decode(const parseString& parsed) const {
-    //     return static_cast<ebmlinst_t*>(this->_decode(parsed))->sp();
-    // }
-    //
-    // template<typename ebmltype_t, typename ebmlinst_t, typename typebase_t>
-    // inline ebml::ptr<ebmlinst_t> ClsMixin<ebmltype_t, ebmlinst_t, typebase_t>::decode(const parseFile& parsed) const {
-    //     return static_cast<ebmlinst_t*>(this->_decode(parsed))->sp();
-    // }
-    //
-    // // template<typename ebmltype_t, typename ebmlinst_t, typename typebase_t>
-    // // ebml::ptr<ebmlinst_t> ClsMixin<ebmltype_t, ebmlinst_t, typebase_t>::decode(const char* data, size_t size) const {
-    // //     return static_cast<ebmlinst_t*>(this->_decode(data, size))->sp();
-    // // }
-    //
-    // // template<typename ebmltype_t, typename ebmlinst_t, typename typebase_t>
-    // // ebml::ptr<ebmlinst_t> ClsMixin<ebmltype_t, ebmlinst_t, typebase_t>::decode(const std::string& data) const {
-    // //     return static_cast<ebmlinst_t*>(this->_decode(data))->sp();
-    // // }
-    //
-    // template<typename ebmltype_t, typename ebmlinst_t, typename typebase_t>
-    // inline ebml::ptr<ebmlinst_t> ClsMixin<ebmltype_t, ebmlinst_t, typebase_t>::decode(const ioBase_sp& file) const {
-    //     return static_cast<ebmlinst_t*>(this->_decode(file))->sp();
-    // }
-    //
-    // template<typename ebmltype_t, typename ebmlinst_t, typename typebase_t>
-    // inline ebml::ptr<ebmlinst_t> ClsMixin<ebmltype_t, ebmlinst_t, typebase_t>::decode(ioBase& file) const {
-    //     return static_cast<ebmlinst_t*>(this->_decode(file))->sp();
-    // }
-    //
-    // template<typename ebmltype_t, typename ebmlinst_t, typename typebase_t>
-    // inline ebml::ptr<ebmlinst_t> ClsMixin<ebmltype_t, ebmlinst_t, typebase_t>::decode(const ioBase_sp& file, off_t& offset) const {
-    //     return static_cast<ebmlinst_t*>(this->_decode(file, offset))->sp();
-    // }
-    //
-    // template<typename ebmltype_t, typename ebmlinst_t, typename typebase_t>
-    // inline ebml::ptr<ebmlinst_t> ClsMixin<ebmltype_t, ebmlinst_t, typebase_t>::decode(ioBase& file, off_t& offset) const {
-    //     return static_cast<ebmlinst_t*>(this->_decode(file, offset))->sp();
-    // }
-    //
-    // template<typename ebmltype_t, typename ebmlinst_t, typename typebase_t>
-    // inline ebml::ptr<ebmlinst_t> ClsMixin<ebmltype_t, ebmlinst_t, typebase_t>::decode(const ioBase_sp& file, off_t offset, off_t& endoffset) const {
-    //     return static_cast<ebmlinst_t*>(this->_decode(file, offset, endoffset))->sp();
-    // }
-    //
-    // template<typename ebmltype_t, typename ebmlinst_t, typename typebase_t>
-    // inline ebml::ptr<ebmlinst_t> ClsMixin<ebmltype_t, ebmlinst_t, typebase_t>::decode(ioBase& file, off_t offset, off_t& endoffset) const {
-    //     return static_cast<ebmlinst_t*>(this->_decode(file, offset, endoffset))->sp();
-    // }
-    //
-    //
-    //
-    // template<typename ebmltype_t, typename ebmlinst_t, typename typebase_t>
-    // inline ebml::ptr<const ebmlinst_t> ClsMixin<ebmltype_t, ebmlinst_t, typebase_t>::cdecode(const parseString& parsed) const {
-    //     return static_cast<const ebmlinst_t*>(this->_cdecode(parsed))->sp();
-    // }
-    //
-    // template<typename ebmltype_t, typename ebmlinst_t, typename typebase_t>
-    // inline ebml::ptr<const ebmlinst_t> ClsMixin<ebmltype_t, ebmlinst_t, typebase_t>::cdecode(const parseFile& parsed) const {
-    //     return static_cast<const ebmlinst_t*>(this->_cdecode(parsed))->sp();
-    // }
-    //
-    // template<typename ebmltype_t, typename ebmlinst_t, typename typebase_t>
-    // inline ebml::ptr<const ebmlinst_t> ClsMixin<ebmltype_t, ebmlinst_t, typebase_t>::cdecode(const char* data, size_t size) const {
-    //     return static_cast<const ebmlinst_t*>(this->_cdecode(data, size))->sp();
-    // }
-    //
-    // template<typename ebmltype_t, typename ebmlinst_t, typename typebase_t>
-    // inline ebml::ptr<const ebmlinst_t> ClsMixin<ebmltype_t, ebmlinst_t, typebase_t>::cdecode(const std::string& data) const {
-    //     return static_cast<const ebmlinst_t*>(this->_cdecode(data))->sp();
-    // }
-    //
-    // template<typename ebmltype_t, typename ebmlinst_t, typename typebase_t>
-    // inline ebml::ptr<const ebmlinst_t> ClsMixin<ebmltype_t, ebmlinst_t, typebase_t>::cdecode(const ioBase_sp& file) const {
-    //     return static_cast<const ebmlinst_t*>(this->_cdecode(file))->sp();
-    // }
-    //
-    // template<typename ebmltype_t, typename ebmlinst_t, typename typebase_t>
-    // inline ebml::ptr<const ebmlinst_t> ClsMixin<ebmltype_t, ebmlinst_t, typebase_t>::cdecode(ioBase& file) const {
-    //     return static_cast<const ebmlinst_t*>(this->_cdecode(file))->sp();
-    // }
-    //
-    // template<typename ebmltype_t, typename ebmlinst_t, typename typebase_t>
-    // inline ebml::ptr<const ebmlinst_t> ClsMixin<ebmltype_t, ebmlinst_t, typebase_t>::cdecode(const ioBase_sp& file, off_t& offset) const {
-    //     return static_cast<const ebmlinst_t*>(this->_cdecode(file, offset))->sp();
-    // }
-    //
-    // template<typename ebmltype_t, typename ebmlinst_t, typename typebase_t>
-    // inline ebml::ptr<const ebmlinst_t> ClsMixin<ebmltype_t, ebmlinst_t, typebase_t>::cdecode(ioBase& file, off_t& offset) const {
-    //     return static_cast<const ebmlinst_t*>(this->_cdecode(file, offset))->sp();
-    // }
-    //
-    // template<typename ebmltype_t, typename ebmlinst_t, typename typebase_t>
-    // inline ebml::ptr<const ebmlinst_t> ClsMixin<ebmltype_t, ebmlinst_t, typebase_t>::cdecode(const ioBase_sp& file, off_t offset, off_t& endoffset) const {
-    //     return static_cast<const ebmlinst_t*>(this->_cdecode(file, offset, endoffset))->sp();
-    // }
-    //
-    // template<typename ebmltype_t, typename ebmlinst_t, typename typebase_t>
-    // inline ebml::ptr<const ebmlinst_t> ClsMixin<ebmltype_t, ebmlinst_t, typebase_t>::cdecode(ioBase& file, off_t offset, off_t& endoffset) const {
-    //     return static_cast<const ebmlinst_t*>(this->_cdecode(file, offset, endoffset))->sp();
-    // }
-    //
 }
 #endif
